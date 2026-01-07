@@ -75,28 +75,84 @@ export const COLORS = {
 } as const;
 
 // =============================================================================
-// CRUSHER PHYSICS
+// CRUSHER PHYSICS (percentage-based for screen-size independence)
 // =============================================================================
+// All movement values are percentages of "runway" (distance from start to fail zone)
+// This ensures consistent feel across different screen sizes
 export const CRUSHER = {
-  // Position (now relative to LAYOUT.GAME_AREA_TOP)
+  // Position (relative to LAYOUT.GAME_AREA_TOP)
   INITIAL_Y: 100, // Starting Y position (below staging area)
 
-  // Movement
-  BASE_DESCENT_SPEED: 0.6,        // Pixels per frame at 60fps (slower for better feel)
+  // ==========================================================================
+  // GRADUATED AWAKENING ("Loosening Up")
+  // Heavy thing needs multiple shoves to get moving
+  // ==========================================================================
+  AWAKENING: {
+    // Instant drop on each mistake (same for all phases) - % of runway
+    SHOVE_DROP_PERCENT: 2.5,        // The "pop" - immediate jolt down
+
+    // Slide amounts after the shove - % of runway
+    STIRRING_SLIDE_PERCENT: 1.25,   // 1st mistake: small slide, then stops
+    LOOSENING_SLIDE_PERCENT: 2.5,   // 2nd mistake: longer slide, then stops
+    // 3rd mistake: continuous descent begins (no slide limit)
+
+    // Slide speed (how fast the slide happens) - % of runway per second
+    SLIDE_SPEED_PERCENT: 3,         // Slow, dread-inducing slide
+  },
+
+  // ==========================================================================
+  // DESCENT (after fully awakened - 3rd+ mistake)
+  // Adaptive: starts as slow dread, accelerates with each weight
+  // ==========================================================================
+  // Base descent speeds calibrated to typing ability (% of runway per second)
+  // SOFTENED: Original values were too punishing. Now gentler progression.
+  BASE_DESCENT_PERCENT: {
+    EASY: 4,      // ~25 sec - comfortable for beginners (40 WPM players)
+    MEDIUM: 4.5,  // ~22 sec - slightly faster, still forgiving
+    HARD: 5.5,    // ~18 sec - noticeable pressure but survivable
+    EXPERT: 8,    // ~12 sec - real challenge for skilled typists
+  },
+
+  // Acceleration per penalty weight on crusher (compounds the dread)
+  // SOFTENED: Gentler snowball effect
+  WEIGHT_ACCELERATION_PERCENT: {
+    EASY: 5,      // Each weight adds 5% to descent speed
+    MEDIUM: 7,    // Each weight adds 7% (was 10%)
+    HARD: 10,     // Each weight adds 10% (was 15%)
+    EXPERT: 15,   // Each weight adds 15% (was 20%)
+  },
+
+  // Stage multiplier (future: campaign progression)
   STAGE_SPEED_MULTIPLIER: 0.05,   // Additional speed per stage
-  DORMANT_SPEED: 0,               // Speed when dormant (not moving)
 
-  // Lift amounts (pixels)
-  LIFT_PER_CORRECT: 12,
-  LIFT_COMBO_BONUS: 1.5,          // Additional lift per combo level
-  LIFT_WORD_COMPLETE_PERCENT: 10, // Percentage of travel distance restored
-  LIFT_KINETIC_PULSE_PERCENT: 25, // Kinetic battery pulse
+  // ==========================================================================
+  // LIFT (reward for correct input)
+  // Linear and tame - the combo audio escalation sells the "click" moment
+  // SOFTENED: More generous lift across difficulties
+  // ==========================================================================
+  LIFT_PERCENT: {
+    EASY: 6.5,    // Generous lift - breathing room
+    MEDIUM: 5.5,  // Still generous (was 4.3)
+    HARD: 4.5,    // Moderate lift (was 3.25)
+    EXPERT: 3.5,  // Tighter but survivable (was 2.2)
+  },
 
-  // Penalty
-  PENALTY_DROP: 8,                // Pixels dropped on error
+  LIFT_COMBO_BONUS_PERCENT: 0.2,   // Small bonus per combo level (tame, linear)
+  LIFT_WORD_COMPLETE_PERCENT: 10,  // Percentage of runway restored on word complete
+  LIFT_KINETIC_PULSE_PERCENT: 25,  // Kinetic battery pulse (overdrive reward)
 
-  // Pause on correct input
-  PAUSE_DURATION_MS: 200,         // Brief moment of relief
+  // Pause on correct input - moment of relief
+  PAUSE_DURATION_MS: 200,
+
+  // ==========================================================================
+  // AWAKENING THRESHOLD (mistakes before continuous descent)
+  // ==========================================================================
+  AWAKENING_THRESHOLD: {
+    EASY: 4,      // 4 mistakes before crusher starts moving continuously
+    MEDIUM: 3,    // 3 mistakes (default feel)
+    HARD: 2,      // 2 mistakes - very little grace period
+    EXPERT: 1,    // 1 mistake - first mistake = immediate motion
+  },
 
   // Visual
   WIDTH: 800,                     // Fits within GAME_AREA_WIDTH (960)
@@ -116,22 +172,16 @@ export const COMBO = {
 } as const;
 
 // =============================================================================
-// DIFFICULTY MULTIPLIERS
+// DIFFICULTY SETTINGS
 // =============================================================================
-export const DIFFICULTY = {
-  EASY: {
-    speedMultiplier: 0.8,
-    liftMultiplier: 1.2,
-  },
-  MEDIUM: {
-    speedMultiplier: 1.0,
-    liftMultiplier: 1.0,
-  },
-  HARD: {
-    speedMultiplier: 1.3,
-    liftMultiplier: 0.9,
-  },
-} as const;
+// All difficulty-specific values are now in CRUSHER object for clarity:
+// - CRUSHER.BASE_DESCENT_PERCENT[difficulty]
+// - CRUSHER.WEIGHT_ACCELERATION_PERCENT[difficulty]
+// - CRUSHER.LIFT_PERCENT[difficulty]
+// - CRUSHER.AWAKENING_THRESHOLD[difficulty]
+//
+// This section reserved for future difficulty-related settings that don't
+// fit in the CRUSHER object (e.g., word selection, scoring multipliers)
 
 // =============================================================================
 // INPUT

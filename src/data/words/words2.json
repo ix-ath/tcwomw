@@ -1,0 +1,1620 @@
+{
+  "words": [
+    {
+      "text": "CAT",
+      "theme": "ANIMALS",
+      "tags": ["feline", "pet", "meow"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Always lands on its feet", "Loves a cardboard box"]
+    },
+    {
+      "text": "SUN",
+      "theme": "NATURE",
+      "tags": ["sky", "hot", "yellow"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Center of our solar system", "Gives us daylight"]
+    },
+    {
+      "text": "RED",
+      "theme": "COLORS",
+      "tags": ["apple", "fire", "stop"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["The color of a strawberry", "The top light on a traffic signal"]
+    },
+    {
+      "text": "MILK",
+      "theme": "FOOD",
+      "tags": ["cow", "white", "drink"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Poured over cereal", "Good for your bones"]
+    },
+    {
+      "text": "BALL",
+      "theme": "SPORTS",
+      "tags": ["round", "play", "bounce"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Roll it, throw it, catch it"]
+    },
+    {
+      "text": "FROG",
+      "theme": "ANIMALS",
+      "tags": ["green", "jump", "pond"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Starts as a tadpole", "Says ribbit"]
+    },
+    {
+      "text": "HAT",
+      "theme": "CLOTHING",
+      "tags": ["head", "cap", "wear"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Put it on before you go outside", "A magician pulls a rabbit out of it"]
+    },
+    {
+      "text": "FISH",
+      "theme": "ANIMALS",
+      "tags": ["water", "swim", "gills"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Lives in a bowl or the ocean"]
+    },
+    {
+      "text": "BED",
+      "theme": "HOME",
+      "tags": ["sleep", "rest", "soft"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Where you go at the end of the day", "Don't jump on it!"]
+    },
+    {
+      "text": "CAKE",
+      "theme": "FOOD",
+      "tags": ["sweet", "party", "bake"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["A birthday treat", "Blow out the candles"]
+    },
+    {
+      "text": "DOG",
+      "theme": "ANIMALS",
+      "tags": ["bark", "pet", "tail"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Man's best friend", "Loves to play fetch"]
+    },
+    {
+      "text": "TREE",
+      "theme": "NATURE",
+      "tags": ["wood", "leaf", "green"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Has branches and roots", "Birds build nests here"]
+    },
+    {
+      "text": "BOOK",
+      "theme": "OBJECTS",
+      "tags": ["read", "page", "story"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Open it to find a story", "Library favorite"]
+    },
+    {
+      "text": "BOAT",
+      "theme": "TRANSPORT",
+      "tags": ["water", "sail", "ship"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Whatever floats yours", "Travel across the lake"]
+    },
+    {
+      "text": "CAR",
+      "theme": "TRANSPORT",
+      "tags": ["drive", "road", "wheels"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Beep beep!", "Parks in the garage"]
+    },
+    {
+      "text": "PIG",
+      "theme": "ANIMALS",
+      "tags": ["pink", "farm", "oink"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Loves a good mud bath"]
+    },
+    {
+      "text": "BEE",
+      "theme": "ANIMALS",
+      "tags": ["buzz", "sting", "honey"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["A black and yellow flyer", "Very busy worker"]
+    },
+    {
+      "text": "ICE",
+      "theme": "NATURE",
+      "tags": ["cold", "frozen", "water"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Hard and slippery", "Found in your freezer"]
+    },
+    {
+      "text": "DUCK",
+      "theme": "ANIMALS",
+      "tags": ["quack", "pond", "water"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Waddles on land, swims in water"]
+    },
+    {
+      "text": "CUP",
+      "theme": "OBJECTS",
+      "tags": ["drink", "sip", "handle"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Hold it to drink your juice"]
+    },
+    {
+      "text": "RAIN",
+      "theme": "WEATHER",
+      "tags": ["wet", "cloud", "water"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Makes the flowers grow", "Patter on the roof"]
+    },
+    {
+      "text": "EGG",
+      "theme": "FOOD",
+      "tags": ["shell", "white", "yolk"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Comes from a chicken", "Breakfast in a shell"]
+    },
+    {
+      "text": "MOON",
+      "theme": "SPACE",
+      "tags": ["night", "sky", "orbit"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Glows at night", "Sometimes looks like a crescent"]
+    },
+    {
+      "text": "STAR",
+      "theme": "SPACE",
+      "tags": ["night", "sky", "shine"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Twinkle, twinkle", "Make a wish upon one"]
+    },
+    {
+      "text": "LION",
+      "theme": "ANIMALS",
+      "tags": ["roar", "king", "mane"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["The king of the jungle"]
+    },
+    {
+      "text": "BIRD",
+      "theme": "ANIMALS",
+      "tags": ["fly", "wings", "nest"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["The early one gets the worm"]
+    },
+    {
+      "text": "BLUE",
+      "theme": "COLORS",
+      "tags": ["sky", "ocean", "cool"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["The color of the clear sky"]
+    },
+    {
+      "text": "SHOE",
+      "theme": "CLOTHING",
+      "tags": ["foot", "walk", "lace"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Tie them before you run"]
+    },
+    {
+      "text": "BOX",
+      "theme": "OBJECTS",
+      "tags": ["square", "pack", "cardboard"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Think outside of it", "Useful for a move"]
+    },
+    {
+      "text": "DOOR",
+      "theme": "HOME",
+      "tags": ["open", "knob", "entrance"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Knock before you enter"]
+    },
+    {
+      "text": "KEY",
+      "theme": "OBJECTS",
+      "tags": ["lock", "open", "metal"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Turn it to open the lock"]
+    },
+    {
+      "text": "HAND",
+      "theme": "BODY",
+      "tags": ["finger", "palm", "wave"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Five fingers on each one"]
+    },
+    {
+      "text": "FOOT",
+      "theme": "BODY",
+      "tags": ["toe", "walk", "shoe"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["The part of you inside a sock"]
+    },
+    {
+      "text": "NOSE",
+      "theme": "BODY",
+      "tags": ["smell", "face", "sniff"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["The part of your face that sneezes"]
+    },
+    {
+      "text": "COAT",
+      "theme": "CLOTHING",
+      "tags": ["warm", "winter", "wear"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Keep it zipped when it's cold"]
+    },
+    {
+      "text": "PARK",
+      "theme": "PLACES",
+      "tags": ["play", "slide", "grass"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Go here to play on the swings"]
+    },
+    {
+      "text": "APPLE",
+      "theme": "FOOD",
+      "tags": ["fruit", "red", "crunch"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["One a day keeps the doctor away"]
+    },
+    {
+      "text": "FAST",
+      "theme": "ADJECTIVES",
+      "tags": ["quick", "speed", "run"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Opposite of slow"]
+    },
+    {
+      "text": "FIRE",
+      "theme": "NATURE",
+      "tags": ["hot", "burn", "red"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Don't touch, it's very hot!"]
+    },
+    {
+      "text": "HOME",
+      "theme": "PLACES",
+      "tags": ["house", "live", "family"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["There's no place like it"]
+    },
+    {
+      "text": "SMILE",
+      "theme": "BODY",
+      "tags": ["happy", "face", "grin"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["What you do for a photo"]
+    },
+    {
+      "text": "DINO",
+      "theme": "ANIMALS",
+      "tags": ["old", "fossil", "giant"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["A very old, extinct lizard"]
+    },
+    {
+      "text": "LUNCH",
+      "theme": "FOOD",
+      "tags": ["noon", "eat", "meal"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["The meal in the middle of the day"]
+    },
+    {
+      "text": "BATH",
+      "theme": "HOME",
+      "tags": ["water", "soap", "clean"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Squeaky clean with bubbles"]
+    },
+    {
+      "text": "JUMP",
+      "theme": "VERBS",
+      "tags": ["hop", "up", "spring"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Leap into the air"]
+    },
+    {
+      "text": "PLAY",
+      "theme": "VERBS",
+      "tags": ["fun", "game", "friend"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["What you do at recess"]
+    },
+    {
+      "text": "COLD",
+      "theme": "WEATHER",
+      "tags": ["ice", "snow", "winter"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Opposite of hot"]
+    },
+    {
+      "text": "STOP",
+      "theme": "VERBS",
+      "tags": ["halt", "wait", "sign"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["What to do at a red light"]
+    },
+    {
+      "text": "BEAR",
+      "theme": "ANIMALS",
+      "tags": ["fur", "cave", "honey"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["A big animal that hibernates"]
+    },
+    {
+      "text": "CORN",
+      "theme": "FOOD",
+      "tags": ["cob", "yellow", "farm"],
+      "difficulty": "EASY",
+      "audience": "KIDS 5+",
+      "hints": ["Pop it for a movie"]
+    },
+    {
+      "text": "ICE CREAM",
+      "theme": "FOOD",
+      "tags": ["cold", "sweet", "scoop"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A frozen treat in a cone"]
+    },
+    {
+      "text": "GAME OVER",
+      "theme": "PHRASES",
+      "tags": ["lose", "end", "arcade"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["What you see when you lose a life"]
+    },
+    {
+      "text": "HOT DOG",
+      "theme": "FOOD",
+      "tags": ["bun", "mustard", "ballpark"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Classic baseball game snack"]
+    },
+    {
+      "text": "ELEPHANT",
+      "theme": "ANIMALS",
+      "tags": ["trunk", "tusk", "gray"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["The largest land mammal"]
+    },
+    {
+      "text": "ASTRONAUT",
+      "theme": "PEOPLE",
+      "tags": ["space", "rocket", "stars"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Someone who travels to the moon"]
+    },
+    {
+      "text": "RAINBOW",
+      "theme": "NATURE",
+      "tags": ["colors", "sky", "storm"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A colorful arc in the sky"]
+    },
+    {
+      "text": "DENTIST",
+      "theme": "PEOPLE",
+      "tags": ["teeth", "smile", "clean"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["The person who checks your cavities"]
+    },
+    {
+      "text": "KEYBOARD",
+      "theme": "TECH",
+      "tags": ["type", "computer", "buttons"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Used to type on a computer"]
+    },
+    {
+      "text": "AIRPLANE",
+      "theme": "TRANSPORT",
+      "tags": ["fly", "pilot", "sky"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Found at the airport"]
+    },
+    {
+      "text": "BICYCLE",
+      "theme": "TRANSPORT",
+      "tags": ["wheels", "pedal", "ride"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Two-wheeled eco-friendly travel"]
+    },
+    {
+      "text": "PUMPKIN",
+      "theme": "FOOD",
+      "tags": ["orange", "fall", "carve"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Turn it into a Jack-O-Lantern"]
+    },
+    {
+      "text": "FIREWORKS",
+      "theme": "CELEBRATION",
+      "tags": ["bright", "sky", "boom"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Loud lights in the sky on July 4th"]
+    },
+    {
+      "text": "UMBRELLA",
+      "theme": "OBJECTS",
+      "tags": ["rain", "dry", "shield"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Keeps you dry in a storm"]
+    },
+    {
+      "text": "SKELETON",
+      "theme": "BODY",
+      "tags": ["bones", "white", "inside"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["The frame of your body"]
+    },
+    {
+      "text": "BACKPACK",
+      "theme": "OBJECTS",
+      "tags": ["school", "bag", "carry"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Carry your books in this"]
+    },
+    {
+      "text": "OCTOPUS",
+      "theme": "ANIMALS",
+      "tags": ["eight", "ocean", "ink"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Has three hearts and eight arms"]
+    },
+    {
+      "text": "CHOCOLATE",
+      "theme": "FOOD",
+      "tags": ["sweet", "cocoa", "candy"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Dark, milk, or white"]
+    },
+    {
+      "text": "POPCORN",
+      "theme": "FOOD",
+      "tags": ["movie", "butter", "salty"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A light, airy movie snack"]
+    },
+    {
+      "text": "PENGUIN",
+      "theme": "ANIMALS",
+      "tags": ["ice", "bird", "waddle"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A bird that wears a tuxedo"]
+    },
+    {
+      "text": "MOUNTAIN",
+      "theme": "NATURE",
+      "tags": ["high", "climb", "peak"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A very tall hill"]
+    },
+    {
+      "text": "WIZARD",
+      "theme": "FANTASY",
+      "tags": ["magic", "wand", "spell"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Often wears a pointy hat"]
+    },
+    {
+      "text": "REFRIGERATOR",
+      "theme": "HOME",
+      "tags": ["cold", "food", "kitchen"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Keeps your milk cold"]
+    },
+    {
+      "text": "BUTTERFLY",
+      "theme": "ANIMALS",
+      "tags": ["wings", "insect", "cocoon"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Starts as a caterpillar"]
+    },
+    {
+      "text": "SANDWICH",
+      "theme": "FOOD",
+      "tags": ["bread", "lunch", "layers"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A meal between two slices"]
+    },
+    {
+      "text": "KANGAROO",
+      "theme": "ANIMALS",
+      "tags": ["pouch", "jump", "australia"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Carries its baby in a pocket"]
+    },
+    {
+      "text": "GUITAR",
+      "theme": "MUSIC",
+      "tags": ["strings", "strum", "music"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Musical instrument with six strings"]
+    },
+    {
+      "text": "TELEPHONE",
+      "theme": "TECH",
+      "tags": ["call", "ring", "talk"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Used to call your friends"]
+    },
+    {
+      "text": "DRAGON",
+      "theme": "FANTASY",
+      "tags": ["fire", "wings", "scales"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A mythical fire-breather"]
+    },
+    {
+      "text": "SCISSORS",
+      "theme": "OBJECTS",
+      "tags": ["cut", "paper", "sharp"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Don't run with these!"]
+    },
+    {
+      "text": "HALLOWEEN",
+      "theme": "CELEBRATION",
+      "tags": ["spooky", "candy", "october"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A night for trick-or-treating"]
+    },
+    {
+      "text": "SQUIRREL",
+      "theme": "ANIMALS",
+      "tags": ["nuts", "tail", "tree"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Hides acorns for winter"]
+    },
+    {
+      "text": "STRAWBERRY",
+      "theme": "FOOD",
+      "tags": ["red", "fruit", "berry"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Has its seeds on the outside"]
+    },
+    {
+      "text": "CHESS",
+      "theme": "GAMES",
+      "tags": ["board", "king", "strategy"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 10+",
+      "hints": ["A game of 64 black and white squares"]
+    },
+    {
+      "text": "VAMPIRE",
+      "theme": "FANTASY",
+      "tags": ["bat", "fangs", "blood"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 10+",
+      "hints": ["Avoids the sunlight and garlic"]
+    },
+    {
+      "text": "VOLCANO",
+      "theme": "NATURE",
+      "tags": ["lava", "fire", "mountain"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 10+",
+      "hints": ["A mountain that erupts"]
+    },
+    {
+      "text": "MICROSCOPE",
+      "theme": "SCIENCE",
+      "tags": ["tiny", "lens", "science"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 10+",
+      "hints": ["Makes small things look big"]
+    },
+    {
+      "text": "PYRAMID",
+      "theme": "PLACES",
+      "tags": ["egypt", "stone", "ancient"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 10+",
+      "hints": ["Ancient tomb in the desert"]
+    },
+    {
+      "text": "RAINFOREST",
+      "theme": "NATURE",
+      "tags": ["jungle", "tropic", "green"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 10+",
+      "hints": ["A very wet and woody home for animals"]
+    },
+    {
+      "text": "ASTRONOMY",
+      "theme": "SCIENCE",
+      "tags": ["stars", "planets", "space"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 10+",
+      "hints": ["The study of space"]
+    },
+    {
+      "text": "FIRE ENGINE",
+      "theme": "TRANSPORT",
+      "tags": ["red", "siren", "ladder"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Rushes to put out fires"]
+    },
+    {
+      "text": "WINDMILL",
+      "theme": "OBJECTS",
+      "tags": ["wind", "power", "blades"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 10+",
+      "hints": ["Uses air to make energy"]
+    },
+    {
+      "text": "TELESCOPE",
+      "theme": "SCIENCE",
+      "tags": ["stars", "lens", "sky"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 10+",
+      "hints": ["Used to look at the moon and stars"]
+    },
+    {
+      "text": "SPIDER WEB",
+      "theme": "NATURE",
+      "tags": ["sticky", "insect", "silk"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A fly's worst nightmare"]
+    },
+    {
+      "text": "SNOWMAN",
+      "theme": "CELEBRATION",
+      "tags": ["winter", "carrot", "cold"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Melts when it gets sunny"]
+    },
+    {
+      "text": "ISLAND",
+      "theme": "PLACES",
+      "tags": ["water", "land", "beach"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Land surrounded by water"]
+    },
+    {
+      "text": "ZEBRA",
+      "theme": "ANIMALS",
+      "tags": ["stripes", "horse", "safari"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Has black and white stripes"]
+    },
+    {
+      "text": "HELMET",
+      "theme": "OBJECTS",
+      "tags": ["head", "safety", "bicycle"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Protects your brain when riding a bike"]
+    },
+    {
+      "text": "TOOTHBRUSH",
+      "theme": "OBJECTS",
+      "tags": ["teeth", "clean", "bathroom"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Use it twice a day with paste"]
+    },
+    {
+      "text": "HAMBURGER",
+      "theme": "FOOD",
+      "tags": ["beef", "bun", "grill"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["Classic BBQ food"]
+    },
+    {
+      "text": "LIBRARY",
+      "theme": "PLACES",
+      "tags": ["books", "quiet", "read"],
+      "difficulty": "MEDIUM",
+      "audience": "KIDS 8+",
+      "hints": ["A quiet place to borrow stories"]
+    },
+    {
+      "text": "UNDER THE WEATHER",
+      "theme": "IDIOMS",
+      "tags": ["sick", "unwell", "ill"],
+      "difficulty": "HARD",
+      "audience": "TEENS 13+",
+      "hints": ["Feeling a bit poorly"]
+    },
+    {
+      "text": "PIECE OF CAKE",
+      "theme": "IDIOMS",
+      "tags": ["easy", "simple", "sweet"],
+      "difficulty": "HARD",
+      "audience": "TEENS 13+",
+      "hints": ["Something very simple to do"]
+    },
+    {
+      "text": "BREAK A LEG",
+      "theme": "PHRASES",
+      "tags": ["luck", "theater", "stage"],
+      "difficulty": "HARD",
+      "audience": "TEENS 13+",
+      "hints": ["How to wish an actor good luck"]
+    },
+    {
+      "text": "THE LION KING",
+      "theme": "MOVIES",
+      "tags": ["disney", "africa", "simba"],
+      "difficulty": "HARD",
+      "audience": "KIDS 8+",
+      "hints": ["A story of a cub's destiny"]
+    },
+    {
+      "text": "BOHEMIAN RHAPSODY",
+      "theme": "MUSIC",
+      "tags": ["queen", "rock", "opera"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Legendary six-minute song by Queen"]
+    },
+    {
+      "text": "STATUE OF LIBERTY",
+      "theme": "PLACES",
+      "tags": ["torch", "island", "new york"],
+      "difficulty": "HARD",
+      "audience": "KIDS 10+",
+      "hints": ["A gift from France to the USA"]
+    },
+    {
+      "text": "ACTIONS SPEAK LOUDER",
+      "theme": "PROVERBS",
+      "tags": ["doing", "words", "truth"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["What you do is more important than what you say"]
+    },
+    {
+      "text": "PRACTICE MAKES PERFECT",
+      "theme": "PROVERBS",
+      "tags": ["skill", "repeat", "expert"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["How to get better at anything"]
+    },
+    {
+      "text": "THE GREAT WALL",
+      "theme": "PLACES",
+      "tags": ["china", "ancient", "stone"],
+      "difficulty": "HARD",
+      "audience": "KIDS 10+",
+      "hints": ["Ancient wall built for protection"]
+    },
+    {
+      "text": "JURASSIC PARK",
+      "theme": "MOVIES",
+      "tags": ["dino", "island", "adventure"],
+      "difficulty": "HARD",
+      "audience": "KIDS 10+",
+      "hints": ["A theme park gone very wrong"]
+    },
+    {
+      "text": "BITING THE BULLET",
+      "theme": "IDIOMS",
+      "tags": ["tough", "brave", "metal"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Accepting something difficult or painful"]
+    },
+    {
+      "text": "GOLDEN GATE BRIDGE",
+      "theme": "PLACES",
+      "tags": ["red", "bay", "san francisco"],
+      "difficulty": "HARD",
+      "audience": "KIDS 10+",
+      "hints": ["Famous red suspension bridge"]
+    },
+    {
+      "text": "TIME IS MONEY",
+      "theme": "PROVERBS",
+      "tags": ["clock", "cash", "business"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Wasting time is like wasting wealth"]
+    },
+    {
+      "text": "OUT OF THE BLUE",
+      "theme": "IDIOMS",
+      "tags": ["surprise", "sudden", "sky"],
+      "difficulty": "HARD",
+      "audience": "TEENS 13+",
+      "hints": ["Something totally unexpected"]
+    },
+    {
+      "text": "THE WIZARD OF OZ",
+      "theme": "MOVIES",
+      "tags": ["dorothy", "yellow", "rainbow"],
+      "difficulty": "HARD",
+      "audience": "KIDS 8+",
+      "hints": ["There's no place like home"]
+    },
+    {
+      "text": "SINGIN IN THE RAIN",
+      "theme": "MOVIES",
+      "tags": ["dance", "water", "musical"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["A classic musical about Hollywood"]
+    },
+    {
+      "text": "A DROP IN THE BUCKET",
+      "theme": "IDIOMS",
+      "tags": ["small", "amount", "water"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["A tiny part of a much larger whole"]
+    },
+    {
+      "text": "THE SOUND OF MUSIC",
+      "theme": "MOVIES",
+      "tags": ["sing", "hills", "austria"],
+      "difficulty": "HARD",
+      "audience": "KIDS 10+",
+      "hints": ["The hills are alive!"]
+    },
+    {
+      "text": "KILLING TWO BIRDS",
+      "theme": "IDIOMS",
+      "tags": ["stone", "double", "quick"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Getting two things done at once"]
+    },
+    {
+      "text": "EIFFEL TOWER",
+      "theme": "PLACES",
+      "tags": ["paris", "iron", "landmark"],
+      "difficulty": "HARD",
+      "audience": "KIDS 8+",
+      "hints": ["Famous landmark in France"]
+    },
+    {
+      "text": "STAR WARS",
+      "theme": "MOVIES",
+      "tags": ["force", "jedi", "space"],
+      "difficulty": "HARD",
+      "audience": "KIDS 8+",
+      "hints": ["In a galaxy far, far away..."]
+    },
+    {
+      "text": "SPILLED THE BEANS",
+      "theme": "IDIOMS",
+      "tags": ["secret", "talk", "reveal"],
+      "difficulty": "HARD",
+      "audience": "TEENS 13+",
+      "hints": ["Telling a secret you shouldn't have"]
+    },
+    {
+      "text": "CURIOSITY KILLED THE CAT",
+      "theme": "PROVERBS",
+      "tags": ["animal", "ask", "danger"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Being too nosy can lead to trouble"]
+    },
+    {
+      "text": "MOUNT EVEREST",
+      "theme": "PLACES",
+      "tags": ["himalayas", "high", "climb"],
+      "difficulty": "HARD",
+      "audience": "KIDS 10+",
+      "hints": ["The highest peak on Earth"]
+    },
+    {
+      "text": "THE ROLLING STONES",
+      "theme": "MUSIC",
+      "tags": ["rock", "band", "lips"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["They gather no moss"]
+    },
+    {
+      "text": "ON CLOUD NINE",
+      "theme": "IDIOMS",
+      "tags": ["happy", "elated", "sky"],
+      "difficulty": "HARD",
+      "audience": "TEENS 13+",
+      "hints": ["Feeling extremely joyful"]
+    },
+    {
+      "text": "ROME WAS NOT BUILT",
+      "theme": "PROVERBS",
+      "tags": ["italy", "time", "patience"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Great things take time to finish"]
+    },
+    {
+      "text": "THE JUNGLE BOOK",
+      "theme": "MOVIES",
+      "tags": ["mowgli", "animal", "bear"],
+      "difficulty": "HARD",
+      "audience": "KIDS 8+",
+      "hints": ["The story of a boy raised by wolves"]
+    },
+    {
+      "text": "BURN THE MIDNIGHT OIL",
+      "theme": "IDIOMS",
+      "tags": ["late", "work", "night"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Staying up very late to work or study"]
+    },
+    {
+      "text": "BACK TO SQUARE ONE",
+      "theme": "IDIOMS",
+      "tags": ["start", "restart", "fail"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Having to start all over again"]
+    },
+    {
+      "text": "OVER THE RAINBOW",
+      "theme": "MUSIC",
+      "tags": ["oz", "sing", "dream"],
+      "difficulty": "HARD",
+      "audience": "KIDS 8+",
+      "hints": ["Where troubles melt like lemon drops"]
+    },
+    {
+      "text": "BEAT AROUND THE BUSH",
+      "theme": "IDIOMS",
+      "tags": ["avoid", "direct", "talk"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Avoiding the main point of a conversation"]
+    },
+    {
+      "text": "GRAND CANYON",
+      "theme": "PLACES",
+      "tags": ["arizona", "river", "deep"],
+      "difficulty": "HARD",
+      "audience": "KIDS 8+",
+      "hints": ["A massive gorge carved by a river"]
+    },
+    {
+      "text": "DON'T COUNT YOUR CHICKENS",
+      "theme": "PROVERBS",
+      "tags": ["eggs", "wait", "success"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Don't assume success before it happens"]
+    },
+    {
+      "text": "THE DARK SIDE",
+      "theme": "PHRASES",
+      "tags": ["moon", "evil", "star wars"],
+      "difficulty": "HARD",
+      "audience": "TEENS 13+",
+      "hints": ["Opposite of the light"]
+    },
+    {
+      "text": "BETTER LATE THAN NEVER",
+      "theme": "PROVERBS",
+      "tags": ["time", "arrival", "delay"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Arriving at any time is better than not at all"]
+    },
+    {
+      "text": "THE EARLY BIRD",
+      "theme": "PROVERBS",
+      "tags": ["morning", "worm", "success"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["The person who starts first has the advantage"]
+    },
+    {
+      "text": "KEEP AN EYE OUT",
+      "theme": "IDIOMS",
+      "tags": ["watch", "look", "alert"],
+      "difficulty": "HARD",
+      "audience": "TEENS 13+",
+      "hints": ["Be on the lookout"]
+    },
+    {
+      "text": "BITE YOUR TONGUE",
+      "theme": "IDIOMS",
+      "tags": ["quiet", "mouth", "silent"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Stop yourself from saying something mean"]
+    },
+    {
+      "text": "MONEY DOES NOT GROW",
+      "theme": "PROVERBS",
+      "tags": ["trees", "cash", "work"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["You have to earn what you spend"]
+    },
+    {
+      "text": "A PENNY FOR YOUR THOUGHTS",
+      "theme": "IDIOMS",
+      "tags": ["think", "mind", "coin"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Asking what someone is thinking about"]
+    },
+    {
+      "text": "SNOW WHITE",
+      "theme": "MOVIES",
+      "tags": ["apple", "dwarfs", "mirror"],
+      "difficulty": "HARD",
+      "audience": "KIDS 8+",
+      "hints": ["The first Disney princess"]
+    },
+    {
+      "text": "CRY ME A RIVER",
+      "theme": "MUSIC",
+      "tags": ["tears", "sad", "sarcastic"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["A sarcastic response to a complainer"]
+    },
+    {
+      "text": "LETTING THE CAT OUT",
+      "theme": "IDIOMS",
+      "tags": ["bag", "secret", "surprise"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Accidentally revealing a secret"]
+    },
+    {
+      "text": "BEAUTY IS IN THE EYE",
+      "theme": "PROVERBS",
+      "tags": ["look", "art", "opinion"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Everyone has a different opinion of what's pretty"]
+    },
+    {
+      "text": "NIAGARA FALLS",
+      "theme": "PLACES",
+      "tags": ["water", "border", "mist"],
+      "difficulty": "HARD",
+      "audience": "KIDS 10+",
+      "hints": ["Huge waterfalls on the US-Canada border"]
+    },
+    {
+      "text": "PICTURE IS WORTH A THOUSAND",
+      "theme": "PROVERBS",
+      "tags": ["words", "photo", "see"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["One image can tell a whole story"]
+    },
+    {
+      "text": "EVERY CLOUD HAS A SILVER",
+      "theme": "PROVERBS",
+      "tags": ["lining", "hope", "sky"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["There's something good in every bad situation"]
+    },
+    {
+      "text": "ONCE IN A BLUE MOON",
+      "theme": "IDIOMS",
+      "tags": ["rare", "time", "sky"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Something that very rarely happens"]
+    },
+    {
+      "text": "THE GRASS IS ALWAYS GREENER",
+      "theme": "PROVERBS",
+      "tags": ["envy", "lawn", "other"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Other people's situations always look better"]
+    },
+    {
+      "text": "PRACTICE WHAT YOU PREACH",
+      "theme": "PROVERBS",
+      "tags": ["words", "action", "do"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Do the things you tell others to do"]
+    },
+    {
+      "text": "THROUGH THICK AND THIN",
+      "theme": "IDIOMS",
+      "tags": ["loyal", "tough", "friend"],
+      "difficulty": "HARD",
+      "audience": "GENERAL",
+      "hints": ["Staying together through good and bad times"]
+    },
+    {
+      "text": "SCHRODINGERS CAT",
+      "theme": "SCIENCE",
+      "tags": ["physics", "box", "quantum"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["A thought experiment where a pet is alive and dead"]
+    },
+    {
+      "text": "THE SWORD OF DAMOCLES",
+      "theme": "MYTHOLOGY",
+      "tags": ["threat", "hanging", "power"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["A looming danger held by a single hair"]
+    },
+    {
+      "text": "MITOCHONDRIA IS THE POWERHOUSE",
+      "theme": "SCIENCE",
+      "tags": ["cell", "energy", "biology"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["The most famous fact from high school biology"]
+    },
+    {
+      "text": "MAGNA CARTA",
+      "theme": "HISTORY",
+      "tags": ["rights", "law", "england"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Foundational legal document signed in 1215"]
+    },
+    {
+      "text": "PANDORAS BOX",
+      "theme": "MYTHOLOGY",
+      "tags": ["curious", "trouble", "hope"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["Opened to release all the world's evils"]
+    },
+    {
+      "text": "OCCAMS RAZOR",
+      "theme": "PHILOSOPHY",
+      "tags": ["simple", "logic", "theory"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["The simplest explanation is usually the correct one"]
+    },
+    {
+      "text": "THE GATSBY CURVE",
+      "theme": "ECONOMICS",
+      "tags": ["wealth", "income", "inequality"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["A graph showing the link between wealth and mobility"]
+    },
+    {
+      "text": "EUREKA MOMENT",
+      "theme": "SCIENCE",
+      "tags": ["discovery", "bath", "greece"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["Shouted in a bathtub after a discovery"]
+    },
+    {
+      "text": "THE ROSETTA STONE",
+      "theme": "HISTORY",
+      "tags": ["egypt", "clue", "language"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["The key to decoding ancient hieroglyphics"]
+    },
+    {
+      "text": "GORDIAN KNOT",
+      "theme": "MYTHOLOGY",
+      "tags": ["tangle", "puzzle", "alexander"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["An impossible tangle solved with a sword"]
+    },
+    {
+      "text": "PAVLOVS DOG",
+      "theme": "SCIENCE",
+      "tags": ["bell", "reflex", "drool"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["The subject of an experiment on bells and drool"]
+    },
+    {
+      "text": "SISYPHUS TASK",
+      "theme": "MYTHOLOGY",
+      "tags": ["rock", "endless", "effort"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Rolling a boulder up a hill forever"]
+    },
+    {
+      "text": "THE PHILOSOPHERS STONE",
+      "theme": "ALCHEMY",
+      "tags": ["gold", "immortal", "magic"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["A legendary substance that turns lead to gold"]
+    },
+    {
+      "text": "PYRRHIC VICTORY",
+      "theme": "HISTORY",
+      "tags": ["win", "loss", "costly"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["A win that costs more than it's worth"]
+    },
+    {
+      "text": "ICARUS FLIGHT",
+      "theme": "MYTHOLOGY",
+      "tags": ["wax", "sun", "wings"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["Flew too close to the sun"]
+    },
+    {
+      "text": "DOPPLER EFFECT",
+      "theme": "SCIENCE",
+      "tags": ["sound", "pitch", "siren"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Why an ambulance pitch changes as it passes"]
+    },
+    {
+      "text": "THE BUTTERFLY EFFECT",
+      "theme": "SCIENCE",
+      "tags": ["chaos", "change", "future"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["Small changes leading to massive results"]
+    },
+    {
+      "text": "TABULA RASA",
+      "theme": "PHILOSOPHY",
+      "tags": ["blank", "slate", "mind"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["The idea of being born with a blank mind"]
+    },
+    {
+      "text": "CAVEAT EMPTOR",
+      "theme": "LATIN",
+      "tags": ["buying", "warning", "legal"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Latin for 'Let the buyer beware'"]
+    },
+    {
+      "text": "PENROSE STAIRS",
+      "theme": "ART",
+      "tags": ["illusion", "endless", "math"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["An impossible loop of stairs"]
+    },
+    {
+      "text": "THE TURING TEST",
+      "theme": "TECH",
+      "tags": ["ai", "human", "computer"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["Testing if a computer can fool a person"]
+    },
+    {
+      "text": "HALLEYS COMET",
+      "theme": "SPACE",
+      "tags": ["orbit", "visible", "ice"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["A famous comet seen every 75 years"]
+    },
+    {
+      "text": "THE GOLDEN RATIO",
+      "theme": "MATH",
+      "tags": ["spiral", "beauty", "number"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["A math proportion found in nature"]
+    },
+    {
+      "text": "MACHIAVELLIAN",
+      "theme": "PHILOSOPHY",
+      "tags": ["power", "cunning", "politics"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["The ends justify the means"]
+    },
+    {
+      "text": "FIBONACCI SEQUENCE",
+      "theme": "MATH",
+      "tags": ["numbers", "pattern", "nature"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["A number pattern where each is the sum of two before it"]
+    },
+    {
+      "text": "THE HANGING GARDENS",
+      "theme": "HISTORY",
+      "tags": ["babylon", "wonder", "ancient"],
+      "difficulty": "EXPERT",
+      "audience": "KIDS 10+",
+      "hints": ["Ancient wonder of Babylon"]
+    },
+    {
+      "text": "EVENT HORIZON",
+      "theme": "SPACE",
+      "tags": ["black", "hole", "edge"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["The boundary of a black hole"]
+    },
+    {
+      "text": "PARADIGM SHIFT",
+      "theme": "PHILOSOPHY",
+      "tags": ["change", "world", "new"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["A total change in thinking"]
+    },
+    {
+      "text": "THE IDES OF MARCH",
+      "theme": "HISTORY",
+      "tags": ["caesar", "march", "betrayal"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["A day associated with Caesar's fall"]
+    },
+    {
+      "text": "GRAND UNIFIED THEORY",
+      "theme": "SCIENCE",
+      "tags": ["physics", "einstein", "forces"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["A single theory to explain everything in physics"]
+    },
+    {
+      "text": "QUANTUM ENTANGLEMENT",
+      "theme": "SCIENCE",
+      "tags": ["particles", "spooky", "link"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Spooky action at a distance"]
+    },
+    {
+      "text": "THE DAVINCI CODE",
+      "theme": "LITERATURE",
+      "tags": ["mystery", "art", "dan brown"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["A story about hidden symbols in art"]
+    },
+    {
+      "text": "MOBY DICK",
+      "theme": "LITERATURE",
+      "tags": ["whale", "ocean", "revenge"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["The pursuit of the white whale"]
+    },
+    {
+      "text": "THE GREAT DEPRESSION",
+      "theme": "HISTORY",
+      "tags": ["economy", "crash", "thirties"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Global economic downturn of the 1930s"]
+    },
+    {
+      "text": "TROJAN HORSE",
+      "theme": "MYTHOLOGY",
+      "tags": ["gift", "war", "trick"],
+      "difficulty": "EXPERT",
+      "audience": "KIDS 10+",
+      "hints": ["A sneaky wooden delivery used in war"]
+    },
+    {
+      "text": "ZENITH AND NADIR",
+      "theme": "VOCABULARY",
+      "tags": ["high", "low", "points"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["The absolute top and bottom"]
+    },
+    {
+      "text": "COPERNICAN REVOLUTION",
+      "theme": "SCIENCE",
+      "tags": ["sun", "orbit", "earth"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["The discovery that we orbit the sun"]
+    },
+    {
+      "text": "THE MANHATTAN PROJECT",
+      "theme": "HISTORY",
+      "tags": ["atomic", "bomb", "secret"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Secret project to build the atomic bomb"]
+    },
+    {
+      "text": "HEISENBERG UNCERTAINTY",
+      "theme": "SCIENCE",
+      "tags": ["physics", "limit", "measure"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["You can't know everything about a particle at once"]
+    },
+    {
+      "text": "LOST CITY OF ATLANTIS",
+      "theme": "MYTHOLOGY",
+      "tags": ["ocean", "sunken", "sunken"],
+      "difficulty": "EXPERT",
+      "audience": "KIDS 10+",
+      "hints": ["The legendary city beneath the sea"]
+    },
+    {
+      "text": "BREAD AND CIRCUSES",
+      "theme": "HISTORY",
+      "tags": ["rome", "control", "food"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Keeping people happy with food and distraction"]
+    },
+    {
+      "text": "ALLEGORY OF THE CAVE",
+      "theme": "PHILOSOPHY",
+      "tags": ["plato", "shadows", "truth"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Plato's story about reality vs perception"]
+    },
+    {
+      "text": "ENIGMA MACHINE",
+      "theme": "HISTORY",
+      "tags": ["code", "war", "turing"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["WWII code machine cracked by Turing"]
+    },
+    {
+      "text": "THE BIG BANG THEORY",
+      "theme": "SCIENCE",
+      "tags": ["universe", "origin", "expansion"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["How the universe began"]
+    },
+    {
+      "text": "DON QUIXOTE",
+      "theme": "LITERATURE",
+      "tags": ["windmill", "knight", "spain"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["A knight chasing windmills"]
+    },
+    {
+      "text": "THE FORBIDDEN CITY",
+      "theme": "PLACES",
+      "tags": ["beijing", "palace", "royal"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["Ancient palace in the center of Beijing"]
+    },
+    {
+      "text": "SHAKESPEARES SONNETS",
+      "theme": "LITERATURE",
+      "tags": ["poetry", "verse", "bard"],
+      "difficulty": "EXPERT",
+      "audience": "GENERAL",
+      "hints": ["154 poems by the Bard of Avon"]
+    },
+    {
+      "text": "THE COLD WAR",
+      "theme": "HISTORY",
+      "tags": ["soviet", "usa", "tension"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["A decades-long standoff without direct war"]
+    },
+    {
+      "text": "PRIDE AND PREJUDICE",
+      "theme": "LITERATURE",
+      "tags": ["austen", "darcy", "novel"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["Classic story of Elizabeth Bennet and Mr. Darcy"]
+    },
+    {
+      "text": "THE FRENCH REVOLUTION",
+      "theme": "HISTORY",
+      "tags": ["paris", "liberty", "king"],
+      "difficulty": "EXPERT",
+      "audience": "TEENS 13+",
+      "hints": ["Liberty, Equality, Fraternity"]
+    }
+  ]
+}

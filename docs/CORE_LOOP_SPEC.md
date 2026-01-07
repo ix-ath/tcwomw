@@ -31,15 +31,30 @@
 
 ## Crusher Behavior
 
-| State | Behavior |
-|-------|----------|
-| **Dormant** | Stationary until first mistake |
-| **Awakened** | Slow passive descent + weight-based drops |
-| **Correct input** | Fixed lift amount + brief pause |
-| **Wrong input** | Instant drop + weight added above |
+### Graduated Awakening ("Loosening Up")
+Heavy thing needs multiple shoves to get moving:
 
-- **First mistake awakens it** → slow passive descent begins
-- **Perfect run** = crusher never moves = achievement badge
+| State | Trigger | Behavior |
+|-------|---------|----------|
+| **Dormant** | Game start | Stationary, no movement |
+| **Stirring** | 1st mistake | Shove + short slide, then stops |
+| **Loosening** | 2nd mistake | Shove + longer slide, then stops |
+| **Awakened** | 3rd+ mistake | Continuous descent (adaptive speed) |
+
+### Awakening Threshold by Difficulty
+| Difficulty | Mistakes before continuous descent |
+|------------|-----------------------------------|
+| Easy | 4 |
+| Medium | 3 |
+| Hard | 2 |
+| Expert | 1 (first mistake = immediate motion) |
+
+### Adaptive Descent
+Once awakened, each penalty weight on crusher accelerates descent speed.
+- Creates snowball effect: mistakes compound the dread
+- Correct inputs provide lift + brief pause (200ms relief)
+
+**Perfect run** = crusher never moves = achievement badge
 
 ---
 

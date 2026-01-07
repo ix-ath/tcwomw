@@ -16,7 +16,6 @@ import {
   LAYOUT,
   CRUSHER,
   COMBO,
-  DIFFICULTY,
   LETTER_POOL,
   TIMING,
   PARTICLES,
@@ -64,10 +63,17 @@ export class GameScene extends Phaser.Scene {
   private isGameOver: boolean = false;
   private isCompressing: boolean = false;
 
-  // Crusher state machine
+  // Crusher state machine (graduated awakening)
   private crusherState: CrusherState = CrusherState.DORMANT;
+  private mistakeCount: number = 0;        // Total mistakes (for awakening threshold)
+  private penaltyCount: number = 0;        // Penalty letters on crusher (for acceleration)
+  private slideRemaining: number = 0;      // Remaining slide distance (px) for STIRRING/LOOSENING
+  private isSliding: boolean = false;      // Currently in a slide animation
   private isPaused: boolean = false;
   private pauseUntil: number = 0;
+
+  // Runway calculation (cached for percentage conversions)
+  private runway: number = 0;              // Distance from start to fail zone
 
   // Physics bodies
   private letterBodies: LetterBody[] = [];
@@ -120,14 +126,32 @@ export class GameScene extends Phaser.Scene {
     this.crusherY = CRUSHER.INITIAL_Y;
     this.letterBodies = [];
 
-    // Crusher state machine
+    // Crusher state machine (graduated awakening)
     this.crusherState = CrusherState.DORMANT;
+    this.mistakeCount = 0;
+    this.penaltyCount = 0;
+    this.slideRemaining = 0;
+    this.isSliding = false;
     this.isPaused = false;
     this.pauseUntil = 0;
+
+    // Calculate runway (distance from start to fail zone) for percentage conversions
+    const killZoneY = LAYOUT.FAIL_ZONE_Y - CRUSHER.HEIGHT;
+    this.runway = killZoneY - CRUSHER.INITIAL_Y;
+  }
+
+  /** Convert a percentage of runway to pixels */
+  private percentToPixels(percent: number): number {
+    return (percent / 100) * this.runway;
+  }
+
+  /** Get current difficulty setting */
+  private getDifficulty(): Difficulty {
+    return this.registry.get('selectedDifficulty') as Difficulty || Difficulty.EASY;
   }
 
   private setupPhrase(): void {
-    const difficulty = this.registry.get('selectedDifficulty') as Difficulty || Difficulty.EASY;
+    const difficulty = this.getDifficulty();
     this.currentPhrase = getRandomPhrase(difficulty);
   }
 
@@ -316,7 +340,10 @@ export class GameScene extends Phaser.Scene {
     this.targetDisplay = this.add.container(LAYOUT.GAME_AREA_CENTER_X, LAYOUT.BLANK_DISPLAY_Y);
 
     // Add theme label above the blanks
-    const themeLabel = this.add.text(0, -45, `THEME: ${this.currentPhrase.category?.toUpperCase() || 'UNKNOWN'}`, {
+    // Build theme + tag label (e.g., "FOOD • fruit")
+    const theme = this.currentPhrase.category?.toUpperCase() || 'UNKNOWN';
+    const tag = this.currentPhrase.tag ? ` • ${this.currentPhrase.tag}` : '';
+    const themeLabel = this.add.text(0, -45, `${theme}${tag}`, {
       fontFamily: 'VT323, monospace',
       fontSize: '18px',
       color: COLORS.TERMINAL_GREEN_CSS,
@@ -511,15 +538,24 @@ export class GameScene extends Phaser.Scene {
     this.combo++;
     this.maxCombo = Math.max(this.maxCombo, this.combo);
 
-    // Lift the crusher (only if awakened)
-    if (this.crusherState === CrusherState.AWAKENED) {
-      const difficulty = this.registry.get('selectedDifficulty') as Difficulty || Difficulty.EASY;
-      const diffSettings = DIFFICULTY[difficulty];
-      const liftAmount = (CRUSHER.LIFT_PER_CORRECT + (this.combo * CRUSHER.LIFT_COMBO_BONUS)) * diffSettings.liftMultiplier;
+    // Lift the crusher (only if not DORMANT - includes STIRRING, LOOSENING, AWAKENED)
+    if (this.crusherState !== CrusherState.DORMANT) {
+      const difficulty = this.getDifficulty();
+
+      // Base lift + linear combo bonus (tame, not exponential)
+      const baseLiftPercent = CRUSHER.LIFT_PERCENT[difficulty];
+      const comboBonusPercent = this.combo * CRUSHER.LIFT_COMBO_BONUS_PERCENT;
+      const totalLiftPercent = baseLiftPercent + comboBonusPercent;
+      const liftAmount = this.percentToPixels(totalLiftPercent);
+
       this.crusherY = Math.max(
         CRUSHER.INITIAL_Y,
         this.crusherY - liftAmount
       );
+
+      // Cancel any active slide (correct input = relief)
+      this.slideRemaining = 0;
+      this.isSliding = false;
 
       // Brief pause on correct input - moment of relief
       this.isPaused = true;
@@ -558,17 +594,35 @@ export class GameScene extends Phaser.Scene {
 
   private handleWrongInput(pressed: string, expected: string, isValidButWrongPosition: boolean = false): void {
     this.errors++;
+    this.mistakeCount++;
+    this.penaltyCount++;
     this.combo = 0;
     this.isOverdrive = false;
 
-    // Awaken crusher on first mistake
-    this.awakenCrusher();
+    const difficulty = this.getDifficulty();
+    const awakeningThreshold = CRUSHER.AWAKENING_THRESHOLD[difficulty];
 
-    // Drop the crusher
+    // Graduated awakening: progress through states based on mistake count
+    this.progressCrusherState(awakeningThreshold);
+
+    // Apply the "shove" (instant drop) - same for all states
+    const shoveAmount = this.percentToPixels(CRUSHER.AWAKENING.SHOVE_DROP_PERCENT);
     this.crusherY = Math.min(
       LAYOUT.FAIL_ZONE_Y - CRUSHER.HEIGHT,
-      this.crusherY + CRUSHER.PENALTY_DROP
+      this.crusherY + shoveAmount
     );
+
+    // Set up the slide based on current state
+    if (this.crusherState === CrusherState.STIRRING) {
+      // 1st mistake: small slide, then stops
+      this.slideRemaining = this.percentToPixels(CRUSHER.AWAKENING.STIRRING_SLIDE_PERCENT);
+      this.isSliding = true;
+    } else if (this.crusherState === CrusherState.LOOSENING) {
+      // 2nd mistake: longer slide, then stops
+      this.slideRemaining = this.percentToPixels(CRUSHER.AWAKENING.LOOSENING_SLIDE_PERCENT);
+      this.isSliding = true;
+    }
+    // AWAKENED state: continuous descent handled in update()
 
     // Screen shake
     this.mainCamera.shake(TIMING.SCREEN_SHAKE_DURATION_MS, 0.01);
@@ -758,30 +812,85 @@ export class GameScene extends Phaser.Scene {
     this.events.emit(GameEvents.CRUSHER_OVERDRIVE);
   }
 
-  private awakenCrusher(): void {
-    if (this.crusherState === CrusherState.AWAKENED) return;
+  /**
+   * Progress the crusher through awakening states based on mistake count.
+   * Graduated awakening: DORMANT → STIRRING → LOOSENING → AWAKENED
+   * The threshold determines how many mistakes before reaching AWAKENED.
+   */
+  private progressCrusherState(threshold: number): void {
+    const previousState = this.crusherState;
 
-    this.crusherState = CrusherState.AWAKENED;
+    // Determine new state based on mistake count and threshold
+    if (this.mistakeCount >= threshold) {
+      this.crusherState = CrusherState.AWAKENED;
+    } else if (threshold === 1) {
+      // Expert mode: 1st mistake = AWAKENED immediately
+      this.crusherState = CrusherState.AWAKENED;
+    } else if (threshold === 2) {
+      // Hard mode: 1st = STIRRING, 2nd = AWAKENED
+      this.crusherState = this.mistakeCount === 1 ? CrusherState.STIRRING : CrusherState.AWAKENED;
+    } else if (threshold === 3) {
+      // Medium mode: 1st = STIRRING, 2nd = LOOSENING, 3rd = AWAKENED
+      if (this.mistakeCount === 1) this.crusherState = CrusherState.STIRRING;
+      else if (this.mistakeCount === 2) this.crusherState = CrusherState.LOOSENING;
+      else this.crusherState = CrusherState.AWAKENED;
+    } else {
+      // Easy mode (threshold 4): 1st = STIRRING, 2nd = LOOSENING, 3rd = still LOOSENING, 4th = AWAKENED
+      if (this.mistakeCount === 1) this.crusherState = CrusherState.STIRRING;
+      else if (this.mistakeCount < threshold) this.crusherState = CrusherState.LOOSENING;
+      else this.crusherState = CrusherState.AWAKENED;
+    }
 
-    // Visual feedback - crusher "wakes up"
-    this.tweens.add({
-      targets: this.crusherSprite,
-      scaleY: { from: 1.3, to: 1 },
-      duration: 200,
-      ease: 'Bounce.out',
-    });
+    // Visual feedback on state change
+    if (this.crusherState !== previousState) {
+      this.playCrusherStateTransition(previousState, this.crusherState);
+    }
+  }
 
-    // Pulse the stroke
-    this.tweens.add({
-      targets: this.crusherSprite,
-      strokeAlpha: { from: 1, to: 0.5 },
-      duration: 100,
-      yoyo: true,
-      repeat: 2,
-    });
+  /** Play visual/audio feedback for crusher state transitions */
+  private playCrusherStateTransition(from: CrusherState, to: CrusherState): void {
+    if (from === CrusherState.DORMANT) {
+      // First mistake - crusher "stirs"
+      this.tweens.add({
+        targets: this.crusherSprite,
+        scaleY: { from: 1.15, to: 1 },
+        duration: 150,
+        ease: 'Bounce.out',
+      });
+      this.mainCamera.shake(100, 0.003);
+    }
 
-    // Brief shake to signal awakening
-    this.mainCamera.shake(150, 0.005);
+    if (to === CrusherState.LOOSENING && from === CrusherState.STIRRING) {
+      // Second mistake - crusher "loosens"
+      this.tweens.add({
+        targets: this.crusherSprite,
+        scaleY: { from: 1.2, to: 1 },
+        duration: 180,
+        ease: 'Bounce.out',
+      });
+      this.mainCamera.shake(120, 0.005);
+    }
+
+    if (to === CrusherState.AWAKENED) {
+      // Fully awakened - crusher starts moving
+      this.tweens.add({
+        targets: this.crusherSprite,
+        scaleY: { from: 1.3, to: 1 },
+        duration: 200,
+        ease: 'Bounce.out',
+      });
+
+      // Pulse the stroke to indicate continuous motion begins
+      this.tweens.add({
+        targets: this.crusherSprite,
+        strokeAlpha: { from: 1, to: 0.5 },
+        duration: 100,
+        yoyo: true,
+        repeat: 2,
+      });
+
+      this.mainCamera.shake(150, 0.008);
+    }
   }
 
   private updateCrusherPhysics(): void {
@@ -818,8 +927,10 @@ export class GameScene extends Phaser.Scene {
       percent: descentPercent,
       isPanicking: this.isPanicking,
       isOverdrive: this.isOverdrive,
-      isDormant: this.crusherState === CrusherState.DORMANT,
+      crusherState: this.crusherState,  // Full state for UI display
+      isDormant: this.crusherState === CrusherState.DORMANT,  // Backwards compat
       combo: this.combo,
+      penaltyCount: this.penaltyCount,  // For UI to show weight accumulation
     });
   }
 
@@ -1021,25 +1132,52 @@ export class GameScene extends Phaser.Scene {
       this.isPaused = false;
     }
 
-    // Crusher only descends if AWAKENED and not paused
-    if (this.crusherState === CrusherState.AWAKENED && !this.isPaused) {
-      const difficulty = this.registry.get('selectedDifficulty') as Difficulty || Difficulty.EASY;
-      const diffSettings = DIFFICULTY[difficulty];
-      const progress = this.registry.get('playerProgress');
+    // Delta time in seconds for percentage-per-second calculations
+    const deltaSeconds = delta / 1000;
+    const killZoneY = LAYOUT.FAIL_ZONE_Y - CRUSHER.HEIGHT;
 
-      const baseSpeed = CRUSHER.BASE_DESCENT_SPEED;
-      const stageMultiplier = 1 + (progress.stage - 1) * CRUSHER.STAGE_SPEED_MULTIPLIER;
-      const diffMultiplier = diffSettings.speedMultiplier;
+    // Handle crusher movement based on state
+    if (!this.isPaused) {
+      if (this.isSliding && this.slideRemaining > 0) {
+        // STIRRING or LOOSENING: slow slide that stops
+        const slideSpeed = this.percentToPixels(CRUSHER.AWAKENING.SLIDE_SPEED_PERCENT) * deltaSeconds;
+        const slideAmount = Math.min(slideSpeed, this.slideRemaining);
 
-      // Overdrive slows/reverses descent
-      const direction = this.isOverdrive ? -0.3 : 1;
+        this.crusherY = Math.min(killZoneY, this.crusherY + slideAmount);
+        this.slideRemaining -= slideAmount;
 
-      const speed = baseSpeed * stageMultiplier * diffMultiplier * direction * (delta / 16.67);
-      this.crusherY += speed;
+        // Slide complete
+        if (this.slideRemaining <= 0) {
+          this.isSliding = false;
+          this.slideRemaining = 0;
+        }
+      } else if (this.crusherState === CrusherState.AWAKENED) {
+        // AWAKENED: continuous descent with adaptive acceleration
+        const difficulty = this.getDifficulty();
+        const progress = this.registry.get('playerProgress');
+
+        // Base descent rate (% per second)
+        const baseDescentPercent = CRUSHER.BASE_DESCENT_PERCENT[difficulty];
+
+        // Weight acceleration: each penalty letter compounds the dread
+        const weightAccelPercent = CRUSHER.WEIGHT_ACCELERATION_PERCENT[difficulty];
+        const weightMultiplier = 1 + (this.penaltyCount * weightAccelPercent / 100);
+
+        // Stage multiplier (future campaign progression)
+        const stageMultiplier = 1 + (progress.stage - 1) * CRUSHER.STAGE_SPEED_MULTIPLIER;
+
+        // Overdrive slows/reverses descent
+        const direction = this.isOverdrive ? -0.3 : 1;
+
+        // Calculate final descent in pixels
+        const descentPercent = baseDescentPercent * weightMultiplier * stageMultiplier * direction;
+        const descentPixels = this.percentToPixels(descentPercent) * deltaSeconds;
+
+        this.crusherY += descentPixels;
+      }
     }
 
     // Clamp crusher position
-    const killZoneY = LAYOUT.FAIL_ZONE_Y - CRUSHER.HEIGHT;
     this.crusherY = Phaser.Math.Clamp(
       this.crusherY,
       CRUSHER.INITIAL_Y,

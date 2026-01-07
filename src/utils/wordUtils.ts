@@ -1,72 +1,72 @@
 /**
  * WORD UTILITIES
- * Phrase data, word selection, and letter scrambling.
+ * Phrase data loading, word selection, and letter scrambling.
  */
 
-import { Difficulty, LetterEntity, Phrase, WordTier } from '../types';
+import { Difficulty, LetterEntity, Phrase, WordEntry, WordDataFile, WordTier } from '../types';
 import { LETTER_POOL } from '../constants';
+import wordData1 from '../data/words/words.json';
+import wordData2 from '../data/words/words2.json';
 
 // =============================================================================
-// PHRASE DATA
+// PHRASE DATA LOADING
 // =============================================================================
 
-const EASY_WORDS: string[] = [
-  "APPLE", "BEACH", "BRAIN", "BREAD", "BRUSH", "CHAIR", "CHEST", "CHORD", "CLICK", "CLOCK",
-  "CLOUD", "DANCE", "DIARY", "DRINK", "DRIVE", "EARTH", "FEAST", "FIELD", "FRUIT", "GLASS",
-  "GRAPE", "GREEN", "GHOST", "HEART", "HOUSE", "JUICE", "LIGHT", "LEMON", "MELON", "MONEY",
-  "MUSIC", "NIGHT", "OCEAN", "PARTY", "PIANO", "PILOT", "PLANE", "PHONE", "PIZZA", "PLANT",
-  "RADIO", "RIVER", "ROBOT", "SHIRT", "SHOES", "SMILE", "SNAKE", "SPACE", "SPOON", "STORM",
-  "TABLE", "TIGER", "TOAST", "TOUCH", "TRAIN", "TRUCK", "VOICE", "WATER", "WATCH", "WHALE",
-  "WORLD", "WRITE", "YACHT", "ZEBRA", "BREAK", "BRICK", "BUILD", "CANDY", "CARDS", "CLEAN",
-  "CLEAR", "COAST", "COINS", "DREAM", "DRESS", "EMPTY", "ENTRY", "FRESH", "FRONT", "GLOVE",
-  "GRAND", "GRASS", "GREAT", "HELLO", "IMAGE", "INDEX", "LARGE", "LEARN", "LUCKY", "MAGIC",
-  "MOUSE", "MOUTH", "NORTH", "PAPER", "PEACE", "PEARL", "POWER", "PRIZE", "PROUD", "QUEEN"
+/**
+ * Convert a WordEntry from JSON to a Phrase object
+ */
+function wordEntryToPhrase(entry: WordEntry): Phrase {
+  const difficultyMap: Record<string, Difficulty> = {
+    'EASY': Difficulty.EASY,
+    'MEDIUM': Difficulty.MEDIUM,
+    'HARD': Difficulty.HARD,
+    'EXPERT': Difficulty.EXPERT,
+  };
+
+  // Determine tier based on text characteristics
+  const letterCount = entry.text.replace(/[^A-Z]/gi, '').length;
+  const wordCount = entry.text.split(' ').length;
+
+  let tier: WordTier;
+  if (letterCount <= 4) {
+    tier = WordTier.COMMAND;
+  } else if (letterCount <= 7 && wordCount === 1) {
+    tier = WordTier.SINGLE_WORDS;
+  } else if (wordCount <= 3) {
+    tier = WordTier.PHRASES;
+  } else {
+    tier = WordTier.BLOCK_TEXT;
+  }
+
+  // Handle both single tag (legacy) and tags array (new format)
+  // Pick first tag from array, or use single tag
+  const primaryTag = entry.tags?.[0] || entry.tag;
+
+  return {
+    text: entry.text.toUpperCase(),
+    category: entry.theme,
+    difficulty: difficultyMap[entry.difficulty] || Difficulty.EASY,
+    tier,
+    tag: primaryTag,
+    hints: entry.hints,
+  };
+}
+
+// Load and merge all word files
+const allWordData: WordEntry[] = [
+  ...(wordData1 as WordDataFile).words,
+  ...(wordData2 as WordDataFile).words,
 ];
 
-const MEDIUM_PHRASES: Phrase[] = [
-  { text: "PRACTICE MAKES PERFECT", category: "Proverb", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "THE MOON IS BRIGHT", category: "Nature", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "LIFE IS A JOURNEY", category: "Poetic", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "KNOWLEDGE IS POWER", category: "Education", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "SILENCE IS GOLDEN", category: "Proverb", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "BENEATH THE SURFACE", category: "Mystery", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "A WORLD APART", category: "Poetic", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "TIME FLIES BY", category: "Wisdom", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "ACTIONS SPEAK LOUDER", category: "Proverb", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "TRUST THE PROCESS", category: "Motivation", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "STAY THE COURSE", category: "Motivation", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "BREAK THE MOLD", category: "Innovation", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "SEIZE THE DAY", category: "Latin", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-  { text: "FORTUNE FAVORS BOLD", category: "Latin", difficulty: Difficulty.MEDIUM, tier: WordTier.PHRASES },
-];
+// Convert to phrases and dedupe by text
+const phraseMap = new Map<string, Phrase>();
+allWordData.forEach(entry => {
+  const phrase = wordEntryToPhrase(entry);
+  // Later entries override earlier ones (words2 takes priority)
+  phraseMap.set(phrase.text, phrase);
+});
 
-const HARD_PHRASES: Phrase[] = [
-  { text: "BETTER LATE THAN NEVER BUT NEVER LATE IS BETTER", category: "Advice", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-  { text: "TO BE OR NOT TO BE THAT IS THE QUESTION", category: "Literature", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-  { text: "EVERY CLOUD HAS A SILVER LINING SOMEWHERE", category: "Hope", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-  { text: "THE ONLY THING WE HAVE TO FEAR IS FEAR ITSELF", category: "History", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-  { text: "ALL THAT GLITTERS IS NOT GOLD MY FRIEND", category: "Literature", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-  { text: "THE CRUSHING WEIGHT OF SILENCE IS LOUD", category: "Thematic", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-  { text: "THOSE WHO CANNOT REMEMBER THE PAST ARE CONDEMNED", category: "Philosophy", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-  { text: "IN THE MIDDLE OF DIFFICULTY LIES OPPORTUNITY", category: "Einstein", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-  { text: "THE JOURNEY OF A THOUSAND MILES BEGINS WITH ONE STEP", category: "Wisdom", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-  { text: "NOT ALL THOSE WHO WANDER ARE LOST IN THE DARK", category: "Literature", difficulty: Difficulty.HARD, tier: WordTier.BLOCK_TEXT },
-];
-
-// Convert easy words to Phrase objects
-const EASY_PHRASES: Phrase[] = EASY_WORDS.map(word => ({
-  text: word,
-  category: "Words",
-  difficulty: Difficulty.EASY,
-  tier: WordTier.SINGLE_WORDS,
-}));
-
-// Combined phrase list
-const ALL_PHRASES: Phrase[] = [
-  ...EASY_PHRASES,
-  ...MEDIUM_PHRASES,
-  ...HARD_PHRASES,
-];
+const ALL_PHRASES: Phrase[] = Array.from(phraseMap.values());
 
 // =============================================================================
 // PHRASE SELECTION
@@ -77,6 +77,13 @@ const ALL_PHRASES: Phrase[] = [
  */
 export function getRandomPhrase(difficulty: Difficulty): Phrase {
   const filtered = ALL_PHRASES.filter(p => p.difficulty === difficulty);
+
+  // Fallback to any phrase if no matches (shouldn't happen with good data)
+  if (filtered.length === 0) {
+    console.warn(`No phrases found for difficulty: ${difficulty}, using random`);
+    return ALL_PHRASES[Math.floor(Math.random() * ALL_PHRASES.length)];
+  }
+
   return filtered[Math.floor(Math.random() * filtered.length)];
 }
 
@@ -85,7 +92,33 @@ export function getRandomPhrase(difficulty: Difficulty): Phrase {
  */
 export function getPhraseByTier(tier: WordTier): Phrase {
   const filtered = ALL_PHRASES.filter(p => p.tier === tier);
+
+  if (filtered.length === 0) {
+    console.warn(`No phrases found for tier: ${tier}, using random`);
+    return ALL_PHRASES[Math.floor(Math.random() * ALL_PHRASES.length)];
+  }
+
   return filtered[Math.floor(Math.random() * filtered.length)];
+}
+
+/**
+ * Get all phrases (for debugging/stats)
+ */
+export function getAllPhrases(): Phrase[] {
+  return [...ALL_PHRASES];
+}
+
+/**
+ * Get phrase counts by difficulty (for debugging)
+ */
+export function getPhraseCounts(): Record<string, number> {
+  return {
+    EASY: ALL_PHRASES.filter(p => p.difficulty === Difficulty.EASY).length,
+    MEDIUM: ALL_PHRASES.filter(p => p.difficulty === Difficulty.MEDIUM).length,
+    HARD: ALL_PHRASES.filter(p => p.difficulty === Difficulty.HARD).length,
+    EXPERT: ALL_PHRASES.filter(p => p.difficulty === Difficulty.EXPERT).length,
+    TOTAL: ALL_PHRASES.length,
+  };
 }
 
 // =============================================================================

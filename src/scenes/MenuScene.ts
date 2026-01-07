@@ -48,13 +48,14 @@ export class MenuScene extends Phaser.Scene {
 
   private createDifficultyButtons(): void {
     const centerX = GAME_WIDTH / 2;
-    const startY = 400;
-    const spacing = 70;
+    const startY = 380;
+    const spacing = 60;
 
     const difficulties: { key: Difficulty; label: string }[] = [
       { key: Difficulty.EASY, label: 'EASY ACCESS' },
       { key: Difficulty.MEDIUM, label: 'MODERATE' },
       { key: Difficulty.HARD, label: 'CRITICAL' },
+      { key: Difficulty.EXPERT, label: 'CRUSHING' },
     ];
 
     difficulties.forEach((diff, index) => {

@@ -19,9 +19,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Correct: letter disappears from board → appears in blank → crusher lifts
 - Wrong: letter appears ABOVE crusher as weight → falls onto crusher → instant drop
 
-### Crusher State Machine
+### Crusher State Machine (Graduated Awakening)
+Heavy thing needs multiple shoves to get moving:
 - **DORMANT**: Crusher starts still. No movement until first mistake. Perfect run = crusher never moves.
-- **AWAKENED**: After first mistake, crusher begins descending. Correct inputs lift + pause (200ms relief).
+- **STIRRING**: 1st mistake - small shove + short slide, then stops.
+- **LOOSENING**: 2nd mistake - bigger shove + longer slide, then stops.
+- **AWAKENED**: 3rd+ mistake (varies by difficulty) - continuous descent begins.
+
+Correct inputs lift + pause (200ms relief). Each penalty weight accelerates descent (adaptive snowball).
 
 ### Visual Feedback
 - **Wrong (not in word)**: Screen shake, red flash, penalty letter animates from staging area
@@ -33,6 +38,24 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Left sidebar: Score, pressure bar, status (DORMANT/DESCENDING/CRITICAL/OVERDRIVE), mods
 - Center game area: Crusher, scattered letters, fail zone
 - Bottom: Blank display + theme label
+
+### Word Data System
+Words are stored in JSON files at `src/data/words/`:
+```json
+{
+  "text": "APPLE",
+  "theme": "FOOD",
+  "tags": ["fruit", "red", "crunch"],
+  "difficulty": "EASY",
+  "audience": "KIDS 5+",
+  "hints": ["Keeps the doctor away"]
+}
+```
+- **theme**: Category shown to player
+- **tags**: First tag shown as hint (e.g., "FOOD • fruit")
+- **difficulty**: EASY | MEDIUM | HARD | EXPERT
+- **audience**: Age range for future filtering
+- **hints**: Optional hint phrases for hint system
 
 ### Economy (Future)
 - Wins unlock features

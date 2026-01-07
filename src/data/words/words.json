@@ -1,0 +1,509 @@
+{
+  "version": "1.0.0",
+  "words": [
+    {
+      "text": "APPLE",
+      "theme": "Food",
+      "tag": "fruit",
+      "difficulty": "EASY",
+      "hints": ["Keeps the doctor away", "Red or green", "One brand is Delicious"]
+    },
+    {
+      "text": "BEACH",
+      "theme": "Places",
+      "tag": "sand",
+      "difficulty": "EASY",
+      "hints": ["Where waves meet land", "Sunscreen required"]
+    },
+    {
+      "text": "BRAIN",
+      "theme": "Body",
+      "tag": "think",
+      "difficulty": "EASY",
+      "hints": ["Command center", "Use it or lose it"]
+    },
+    {
+      "text": "BREAD",
+      "theme": "Food",
+      "tag": "baked",
+      "difficulty": "EASY",
+      "hints": ["Best thing since sliced", "Toast starter"]
+    },
+    {
+      "text": "CHAIR",
+      "theme": "Furniture",
+      "tag": "sit",
+      "difficulty": "EASY",
+      "hints": ["Take a seat", "Has legs but can't walk"]
+    },
+    {
+      "text": "CLOCK",
+      "theme": "Objects",
+      "tag": "time",
+      "difficulty": "EASY",
+      "hints": ["Tick tock", "Hands but no arms"]
+    },
+    {
+      "text": "CLOUD",
+      "theme": "Nature",
+      "tag": "sky",
+      "difficulty": "EASY",
+      "hints": ["Fluffy and white", "Rain storage"]
+    },
+    {
+      "text": "DANCE",
+      "theme": "Activities",
+      "tag": "move",
+      "difficulty": "EASY",
+      "hints": ["Rhythm required", "Two left feet?"]
+    },
+    {
+      "text": "DRINK",
+      "theme": "Actions",
+      "tag": "thirst",
+      "difficulty": "EASY",
+      "hints": ["Stay hydrated", "Glass half full"]
+    },
+    {
+      "text": "EARTH",
+      "theme": "Space",
+      "tag": "planet",
+      "difficulty": "EASY",
+      "hints": ["Home sweet home", "The blue marble"]
+    },
+    {
+      "text": "GHOST",
+      "theme": "Spooky",
+      "tag": "boo",
+      "difficulty": "EASY",
+      "hints": ["Sheet costume", "Casper was friendly"]
+    },
+    {
+      "text": "HEART",
+      "theme": "Body",
+      "tag": "love",
+      "difficulty": "EASY",
+      "hints": ["Pump it up", "Valentine symbol"]
+    },
+    {
+      "text": "HOUSE",
+      "theme": "Buildings",
+      "tag": "home",
+      "difficulty": "EASY",
+      "hints": ["Where the heart is", "Roof overhead"]
+    },
+    {
+      "text": "JUICE",
+      "theme": "Drinks",
+      "tag": "fruit",
+      "difficulty": "EASY",
+      "hints": ["Squeezed", "OJ for short"]
+    },
+    {
+      "text": "LIGHT",
+      "theme": "Physics",
+      "tag": "bright",
+      "difficulty": "EASY",
+      "hints": ["Flip the switch", "Opposite of dark"]
+    },
+    {
+      "text": "LEMON",
+      "theme": "Food",
+      "tag": "sour",
+      "difficulty": "EASY",
+      "hints": ["Make lemonade", "Yellow citrus"]
+    },
+    {
+      "text": "MONEY",
+      "theme": "Finance",
+      "tag": "cash",
+      "difficulty": "EASY",
+      "hints": ["Makes the world go round", "Cha-ching"]
+    },
+    {
+      "text": "MUSIC",
+      "theme": "Arts",
+      "tag": "sound",
+      "difficulty": "EASY",
+      "hints": ["Food for the soul", "Turn it up"]
+    },
+    {
+      "text": "NIGHT",
+      "theme": "Time",
+      "tag": "dark",
+      "difficulty": "EASY",
+      "hints": ["Stars come out", "Owls are awake"]
+    },
+    {
+      "text": "OCEAN",
+      "theme": "Nature",
+      "tag": "water",
+      "difficulty": "EASY",
+      "hints": ["Salty depths", "Bigger than a sea"]
+    },
+    {
+      "text": "PARTY",
+      "theme": "Events",
+      "tag": "fun",
+      "difficulty": "EASY",
+      "hints": ["Balloons and cake", "Celebration time"]
+    },
+    {
+      "text": "PHONE",
+      "theme": "Technology",
+      "tag": "call",
+      "difficulty": "EASY",
+      "hints": ["Ring ring", "In your pocket"]
+    },
+    {
+      "text": "PIZZA",
+      "theme": "Food",
+      "tag": "slice",
+      "difficulty": "EASY",
+      "hints": ["Cheesy goodness", "Delivery in 30 minutes"]
+    },
+    {
+      "text": "PLANT",
+      "theme": "Nature",
+      "tag": "green",
+      "difficulty": "EASY",
+      "hints": ["Needs water and sun", "Photosynthesis"]
+    },
+    {
+      "text": "RIVER",
+      "theme": "Nature",
+      "tag": "flow",
+      "difficulty": "EASY",
+      "hints": ["Runs to the sea", "Banks on both sides"]
+    },
+    {
+      "text": "ROBOT",
+      "theme": "Technology",
+      "tag": "machine",
+      "difficulty": "EASY",
+      "hints": ["Beep boop", "Metal worker"]
+    },
+    {
+      "text": "SMILE",
+      "theme": "Expressions",
+      "tag": "happy",
+      "difficulty": "EASY",
+      "hints": ["Turn that frown upside down", "Say cheese"]
+    },
+    {
+      "text": "SNAKE",
+      "theme": "Animals",
+      "tag": "slither",
+      "difficulty": "EASY",
+      "hints": ["No legs needed", "Hissss"]
+    },
+    {
+      "text": "SPACE",
+      "theme": "Science",
+      "tag": "stars",
+      "difficulty": "EASY",
+      "hints": ["The final frontier", "Infinite void"]
+    },
+    {
+      "text": "STORM",
+      "theme": "Weather",
+      "tag": "thunder",
+      "difficulty": "EASY",
+      "hints": ["Calm before it", "Lightning follows"]
+    },
+    {
+      "text": "TABLE",
+      "theme": "Furniture",
+      "tag": "flat",
+      "difficulty": "EASY",
+      "hints": ["Set it for dinner", "Cards on it"]
+    },
+    {
+      "text": "TIGER",
+      "theme": "Animals",
+      "tag": "stripes",
+      "difficulty": "EASY",
+      "hints": ["Eye of the...", "Big cat"]
+    },
+    {
+      "text": "TRAIN",
+      "theme": "Transport",
+      "tag": "tracks",
+      "difficulty": "EASY",
+      "hints": ["Choo choo", "All aboard"]
+    },
+    {
+      "text": "WATER",
+      "theme": "Nature",
+      "tag": "wet",
+      "difficulty": "EASY",
+      "hints": ["H2O", "Stay hydrated"]
+    },
+    {
+      "text": "WATCH",
+      "theme": "Objects",
+      "tag": "wrist",
+      "difficulty": "EASY",
+      "hints": ["Time on your arm", "Tick tock"]
+    },
+    {
+      "text": "WHALE",
+      "theme": "Animals",
+      "tag": "ocean",
+      "difficulty": "EASY",
+      "hints": ["Having a... of a time", "Biggest mammal"]
+    },
+    {
+      "text": "WORLD",
+      "theme": "Geography",
+      "tag": "globe",
+      "difficulty": "EASY",
+      "hints": ["Around the...", "Small after all"]
+    },
+    {
+      "text": "DREAM",
+      "theme": "Mind",
+      "tag": "sleep",
+      "difficulty": "EASY",
+      "hints": ["Night visions", "Living the..."]
+    },
+    {
+      "text": "MAGIC",
+      "theme": "Fantasy",
+      "tag": "trick",
+      "difficulty": "EASY",
+      "hints": ["Abracadabra", "Now you see it"]
+    },
+    {
+      "text": "QUEEN",
+      "theme": "Royalty",
+      "tag": "crown",
+      "difficulty": "EASY",
+      "hints": ["Royal she", "Chess piece"]
+    },
+    {
+      "text": "GAME OVER",
+      "theme": "Gaming",
+      "tag": "end",
+      "difficulty": "MEDIUM",
+      "hints": ["Insert coin to continue", "You lost"]
+    },
+    {
+      "text": "ICE CREAM",
+      "theme": "Food",
+      "tag": "cold",
+      "difficulty": "MEDIUM",
+      "hints": ["Brain freeze risk", "Cone or cup"]
+    },
+    {
+      "text": "HOT DOG",
+      "theme": "Food",
+      "tag": "bun",
+      "difficulty": "MEDIUM",
+      "hints": ["Ballpark snack", "Mustard please"]
+    },
+    {
+      "text": "YOU WIN",
+      "theme": "Gaming",
+      "tag": "victory",
+      "difficulty": "MEDIUM",
+      "hints": ["Congratulations", "Champion"]
+    },
+    {
+      "text": "GOOD LUCK",
+      "theme": "Wishes",
+      "tag": "fortune",
+      "difficulty": "MEDIUM",
+      "hints": ["Break a leg", "Fingers crossed"]
+    },
+    {
+      "text": "TIME OUT",
+      "theme": "Sports",
+      "tag": "pause",
+      "difficulty": "MEDIUM",
+      "hints": ["Stop the clock", "Take a break"]
+    },
+    {
+      "text": "HIGH FIVE",
+      "theme": "Gestures",
+      "tag": "hands",
+      "difficulty": "MEDIUM",
+      "hints": ["Up top", "Slap happy"]
+    },
+    {
+      "text": "BEST FRIEND",
+      "theme": "Relationships",
+      "tag": "buddy",
+      "difficulty": "MEDIUM",
+      "hints": ["BFF", "Ride or die"]
+    },
+    {
+      "text": "ROAD TRIP",
+      "theme": "Travel",
+      "tag": "drive",
+      "difficulty": "MEDIUM",
+      "hints": ["Are we there yet?", "Highway adventure"]
+    },
+    {
+      "text": "POPCORN",
+      "theme": "Food",
+      "tag": "movie",
+      "difficulty": "MEDIUM",
+      "hints": ["Buttery and salty", "Pop pop pop"]
+    },
+    {
+      "text": "RAINBOW",
+      "theme": "Nature",
+      "tag": "colors",
+      "difficulty": "MEDIUM",
+      "hints": ["After the rain", "Pot of gold at the end"]
+    },
+    {
+      "text": "BIRTHDAY",
+      "theme": "Events",
+      "tag": "cake",
+      "difficulty": "MEDIUM",
+      "hints": ["Blow out candles", "Happy... to you"]
+    },
+    {
+      "text": "SUNSHINE",
+      "theme": "Weather",
+      "tag": "bright",
+      "difficulty": "MEDIUM",
+      "hints": ["You are my...", "Vitamin D source"]
+    },
+    {
+      "text": "HOMEWORK",
+      "theme": "School",
+      "tag": "study",
+      "difficulty": "MEDIUM",
+      "hints": ["The dog ate it", "Due tomorrow"]
+    },
+    {
+      "text": "PANCAKES",
+      "theme": "Food",
+      "tag": "breakfast",
+      "difficulty": "MEDIUM",
+      "hints": ["Stack em high", "Syrup on top"]
+    },
+    {
+      "text": "STARFISH",
+      "theme": "Animals",
+      "tag": "ocean",
+      "difficulty": "MEDIUM",
+      "hints": ["Five arms usually", "Not actually a fish"]
+    },
+    {
+      "text": "CAMPFIRE",
+      "theme": "Outdoors",
+      "tag": "warmth",
+      "difficulty": "MEDIUM",
+      "hints": ["Smores time", "Gather round"]
+    },
+    {
+      "text": "PRACTICE MAKES PERFECT",
+      "theme": "Proverbs",
+      "tag": "effort",
+      "difficulty": "HARD",
+      "hints": ["Keep at it", "Repetition pays off"]
+    },
+    {
+      "text": "THE MOON IS BRIGHT",
+      "theme": "Nature",
+      "tag": "night",
+      "difficulty": "HARD",
+      "hints": ["Look up tonight", "Lunar glow"]
+    },
+    {
+      "text": "LIFE IS A JOURNEY",
+      "theme": "Philosophy",
+      "tag": "path",
+      "difficulty": "HARD",
+      "hints": ["Not the destination", "Keep moving forward"]
+    },
+    {
+      "text": "KNOWLEDGE IS POWER",
+      "theme": "Education",
+      "tag": "learn",
+      "difficulty": "HARD",
+      "hints": ["Stay curious", "Books are your friends"]
+    },
+    {
+      "text": "SILENCE IS GOLDEN",
+      "theme": "Proverbs",
+      "tag": "quiet",
+      "difficulty": "HARD",
+      "hints": ["Shhhh", "Speech is silver"]
+    },
+    {
+      "text": "ACTIONS SPEAK LOUDER",
+      "theme": "Proverbs",
+      "tag": "deeds",
+      "difficulty": "HARD",
+      "hints": ["Show don't tell", "Words are cheap"]
+    },
+    {
+      "text": "SEIZE THE DAY",
+      "theme": "Motivation",
+      "tag": "carpe",
+      "difficulty": "HARD",
+      "hints": ["Carpe diem", "No time like the present"]
+    },
+    {
+      "text": "BREAK THE MOLD",
+      "theme": "Innovation",
+      "tag": "different",
+      "difficulty": "HARD",
+      "hints": ["Be unique", "Shatter expectations"]
+    },
+    {
+      "text": "TRUST THE PROCESS",
+      "theme": "Motivation",
+      "tag": "patience",
+      "difficulty": "HARD",
+      "hints": ["It takes time", "Have faith"]
+    },
+    {
+      "text": "FORTUNE FAVORS THE BOLD",
+      "theme": "Proverbs",
+      "tag": "courage",
+      "difficulty": "HARD",
+      "hints": ["Take the risk", "Nothing ventured nothing gained"]
+    },
+    {
+      "text": "TO BE OR NOT TO BE",
+      "theme": "Literature",
+      "tag": "shakespeare",
+      "difficulty": "EXPERT",
+      "hints": ["That is the question", "The Bard wrote it"]
+    },
+    {
+      "text": "THE ONLY THING WE HAVE TO FEAR IS FEAR ITSELF",
+      "theme": "History",
+      "tag": "fdr",
+      "difficulty": "EXPERT",
+      "hints": ["Presidential quote", "Inaugural address"]
+    },
+    {
+      "text": "ALL THAT GLITTERS IS NOT GOLD",
+      "theme": "Literature",
+      "tag": "appearance",
+      "difficulty": "EXPERT",
+      "hints": ["Looks can deceive", "Shiny but worthless"]
+    },
+    {
+      "text": "THE JOURNEY OF A THOUSAND MILES BEGINS WITH ONE STEP",
+      "theme": "Philosophy",
+      "tag": "start",
+      "difficulty": "EXPERT",
+      "hints": ["Just begin", "Ancient wisdom"]
+    },
+    {
+      "text": "IN THE MIDDLE OF DIFFICULTY LIES OPPORTUNITY",
+      "theme": "Inspiration",
+      "tag": "challenge",
+      "difficulty": "EXPERT",
+      "hints": ["Einstein said it", "Silver lining"]
+    }
+  ]
+}

@@ -21,6 +21,7 @@ export enum Difficulty {
   EASY = 'EASY',
   MEDIUM = 'MEDIUM',
   HARD = 'HARD',
+  EXPERT = 'EXPERT',
 }
 
 /** Word/phrase tiers from design doc */
@@ -32,10 +33,12 @@ export enum WordTier {
   BLOCK_TEXT = 4,   // Full sentences/paragraphs
 }
 
-/** Crusher state machine */
+/** Crusher state machine - graduated awakening ("loosening up") */
 export enum CrusherState {
-  DORMANT = 'DORMANT',     // Not moving, waiting for first mistake
-  AWAKENED = 'AWAKENED',   // Active, descending after first mistake
+  DORMANT = 'DORMANT',       // Not moving, waiting for first mistake
+  STIRRING = 'STIRRING',     // 1st mistake: small shove, then stops
+  LOOSENING = 'LOOSENING',   // 2nd mistake: bigger shove, then stops
+  AWAKENED = 'AWAKENED',     // 3rd+ mistakes: continuous descent
 }
 
 // =============================================================================
@@ -47,6 +50,25 @@ export interface Phrase {
   category: string;
   difficulty: Difficulty;
   tier: WordTier;
+  tag?: string;           // Single-word hint shown to player
+  hints?: string[];       // Optional hint phrases (for hint system)
+}
+
+/** Raw word entry from JSON data files */
+export interface WordEntry {
+  text: string;
+  theme: string;
+  tag?: string;              // Single tag (legacy format)
+  tags?: string[];           // Multiple tags (new format)
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'EXPERT';
+  audience?: string;         // Age range e.g. "KIDS 5+", "TEENS 13+", "GENERAL"
+  hints?: string[];
+}
+
+/** Word data file structure */
+export interface WordDataFile {
+  version?: string;
+  words: WordEntry[];
 }
 
 export interface GameStats {
