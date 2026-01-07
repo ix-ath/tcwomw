@@ -1,0 +1,58 @@
+{
+  "name": "the-crushing-weight-of-my-words",
+  "version": "0.1.0",
+  "description": "A physics-driven typing game where every mistake has physical consequences",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "electron:dev": "concurrently \"vite\" \"electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "lint": "eslint src --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "typing-game",
+    "phaser",
+    "matter-js",
+    "steam",
+    "indie-game"
+  ],
+  "author": "B",
+  "license": "MIT",
+  "dependencies": {
+    "phaser": "^3.80.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "concurrently": "^8.2.2",
+    "electron": "^39.2.7",
+    "electron-builder": "^24.9.1",
+    "typescript": "^5.3.3",
+    "vite": "^7.3.0"
+  },
+  "build": {
+    "appId": "com.tcwomw.game",
+    "productName": "The Crushing Weight of My Words",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "dist/**/*",
+      "dist-electron/**/*"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "public/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "public/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "public/icon.png"
+    }
+  }
+}
