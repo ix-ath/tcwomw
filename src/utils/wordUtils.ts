@@ -94,46 +94,47 @@ export function getPhraseByTier(tier: WordTier): Phrase {
 
 /**
  * Create a scattered grid of letters for the visual pool
- * Uses a grid system to prevent overlap while maintaining randomness
+ * Uses absolute pixel positions within the game area
  */
 export function scrambleLetters(text: string): LetterEntity[] {
   const chars = text.replace(/\s/g, '').split('');
-  
-  // Create grid cells
-  const cols = LETTER_POOL.GRID_COLS;
-  const rows = LETTER_POOL.GRID_ROWS;
+
+  // Grid settings (hardcoded since this is legacy utility)
+  const cols = 10;
+  const rows = 5;
   const gridCells: { r: number; c: number }[] = [];
-  
+
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
       gridCells.push({ r, c });
     }
   }
-  
+
   // Shuffle grid cells (Fisher-Yates)
   for (let i = gridCells.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [gridCells[i], gridCells[j]] = [gridCells[j], gridCells[i]];
   }
-  
-  const paddingX = LETTER_POOL.PADDING_X_PERCENT;
-  const paddingY = LETTER_POOL.PADDING_Y_PERCENT;
-  const cellWidth = (100 - paddingX * 2) / cols;
-  const cellHeight = (100 - paddingY * 2) / rows;
-  
+
+  // Use the spawn area from LETTER_POOL (now in pixels)
+  const spawnWidth = LETTER_POOL.SPAWN_X_MAX - LETTER_POOL.SPAWN_X_MIN;
+  const spawnHeight = LETTER_POOL.SPAWN_Y_MAX - LETTER_POOL.SPAWN_Y_MIN;
+  const cellWidth = spawnWidth / cols;
+  const cellHeight = spawnHeight / rows;
+
   return chars.map((char, i): LetterEntity => {
     // Assign each character to a cell (wrap if more chars than cells)
     const cell = gridCells[i % gridCells.length];
-    
+
     // Random position within cell
     const offsetX = (Math.random() * 0.5 + 0.25) * cellWidth;
     const offsetY = (Math.random() * 0.5 + 0.25) * cellHeight;
-    
+
     return {
       id: `${char}-${i}-${Math.random().toString(36).substr(2, 9)}`,
       char: char.toUpperCase(),
-      x: paddingX + (cell.c * cellWidth) + offsetX,
-      y: paddingY + (cell.r * cellHeight) + offsetY,
+      x: LETTER_POOL.SPAWN_X_MIN + (cell.c * cellWidth) + offsetX,
+      y: LETTER_POOL.SPAWN_Y_MIN + (cell.r * cellHeight) + offsetY,
       rotation: (Math.random() * 2 - 1) * LETTER_POOL.MAX_ROTATION,
       colorIndex: Math.floor(Math.random() * 4),
       isUsed: false,

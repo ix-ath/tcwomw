@@ -28,11 +28,11 @@ const config: Phaser.Types.Core.GameConfig = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
   
-  // Matter.js physics (for future coin-pusher mechanics)
+  // Matter.js physics for coin-pusher mechanics
   physics: {
     default: 'matter',
     matter: {
-      gravity: { y: 1 },
+      gravity: { x: 0, y: 0 }, // No gravity - letters stay put until pushed
       debug: false, // Set to true during development to see physics bodies
     },
   },
@@ -65,7 +65,8 @@ const config: Phaser.Types.Core.GameConfig = {
 const game = new Phaser.Game(config);
 
 // Expose for debugging in development
-if (import.meta.env.DEV) {
+// @ts-expect-error - Vite's import.meta.env types
+if (import.meta.env?.DEV) {
   (window as unknown as { game: Phaser.Game }).game = game;
 }
 

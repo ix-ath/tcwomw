@@ -12,6 +12,34 @@ export const GAME_HEIGHT = 720;
 export const BACKGROUND_COLOR = 0x010201;
 
 // =============================================================================
+// LAYOUT ZONES (pixels)
+// =============================================================================
+export const LAYOUT = {
+  // Staging area at top (where wrong letters animate before falling)
+  STAGING_AREA_HEIGHT: 60,
+  STAGING_AREA_Y: 30, // Center Y of staging area
+
+  // Left sidebar
+  SIDEBAR_WIDTH: 160,
+  SIDEBAR_X: 80, // Center X of sidebar
+
+  // Main game area (center)
+  GAME_AREA_X: 160, // Left edge of game area
+  GAME_AREA_WIDTH: 960, // 1280 - 160 (sidebar) - 160 (right margin)
+  GAME_AREA_CENTER_X: 160 + 480, // 640 - center of game area
+  GAME_AREA_TOP: 80, // Top of play zone (below staging)
+  GAME_AREA_BOTTOM: 560, // Bottom of play zone (fail zone)
+
+  // Fail zone (game over line)
+  FAIL_ZONE_Y: 560,
+  FAIL_ZONE_HEIGHT: 40,
+
+  // Blank display + theme at bottom
+  BLANK_DISPLAY_Y: 640,
+  THEME_LABEL_Y: 600,
+} as const;
+
+// =============================================================================
 // COLORS (hex for Phaser, CSS strings where needed)
 // =============================================================================
 export const COLORS = {
@@ -50,25 +78,28 @@ export const COLORS = {
 // CRUSHER PHYSICS
 // =============================================================================
 export const CRUSHER = {
-  // Position (percentage of screen height)
-  INITIAL_Y_PERCENT: 5,
-  KILL_ZONE_PERCENT: 85,
-  
+  // Position (now relative to LAYOUT.GAME_AREA_TOP)
+  INITIAL_Y: 100, // Starting Y position (below staging area)
+
   // Movement
-  BASE_DESCENT_SPEED: 0.8,        // Pixels per frame at 60fps
+  BASE_DESCENT_SPEED: 0.6,        // Pixels per frame at 60fps (slower for better feel)
   STAGE_SPEED_MULTIPLIER: 0.05,   // Additional speed per stage
-  
+  DORMANT_SPEED: 0,               // Speed when dormant (not moving)
+
   // Lift amounts (pixels)
   LIFT_PER_CORRECT: 12,
   LIFT_COMBO_BONUS: 1.5,          // Additional lift per combo level
   LIFT_WORD_COMPLETE_PERCENT: 10, // Percentage of travel distance restored
   LIFT_KINETIC_PULSE_PERCENT: 25, // Kinetic battery pulse
-  
+
   // Penalty
   PENALTY_DROP: 8,                // Pixels dropped on error
-  
+
+  // Pause on correct input
+  PAUSE_DURATION_MS: 200,         // Brief moment of relief
+
   // Visual
-  WIDTH: 800,
+  WIDTH: 800,                     // Fits within GAME_AREA_WIDTH (960)
   HEIGHT: 40,
 } as const;
 
@@ -135,18 +166,6 @@ export const PARTICLES = {
 } as const;
 
 // =============================================================================
-// LETTER POOL (scattered letters on screen)
-// =============================================================================
-export const LETTER_POOL = {
-  GRID_COLS: 12,
-  GRID_ROWS: 8,
-  PADDING_X_PERCENT: 5,
-  PADDING_Y_PERCENT: 10,
-  MAX_ROTATION: 15,               // ±degrees (readability guard from design doc)
-  FONT_SIZE: 72,
-} as const;
-
-// =============================================================================
 // AUDIO (placeholder values - will be replaced with actual audio system)
 // =============================================================================
 export const AUDIO = {
@@ -170,12 +189,44 @@ export const TIMING = {
 } as const;
 
 // =============================================================================
-// PHYSICS (Matter.js - for future coin-pusher implementation)
+// PHYSICS (Matter.js - coin-pusher implementation)
 // =============================================================================
 export const PHYSICS = {
-  GRAVITY_Y: 1,
+  GRAVITY_Y: 0, // No global gravity - letters stay in place until pushed
   LETTER_MASS: 1,
   PENALTY_LETTER_MASS: 3,         // 3x mass from design doc
-  RESTITUTION: 0.3,               // Bounciness
-  FRICTION: 0.1,
+  RESTITUTION: 0.2,               // Bounciness (low to prevent chaos)
+  FRICTION: 0.3,                  // Surface friction
+  FRICTION_STATIC: 0.5,           // Static friction (prevents sliding)
+  FRICTION_AIR: 0.02,             // Air resistance (slows things down)
+  ANGULAR_DAMPING: 0.95,          // Reduces rotation quickly for readability
+
+  // Letter block dimensions
+  LETTER_BLOCK_SIZE: 64,
+
+  // Play area boundaries (now uses LAYOUT values)
+  FLOOR_Y: 560,                   // Matches LAYOUT.FAIL_ZONE_Y
+  WALL_THICKNESS: 20,
+
+  // Crusher
+  CRUSHER_PUSH_FORCE: 0.002,      // Force applied when crusher contacts letters
+
+  // Penalty letter gravity (falls onto crusher)
+  PENALTY_GRAVITY: 0.003,         // Stronger so they fall faster
+} as const;
+
+// =============================================================================
+// LETTER POOL (physics-based scattered letters)
+// =============================================================================
+export const LETTER_POOL = {
+  // Initial spawn area (now absolute pixels within game area)
+  // Letters spawn below crusher, above fail zone
+  SPAWN_X_MIN: 200,               // LAYOUT.GAME_AREA_X + padding
+  SPAWN_X_MAX: 1080,              // LAYOUT.GAME_AREA_X + GAME_AREA_WIDTH - padding
+  SPAWN_Y_MIN: 180,               // Below crusher starting position
+  SPAWN_Y_MAX: 500,               // Above fail zone
+
+  // Readability
+  MAX_ROTATION: 15,               // ±degrees (readability guard from design doc)
+  FONT_SIZE: 40,
 } as const;

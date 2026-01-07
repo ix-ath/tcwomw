@@ -9,7 +9,6 @@ import { COLORS, GAME_WIDTH, GAME_HEIGHT } from '../constants';
 import { Difficulty } from '../types';
 
 export class MenuScene extends Phaser.Scene {
-  private selectedDifficulty: Difficulty = Difficulty.EASY;
   private buttons: Phaser.GameObjects.Container[] = [];
   private selectedIndex: number = 0;
 
@@ -44,8 +43,7 @@ export class MenuScene extends Phaser.Scene {
       fontFamily: 'VT323, monospace',
       fontSize: '24px',
       color: COLORS.TERMINAL_GREEN_CSS,
-      alpha: 0.7,
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setAlpha(0.7);
   }
 
   private createDifficultyButtons(): void {
@@ -130,16 +128,14 @@ export class MenuScene extends Phaser.Scene {
       fontFamily: 'VT323, monospace',
       fontSize: '18px',
       color: COLORS.TERMINAL_GREEN_CSS,
-      alpha: 0.4,
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setAlpha(0.4);
 
     // Controls hint
     this.add.text(centerX, GAME_HEIGHT - 25, '↑↓ SELECT  •  ENTER START', {
       fontFamily: 'VT323, monospace',
       fontSize: '16px',
       color: COLORS.TERMINAL_GREEN_CSS,
-      alpha: 0.3,
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setAlpha(0.3);
   }
 
   private setupInput(): void {

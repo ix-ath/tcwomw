@@ -80,6 +80,25 @@ export class PreloadScene extends Phaser.Scene {
     errorParticleGraphics.fillRect(0, 0, 8, 8);
     errorParticleGraphics.generateTexture('particle_error', 8, 8);
     errorParticleGraphics.destroy();
+
+    // Letter block texture (background for physics letters)
+    const letterBlockSize = 64;
+    const letterBlockGraphics = this.make.graphics({ x: 0, y: 0 });
+    letterBlockGraphics.fillStyle(0x0a0a0a, 1);
+    letterBlockGraphics.fillRoundedRect(0, 0, letterBlockSize, letterBlockSize, 8);
+    letterBlockGraphics.lineStyle(2, COLORS.TERMINAL_GREEN, 0.6);
+    letterBlockGraphics.strokeRoundedRect(0, 0, letterBlockSize, letterBlockSize, 8);
+    letterBlockGraphics.generateTexture('letter_block', letterBlockSize, letterBlockSize);
+    letterBlockGraphics.destroy();
+
+    // Penalty letter block (red border)
+    const penaltyBlockGraphics = this.make.graphics({ x: 0, y: 0 });
+    penaltyBlockGraphics.fillStyle(0x1a0505, 1);
+    penaltyBlockGraphics.fillRoundedRect(0, 0, letterBlockSize, letterBlockSize, 8);
+    penaltyBlockGraphics.lineStyle(3, COLORS.ERROR_RED, 0.8);
+    penaltyBlockGraphics.strokeRoundedRect(0, 0, letterBlockSize, letterBlockSize, 8);
+    penaltyBlockGraphics.generateTexture('penalty_block', letterBlockSize, letterBlockSize);
+    penaltyBlockGraphics.destroy();
   }
 
   private setupLoadingEvents(): void {

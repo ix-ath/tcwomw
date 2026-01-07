@@ -6,7 +6,7 @@
 
 import Phaser from 'phaser';
 import { COLORS, GAME_WIDTH, GAME_HEIGHT } from '../constants';
-import { GameStats, Phrase, Difficulty } from '../types';
+import { GameStats, Phrase } from '../types';
 
 interface ResultSceneData {
   won: boolean;
@@ -79,8 +79,7 @@ export class ResultScene extends Phaser.Scene {
       fontFamily: 'VT323, monospace',
       fontSize: '18px',
       color: COLORS.TERMINAL_GREEN_CSS,
-      alpha: 0.5,
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setAlpha(0.5);
     
     // The phrase
     const phraseColor = this.won ? '#ffffff' : '#ff0000';
@@ -127,8 +126,7 @@ export class ResultScene extends Phaser.Scene {
         fontFamily: 'VT323, monospace',
         fontSize: '16px',
         color: COLORS.TERMINAL_GREEN_CSS,
-        alpha: 0.6,
-      }).setOrigin(0.5);
+      }).setOrigin(0.5).setAlpha(0.6);
       
       // Value
       const valueColor = stat.label === 'REWARD' ? COLORS.TERMINAL_GREEN_CSS : '#ffffff';
@@ -202,8 +200,7 @@ export class ResultScene extends Phaser.Scene {
       fontFamily: 'VT323, monospace',
       fontSize: '24px',
       color: COLORS.TERMINAL_GREEN_CSS,
-      alpha: 0.7,
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setAlpha(0.7);
     
     const scoreText = this.add.text(GAME_WIDTH / 2, 475, progress.totalScore.toString(), {
       fontFamily: 'VT323, monospace',
@@ -244,8 +241,7 @@ export class ResultScene extends Phaser.Scene {
       fontFamily: 'VT323, monospace',
       fontSize: '16px',
       color: COLORS.TERMINAL_GREEN_CSS,
-      alpha: 0.4,
-    }).setOrigin(0.5);
+    }).setOrigin(0.5).setAlpha(0.4);
   }
 
   private createButton(x: number, y: number, text: string, color: number, filled: boolean, callback: () => void): Phaser.GameObjects.Container {

@@ -32,6 +32,12 @@ export enum WordTier {
   BLOCK_TEXT = 4,   // Full sentences/paragraphs
 }
 
+/** Crusher state machine */
+export enum CrusherState {
+  DORMANT = 'DORMANT',     // Not moving, waiting for first mistake
+  AWAKENED = 'AWAKENED',   // Active, descending after first mistake
+}
+
 // =============================================================================
 // GAME DATA
 // =============================================================================
