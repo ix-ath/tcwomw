@@ -57,9 +57,27 @@ Words are stored in JSON files at `src/data/words/`:
 - **audience**: Age range for future filtering
 - **hints**: Optional hint phrases for hint system
 
-### Economy (Future)
-- Wins unlock features
-- Losses/letter misses accumulate in "The Pit" - used for helpers/boosts
+### Campaign Structure
+
+**See `docs/CORE_LOOP_SPEC.md` "Campaign Structure & Game Flow" section for full details.**
+
+- **Books & Chapters**: ~40 books, each with 3-5 chapters, each chapter has 5-10 words/phrases
+- **Content scales**: Words → phrases → sentences → paragraphs (late game)
+- **Loss = restart chapter** (not entire book)
+- **Tutorial**: ON → START → OOPS (teaches mechanics) → Impossible sentence (teaches economy)
+
+### Cube Scrap Economy
+
+- **Currency**: Cube Scrap (earned from failures)
+- **Sources**: 1 scrap per wrong letter, 5-10 per lost chapter, book completion bonuses
+- **Sinks**: Helpers/upgrades (Theme, Tag, Keep Highlight, Heavy Letters, etc.)
+- **The Pit**: Permanent monument to failures, lifetime count is spendable
+- **Philosophy**: All helpers equippable (accessibility), score penalty for using many (mastery)
+
+### Break Room Hub
+
+Depressing workplace break room. Fixtures unlock with book completions:
+- Chair (start), Crack in tile (Pit access), Fridge (scoreboard), Locker (loadouts), etc.
 
 ## Commands
 
@@ -142,6 +160,25 @@ Key physics constants in `PHYSICS` object:
 - `PENALTY_LETTER_MASS`: 3 (vs normal mass of 1)
 - Floor/fail zone now uses `LAYOUT.FAIL_ZONE_Y` (560px)
 
+## Visual Style Direction
+
+**Aesthetic:** Terry Gilliam / Monty Python collage-cutout style meets Victorian industrial horror.
+
+**Setting:** Dimly lit factory floor. The player is a hopeless worker at a dangerous machine. One wrong keystroke and everything comes crashing down.
+
+**Color Palette:**
+- Deep shadows, soot-stained surfaces, charcoal grays
+- Tarnished brass, dirty rust where light catches edges
+- Harsh industrial light cutting through smoke
+- NOT sepia, NOT terminal-green-on-black
+- Think coal dust and machine grease
+
+**Mood:** Dark, grungy, claustrophobic. A night shift that never ends. Destitute, oppressive, no escape.
+
+**References:** Terry Gilliam animations, Victorian factory engravings, workhouse horror, Dickensian poverty, dangerous machinery, dimly lit foundries.
+
+See `docs/PROMPTS.md` for reusable AI art prompts.
+
 ## Design Reference
 
 Detailed specifications in `/docs/`:
@@ -149,3 +186,4 @@ Detailed specifications in `/docs/`:
 - `GAME_DESIGN.md` - Core mechanics, combo system, progression
 - `ARCHITECTURE.md` - Technical systems, data schemas
 - `FEATURES.md` - Feature backlog with status markers
+- `PROMPTS.md` - Reusable AI prompts for art, assets, content

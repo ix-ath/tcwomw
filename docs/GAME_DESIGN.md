@@ -120,25 +120,52 @@ Letters from the target phrase are scattered across the playing field in a grid 
 
 ## 6. PROGRESSION SYSTEM
 
-### Work Orders
-Levels are presented as contracts on a clipboard:
-- **Low Pressure**: Easy words, slow descent
-- **High Output**: Medium phrases, normal speed
-- **Experimental**: Hard sentences, fast descent
+### Campaign: Books & Chapters
 
-### Machine Repair (Win Condition)
-Earn "Company Scrip" to purchase repairs:
-- **Hydraulics** (0-100%): Extra lives
-- **Steam Vent** (0-100%): Vent effectiveness
-- **Brass Gears** (0-100%): Combo multiplier
+**Structure:**
+- **Campaign** = ~40 Books
+- **Book** = 3-5 Chapters (thematic unit, micro-story)
+- **Chapter** = 5-10 words/phrases/sentences
 
-**Story Goal**: All components reach 100% repair.
+**Content scales with progression:**
+- Books 1-5: Single words (4-6 letters)
+- Books 6-15: Longer words, 2-word phrases
+- Books 16-30: Phrases, 3-5 words
+- Books 31-40: Full sentences, story beats
 
-### Post-Game: The Breakroom
-Unlocks "Free Play" mode with:
-- Public Domain Literature library
-- Steam Workshop imports
-- Peaceful, low-gravity review zone
+**Loss = restart chapter** (not entire book). Early chapters ~30 sec, later chapters ~2 min.
+
+### Cube Scrap Economy
+
+**Currency:** Cube Scrap (earned from failures)
+
+| Source | Scrap |
+|--------|-------|
+| Wrong letter | 1 |
+| Lost chapter | 5-10 |
+| Book completion | Bonus |
+
+**Spend on helpers:** Theme (1), Tag (5), Keep Highlight (10-25), Heavy Letters (50), etc.
+
+### Helper Philosophy
+
+**Accessibility first:** All helpers equippable simultaneously. A child can finish the campaign by unlocking enough helpers.
+
+**Mastery track:** Score multiplier decreases with helper count. Naked runs = 1.5x multiplier.
+
+### The Break Room Hub
+
+Depressing workplace break room. Fixtures unlock with book completions:
+
+| Fixture | Unlock | Function |
+|---------|--------|----------|
+| Chair | Start | Start a run |
+| Crack in tile | Start | The Pit, spend scrap |
+| Fridge | 5 books | Scoreboard |
+| Locker | 20 books | Loadout |
+| Window | 40 books | Endless mode |
+
+See `CORE_LOOP_SPEC.md` for full campaign details.
 
 ---
 
@@ -148,11 +175,14 @@ Unlocks "Free Play" mode with:
 On loss, the Crusher performs a final stomp:
 1. All loose letters fuse into a "Trash Cube" (The Bale)
 2. The Bale falls into The Pit
-3. Serves as a permanent monument to failure
+3. Player restarts the current chapter (not the whole book)
+4. Cube Scrap earned from all mistakes during the failed attempt
 
 ### The Pit of Failure
-- Persistent visual vault beneath the playing field
+- Persistent visual vault (separate screen from Break Room)
 - Stores every missed letter and Bale in career
+- **Never shrinks** - permanent monument to all failures
+- Lifetime count is spendable as Cube Scrap
 - Uses 3pt font for massive scale (10,000+ letters)
 - Static batching for performance
 

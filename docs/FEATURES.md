@@ -62,33 +62,66 @@ Status Legend:
 
 ---
 
-## PHASE 3: ECONOMY & PROGRESSION
+## PHASE 3: CAMPAIGN & PROGRESSION
 
-### Scrap Economy
-- [📋] FB.60: Scrap conversion system
-- [📋] FB.61: Scrap display in HUD
-- [📋] FB.62: Conversion ratio tuning
-- [💭] FB.63: Scrap multipliers (streaks, etc.)
+### Tutorial System
+- [📋] FB.60: Tutorial scene (ON → START → OOPS sequence)
+- [📋] FB.61: OOPS scramble mechanic (teaches wrong-position)
+- [📋] FB.62: Impossible sentence (forces first failure)
+- [📋] FB.63: Pit introduction screen
+- [📋] FB.64: Theme unlock purchase (1 scrap)
+- [📋] FB.65: "Figured Out the Impossible" achievement
 
-### Machine Repair
-- [📋] FB.70: Repair tracking system (3 components)
-- [📋] FB.71: Scrip shop UI
-- [📋] FB.72: Component visual states (broken → polished)
-- [📋] FB.73: Win condition check (100% all)
-- [📋] FB.74: Breakroom unlock
+### Campaign Structure
+- [📋] FB.70: Book/Chapter data structure
+- [📋] FB.71: Chapter progression (5-10 items per chapter)
+- [📋] FB.72: Book progression (~40 books total)
+- [📋] FB.73: Loss = restart chapter (not book)
+- [📋] FB.74: Content scaling (words → phrases → sentences)
+- [📋] FB.75: Boss word/sentence per chapter
+- [💭] FB.76: Paragraph mode (split into half-lines)
 
-### Hydraulic Buffers
-- [📋] FB.80: Buffer system (extra lives)
-- [📋] FB.81: 50% height reset on buffer use
-- [💭] FB.82: Reset state (clear board vs. keep rubble)
-- [📋] FB.83: Buffer purchase in shop
+### Cube Scrap Economy
+- [📋] FB.80: Cube Scrap currency system
+- [📋] FB.81: Scrap earned on wrong letter (1 each)
+- [📋] FB.82: Scrap earned on chapter loss (5-10)
+- [📋] FB.83: Book completion bonuses
+- [📋] FB.84: Scrap display in HUD
+- [📋] FB.85: Scrap spending UI (in Pit)
 
-### Dictionary Tiers
-- [📋] FB.90: Tier unlock system
-- [📋] FB.91: Industrial word list
-- [📋] FB.92: Scientific word list
-- [📋] FB.93: Gothic word list
-- [💭] FB.94: Progression path (linear vs. tree)
+### Helper/Upgrade System
+- [📋] FB.90: Theme unlock (1 scrap)
+- [📋] FB.91: Tag unlock (5 scrap)
+- [📋] FB.92: Keep Highlight I/II/III (10/25/50 scrap)
+- [📋] FB.93: Heavy Letters upgrade (50 scrap)
+- [📋] FB.94: First Word Glow (75 scrap)
+- [📋] FB.95: First Letter Focus (100 scrap)
+- [📋] FB.96: Helper loadout (all equippable)
+- [📋] FB.97: Score multiplier penalty for helpers
+- [💭] FB.98: Endgame auto-type assists
+- [💭] FB.99: Full automation (idle mode)
+
+### Break Room Hub
+- [📋] FB.100: Break Room scene
+- [📋] FB.101: Chair fixture (start runs)
+- [📋] FB.102: Crack in tile (Pit access)
+- [📋] FB.103: Fridge (scoreboard) - unlock at 5 books
+- [📋] FB.104: Bulletin Board (mutators) - unlock at 10 books
+- [📋] FB.105: Microwave (quick play) - unlock at 15 books
+- [📋] FB.106: Locker (loadout) - unlock at 20 books
+- [📋] FB.107: Time Clock (daily challenge) - unlock at 30 books
+- [📋] FB.108: Window (endless/ending) - unlock at 40 books
+- [💭] FB.109: Environmental lore per fixture
+
+### Mutator System
+- [📋] FB.110: Mutator unlock progression
+- [📋] FB.111: Foggy Lens mutator (+20% scrap)
+- [📋] FB.112: Crumbling Type mutator (+30% scrap)
+- [📋] FB.113: No Theme mutator (+50% scrap)
+- [📋] FB.114: Mirror Shift mutator (+25% scrap)
+- [📋] FB.115: Heavy Ink mutator (+40% scrap)
+- [📋] FB.116: Sticky Keys mutator (+35% scrap)
+- [📋] FB.117: Mutator stacking (late game)
 
 ---
 
@@ -181,12 +214,14 @@ Status Legend:
 
 ## KNOWN HOLES (Design Decisions Needed)
 
-| ID | Topic | Question |
-|----|-------|----------|
-| HOLE.01 | Punctuation | How to handle leading/trailing punctuation? |
-| HOLE.02 | Sandbagging | How to detect/prevent baseline manipulation? |
-| HOLE.03 | Penalty Persistence | How long do penalty letters stay on board? |
-| HOLE.04 | Shockwave Physics | Radial vs. linear force for clearance blast? |
-| HOLE.05 | Scrap Ratio | What's the error → scrap conversion rate? |
-| HOLE.06 | Buffer Reset | Clear board or keep rubble on buffer use? |
-| HOLE.07 | Tier Progression | Linear unlock path or branching tree? |
+| ID | Topic | Question | Status |
+|----|-------|----------|--------|
+| HOLE.01 | Punctuation | How to handle leading/trailing punctuation? | Open |
+| HOLE.02 | Sandbagging | How to detect/prevent baseline manipulation? | Open |
+| HOLE.03 | Penalty Persistence | How long do penalty letters stay on board? | Open |
+| HOLE.04 | Shockwave Physics | Radial vs. linear force for clearance blast? | Open |
+| HOLE.05 | Scrap Ratio | What's the error → scrap conversion rate? | **Resolved:** 1 scrap per wrong letter, 5-10 per lost chapter |
+| HOLE.06 | Buffer Reset | Clear board or keep rubble on buffer use? | Open |
+| HOLE.07 | Tier Progression | Linear unlock path or branching tree? | **Resolved:** Linear books, all helpers equippable |
+| HOLE.08 | Loss Scope | Restart word, chapter, or book on loss? | **Resolved:** Restart chapter only |
+| HOLE.09 | Helper Limits | Loadout restrictions? | **Resolved:** No limits, score penalty instead |
