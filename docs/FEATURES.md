@@ -171,7 +171,7 @@ Status Legend:
 
 ### Quality of Life
 - [✅] FB.150: Settings menu (Visual/Audio/Controls/Gameplay tabs)
-- [✅] FB.151: Key rebinding (Pause key)
+- [✅] FB.151: Key rebinding (Pause/Restart/Mute keys)
 - [📋] FB.152: Save/load system
 - [📋] FB.153: Statistics tracking
 - [✅] FB.154: Pause menu (ESC in GameScene)
@@ -180,6 +180,9 @@ Status Legend:
 - [✅] FB.157: Mouse-only mode (click letters for tablet/accessibility)
 - [✅] FB.158: Screen shake toggle
 - [✅] FB.159: UI font scaling (Small/Medium/Large)
+- [✅] FB.160a: Settings descriptions/tooltips for all options
+- [✅] FB.160b: Settings access from PauseScene
+- [✅] FB.160c: Visual feedback (toast notifications) for setting changes
 
 ---
 

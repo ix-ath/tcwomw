@@ -149,8 +149,8 @@ BootScene → PreloadScene → MenuScene → BreakRoomScene → TutorialScene (f
 
 - **BreakRoomScene**: Hub with clickable fixtures and keyboard navigation. Checks tutorial completion.
 - **TutorialScene**: Scripted tutorial using ScriptedEvent framework.
-- **PauseScene**: Overlay launched via ESC during gameplay. Resume/Restart/Quit options.
-- **SettingsScene**: Full settings menu accessible from MenuScene. Visual/Audio/Controls/Gameplay tabs.
+- **PauseScene**: Overlay launched via ESC during gameplay. Resume/Restart/Settings/Quit options.
+- **SettingsScene**: Full settings menu accessible from MenuScene and PauseScene. Visual/Audio/Controls/Gameplay tabs with descriptions.
 - **GameScene** and **UIScene** run in parallel during gameplay. Scenes communicate via:
 - **Registry**: Shared state (progress, config, selectedDifficulty)
 - **Events**: Cross-scene events via `scene.events` using `GameEvents` enum
@@ -213,7 +213,7 @@ All menu scenes support both arrow keys and WASD for navigation:
 | MenuScene | W/S/Up/Down to navigate, Enter/Space to confirm |
 | SettingsScene | Tab/Q/E to switch tabs, W/S to select item, A/D to adjust, ESC to back |
 | BreakRoomScene | Arrows/WASD to select fixture, Enter/Space to interact, ESC for menu |
-| GameScene | Type letters to play (or click in mouse-only mode), ESC to pause |
+| GameScene | Type letters to play (or click in mouse-only mode), ESC/Pause key to pause, R to restart, M to mute |
 | PauseScene | W/S/Up/Down to navigate, Enter/Space to confirm, ESC to resume |
 | ResultScene | Space/Enter to continue, ESC for menu |
 
@@ -284,7 +284,7 @@ See `docs/PROMPTS.md` for reusable AI art prompts.
 | **Audio** | SFX volume | ✅ Slider |
 | **Audio** | UI sounds volume | ✅ Slider |
 | **Audio** | Mute all | ✅ Toggle |
-| **Controls** | Key rebinding (Pause key) | ✅ Expandable |
+| **Controls** | Key rebinding (Pause/Restart/Mute) | ✅ Configurable |
 | **Controls** | Mouse-only mode | ✅ Click letters for tablet play |
 | **Gameplay** | Show letter order | ✅ Debug assist, highlights next letter |
 

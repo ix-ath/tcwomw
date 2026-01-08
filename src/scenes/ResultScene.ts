@@ -237,7 +237,10 @@ export class ResultScene extends Phaser.Scene {
     }
     
     // Key hints
-    this.add.text(GAME_WIDTH / 2, 600, this.won ? '[SPACE] CONTINUE  •  [ESC] MENU' : '[ENTER] RETRY  •  [ESC] MENU', {
+    const hintText = this.won
+      ? '[SPACE/ENTER] CONTINUE  \u2022  [ESC] MENU'
+      : '[ENTER] RETRY  \u2022  [ESC] MENU';
+    this.add.text(GAME_WIDTH / 2, 600, hintText, {
       fontFamily: 'VT323, monospace',
       fontSize: '16px',
       color: COLORS.TERMINAL_GREEN_CSS,

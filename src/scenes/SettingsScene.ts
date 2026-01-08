@@ -27,6 +27,7 @@ interface SettingItem {
   min?: number;
   max?: number;
   step?: number;
+  description?: string;  // Tooltip/help text shown below the setting
 }
 
 export class SettingsScene extends Phaser.Scene {
@@ -38,6 +39,8 @@ export class SettingsScene extends Phaser.Scene {
   private settingsContent!: Phaser.GameObjects.Container;
   private isRebinding: boolean = false;
   private rebindTarget: string | null = null;
+  private toastText: Phaser.GameObjects.Text | null = null;
+  private toastTween: Phaser.Tweens.Tween | null = null;
 
   // Settings definitions by category
   private categorySettings: Record<SettingCategory, SettingItem[]> = {
@@ -54,6 +57,7 @@ export class SettingsScene extends Phaser.Scene {
           { value: 'deuteranopia', label: 'Deuteranopia (Green-Weak)' },
           { value: 'tritanopia', label: 'Tritanopia (Blue-Weak)' },
         ],
+        description: 'Adjust colors for colorblind accessibility',
       },
       {
         key: 'fontScale',
@@ -66,6 +70,7 @@ export class SettingsScene extends Phaser.Scene {
           { value: 'medium', label: 'Medium' },
           { value: 'large', label: 'Large' },
         ],
+        description: 'Scale menu text (does not affect game board)',
       },
       {
         key: 'screenShake',
@@ -73,6 +78,7 @@ export class SettingsScene extends Phaser.Scene {
         type: 'toggle',
         getValue: () => SettingsManager.isScreenShakeEnabled(),
         setValue: (v) => SettingsManager.setScreenShake(v as boolean),
+        description: 'Camera shake on errors and impacts',
       },
     ],
     audio: [
@@ -85,6 +91,7 @@ export class SettingsScene extends Phaser.Scene {
         min: 0,
         max: 100,
         step: 5,
+        description: 'Background music volume',
       },
       {
         key: 'sfxVolume',
@@ -95,6 +102,7 @@ export class SettingsScene extends Phaser.Scene {
         min: 0,
         max: 100,
         step: 5,
+        description: 'Sound effects (typing, errors, impacts)',
       },
       {
         key: 'uiVolume',
@@ -105,6 +113,7 @@ export class SettingsScene extends Phaser.Scene {
         min: 0,
         max: 100,
         step: 5,
+        description: 'Menu navigation and button sounds',
       },
       {
         key: 'muteAll',
@@ -112,15 +121,17 @@ export class SettingsScene extends Phaser.Scene {
         type: 'toggle',
         getValue: () => SettingsManager.isMuted(),
         setValue: (v) => SettingsManager.setMuteAll(v as boolean),
+        description: 'Silence all game audio',
       },
     ],
     controls: [
       {
         key: 'mouseOnlyMode',
-        label: 'Mouse-Only Mode (Click letters)',
+        label: 'Mouse-Only Mode',
         type: 'toggle',
         getValue: () => SettingsManager.isMouseOnlyMode(),
         setValue: (v) => SettingsManager.setMouseOnlyMode(v as boolean),
+        description: 'Click letters instead of typing (tablet/accessibility)',
       },
       {
         key: 'pause',
@@ -128,6 +139,23 @@ export class SettingsScene extends Phaser.Scene {
         type: 'keybind',
         getValue: () => SettingsManager.getKeyBindings().pause,
         setValue: (v) => SettingsManager.setKeyBinding('pause', v as string),
+        description: 'Pause the game during gameplay',
+      },
+      {
+        key: 'restart',
+        label: 'Quick Restart Key',
+        type: 'keybind',
+        getValue: () => SettingsManager.getKeyBindings().restart,
+        setValue: (v) => SettingsManager.setKeyBinding('restart', v as string),
+        description: 'Restart the current word/level',
+      },
+      {
+        key: 'mute',
+        label: 'Mute Toggle Key',
+        type: 'keybind',
+        getValue: () => SettingsManager.getKeyBindings().mute,
+        setValue: (v) => SettingsManager.setKeyBinding('mute', v as string),
+        description: 'Toggle all audio on/off',
       },
     ],
     gameplay: [
@@ -137,6 +165,7 @@ export class SettingsScene extends Phaser.Scene {
         type: 'toggle',
         getValue: () => SettingsManager.isShowLetterOrder(),
         setValue: (v) => SettingsManager.setShowLetterOrder(v as boolean),
+        description: 'Highlights the next letter to type (testing assist)',
       },
     ],
   };
@@ -235,7 +264,7 @@ export class SettingsScene extends Phaser.Scene {
 
     const settings = this.categorySettings[this.currentCategory];
     const startY = 20;
-    const itemHeight = 60;
+    const itemHeight = 70;  // Increased to fit descriptions
     const leftX = 200;
     const rightX = GAME_WIDTH - 200;
 
@@ -263,13 +292,23 @@ export class SettingsScene extends Phaser.Scene {
     const container = this.add.container(0, y);
 
     // Label
-    const label = this.add.text(leftX, 0, setting.label, {
+    const label = this.add.text(leftX, -8, setting.label, {
       fontFamily: 'VT323, monospace',
       fontSize: '26px',
       color: COLORS.TERMINAL_GREEN_CSS,
     }).setOrigin(0, 0.5);
 
     container.add(label);
+
+    // Description (shown below label, dimmed)
+    if (setting.description) {
+      const desc = this.add.text(leftX, 14, setting.description, {
+        fontFamily: 'VT323, monospace',
+        fontSize: '16px',
+        color: COLORS.TERMINAL_GREEN_CSS,
+      }).setOrigin(0, 0.5).setAlpha(0.5);
+      container.add(desc);
+    }
 
     // Selection indicator (hidden by default)
     const indicator = this.add.text(leftX - 30, 0, '>', {
@@ -507,6 +546,9 @@ export class SettingsScene extends Phaser.Scene {
     toggleFill.setFillStyle(newValue ? COLORS.TERMINAL_GREEN : 0x333333);
     toggleText.setText(newValue ? 'ON' : 'OFF');
     toggleText.setColor(newValue ? '#000000' : COLORS.TERMINAL_GREEN_CSS);
+
+    // Toast notification
+    this.showToast(`${setting.label}: ${newValue ? 'ON' : 'OFF'}`);
   }
 
   private adjustSlider(container: Phaser.GameObjects.Container, delta: number): void {
@@ -519,6 +561,9 @@ export class SettingsScene extends Phaser.Scene {
 
     setting.setValue(newValue);
     this.updateSliderVisual(container, newValue, max);
+
+    // Toast notification (debounced by the toast system)
+    this.showToast(`${setting.label}: ${newValue}%`);
   }
 
   private adjustSliderFromPointer(
@@ -569,6 +614,9 @@ export class SettingsScene extends Phaser.Scene {
     // Update visual
     const selectText = container.getData('selectText') as Phaser.GameObjects.Text;
     selectText.setText(newOption.label);
+
+    // Toast notification
+    this.showToast(`${setting.label}: ${newOption.label}`);
   }
 
   private startRebind(container: Phaser.GameObjects.Container): void {
@@ -600,6 +648,9 @@ export class SettingsScene extends Phaser.Scene {
 
     this.isRebinding = false;
     this.rebindTarget = null;
+
+    // Toast notification
+    this.showToast(`${setting.label} set to: ${key}`);
   }
 
   private createFooter(): void {
@@ -740,10 +791,45 @@ export class SettingsScene extends Phaser.Scene {
   private resetDefaults(): void {
     SettingsManager.resetToDefaults();
     this.renderSettings();
+    this.showToast('Settings reset to defaults');
   }
 
   private goBack(): void {
     // Return to the scene that launched settings
     this.scene.start('MenuScene');
+  }
+
+  /**
+   * Show a toast notification when a setting changes.
+   */
+  private showToast(message: string): void {
+    // Cancel any existing toast
+    if (this.toastTween) {
+      this.toastTween.stop();
+    }
+
+    // Create toast if doesn't exist
+    if (!this.toastText) {
+      this.toastText = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 100, '', {
+        fontFamily: 'VT323, monospace',
+        fontSize: '20px',
+        color: '#000000',
+        backgroundColor: '#00ff41',
+        padding: { x: 16, y: 8 },
+      }).setOrigin(0.5).setAlpha(0).setDepth(100);
+    }
+
+    // Update text and show
+    this.toastText.setText(message);
+    this.toastText.setAlpha(1);
+
+    // Fade out after delay
+    this.toastTween = this.tweens.add({
+      targets: this.toastText,
+      alpha: 0,
+      duration: 300,
+      delay: 1500,
+      ease: 'Power2',
+    });
   }
 }

@@ -48,7 +48,9 @@ function createDefaultSettings(): Settings {
     controls: {
       mouseOnlyMode: false,
       keyBindings: {
-        pause: 'ESC',
+        pause: 'ESCAPE',
+        restart: 'R',
+        mute: 'M',
       },
     },
     gameplay: {

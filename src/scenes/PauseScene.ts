@@ -6,10 +6,13 @@
 
 import Phaser from 'phaser';
 import { COLORS, GAME_WIDTH, GAME_HEIGHT } from '../constants';
+import { SettingsManager } from '../systems/SettingsManager';
+import { getScaledFontSize } from '../utils/fontScaling';
 
 export class PauseScene extends Phaser.Scene {
   private buttons: Phaser.GameObjects.Container[] = [];
   private selectedIndex: number = 0;
+  private scaledTexts: { text: Phaser.GameObjects.Text; baseSize: number }[] = [];
 
   constructor() {
     super({ key: 'PauseScene' });
@@ -18,12 +21,26 @@ export class PauseScene extends Phaser.Scene {
   create(): void {
     this.selectedIndex = 0;
     this.buttons = [];
+    this.scaledTexts = [];
 
     this.createOverlay();
     this.createTitle();
     this.createButtons();
     this.createFooter();
     this.setupInput();
+
+    // Subscribe to font scale changes
+    SettingsManager.onChange('fontScale', () => this.updateFontScales());
+  }
+
+  private updateFontScales(): void {
+    this.scaledTexts.forEach(({ text, baseSize }) => {
+      text.setFontSize(getScaledFontSize(baseSize));
+    });
+  }
+
+  private trackScaledText(text: Phaser.GameObjects.Text, baseSize: number): void {
+    this.scaledTexts.push({ text, baseSize });
   }
 
   private createOverlay(): void {
@@ -36,7 +53,7 @@ export class PauseScene extends Phaser.Scene {
   }
 
   private createTitle(): void {
-    const title = this.add.text(GAME_WIDTH / 2, 220, 'PAUSED', {
+    const title = this.add.text(GAME_WIDTH / 2, 200, 'PAUSED', {
       fontFamily: 'VT323, monospace',
       fontSize: '64px',
       color: COLORS.TERMINAL_GREEN_CSS,
@@ -46,12 +63,13 @@ export class PauseScene extends Phaser.Scene {
   }
 
   private createButtons(): void {
-    const startY = 320;
-    const spacing = 60;
+    const startY = 280;
+    const spacing = 55;
 
     const options = [
       { label: 'RESUME', action: () => this.resume() },
       { label: 'RESTART', action: () => this.restart() },
+      { label: 'SETTINGS', action: () => this.openSettings() },
       { label: 'QUIT TO HUB', action: () => this.quitToHub() },
     ];
 
@@ -68,15 +86,16 @@ export class PauseScene extends Phaser.Scene {
     const container = this.add.container(x, y);
 
     // Button background
-    const bg = this.add.rectangle(0, 0, 260, 45, 0x000000)
+    const bg = this.add.rectangle(0, 0, 260, 42, 0x000000)
       .setStrokeStyle(2, COLORS.TERMINAL_GREEN);
 
-    // Button text
+    // Button text (scaled)
     const label = this.add.text(0, 0, text, {
       fontFamily: 'VT323, monospace',
-      fontSize: '28px',
+      fontSize: `${getScaledFontSize(26)}px`,
       color: COLORS.TERMINAL_GREEN_CSS,
     }).setOrigin(0.5);
+    this.trackScaledText(label, 26);
 
     container.add([bg, label]);
 
@@ -116,11 +135,12 @@ export class PauseScene extends Phaser.Scene {
   }
 
   private createFooter(): void {
-    this.add.text(GAME_WIDTH / 2, 520, '[W/S or \u2191/\u2193] SELECT  \u2022  [ENTER] CONFIRM  \u2022  [ESC] RESUME', {
+    const hint = this.add.text(GAME_WIDTH / 2, 530, '[W/S or \u2191/\u2193] SELECT  \u2022  [ENTER] CONFIRM  \u2022  [ESC] RESUME', {
       fontFamily: 'VT323, monospace',
-      fontSize: '16px',
+      fontSize: `${getScaledFontSize(16)}px`,
       color: COLORS.TERMINAL_GREEN_CSS,
     }).setOrigin(0.5).setAlpha(0.5);
+    this.trackScaledText(hint, 16);
   }
 
   private setupInput(): void {
@@ -176,5 +196,14 @@ export class PauseScene extends Phaser.Scene {
     this.scene.stop('UIScene');
     this.scene.stop('GameScene');
     this.scene.start('BreakRoomScene');
+  }
+
+  private openSettings(): void {
+    // Stop the pause overlay and game scenes, go to settings
+    // Settings will return to MenuScene, which is fine for now
+    this.scene.stop();
+    this.scene.stop('UIScene');
+    this.scene.stop('GameScene');
+    this.scene.start('SettingsScene');
   }
 }

@@ -60,7 +60,8 @@ src/
 │
 ├── utils/                  # Helper functions
 │   ├── wordUtils.ts        # Phrase data & scrambling
-│   └── colorblindFilter.ts # CSS colorblind filter utility
+│   ├── colorblindFilter.ts # CSS colorblind filter utility
+│   └── fontScaling.ts      # Font scaling utility for UI text
 │
 └── assets/                 # Game assets
     ├── audio/
@@ -101,7 +102,7 @@ BootScene → PreloadScene → MenuScene → BreakRoomScene → TutorialScene (f
 | TutorialScene | Teaches mechanics via scripted events | No |
 | GameScene | Core gameplay loop | Yes (with UI) |
 | UIScene | HUD overlay | Yes (with Game) |
-| PauseScene | Pause overlay (Resume/Restart/Quit) | Yes (over Game) |
+| PauseScene | Pause overlay (Resume/Restart/Settings/Quit) | Yes (over Game) |
 | SettingsScene | Visual/Audio/Controls/Gameplay settings | No |
 | ResultScene | Stats, continue/retry | No |
 

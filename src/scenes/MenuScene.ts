@@ -8,26 +8,43 @@ import Phaser from 'phaser';
 import { COLORS, GAME_WIDTH, GAME_HEIGHT } from '../constants';
 import { Difficulty } from '../types';
 import { SaveManager } from '../systems/SaveManager';
+import { SettingsManager } from '../systems/SettingsManager';
+import { getScaledFontSize } from '../utils/fontScaling';
 
 export class MenuScene extends Phaser.Scene {
   private buttons: Phaser.GameObjects.Container[] = [];
   private selectedIndex: number = 0;
+  private scaledTexts: { text: Phaser.GameObjects.Text; baseSize: number }[] = [];
 
   constructor() {
     super({ key: 'MenuScene' });
   }
 
   create(): void {
+    this.scaledTexts = [];
     this.createTitle();
     this.createDifficultyButtons();
     this.createFooter();
     this.setupInput();
+
+    // Subscribe to font scale changes
+    SettingsManager.onChange('fontScale', () => this.updateFontScales());
+  }
+
+  private updateFontScales(): void {
+    this.scaledTexts.forEach(({ text, baseSize }) => {
+      text.setFontSize(getScaledFontSize(baseSize));
+    });
+  }
+
+  private trackScaledText(text: Phaser.GameObjects.Text, baseSize: number): void {
+    this.scaledTexts.push({ text, baseSize });
   }
 
   private createTitle(): void {
     const centerX = GAME_WIDTH / 2;
 
-    // Main title
+    // Main title (not scaled - it's the logo)
     const title = this.add.text(centerX, 120, 'THE CRUSHING\nWEIGHT OF\nMY WORDS', {
       fontFamily: 'VT323, monospace',
       fontSize: '72px',
@@ -39,12 +56,13 @@ export class MenuScene extends Phaser.Scene {
     // Add glow effect via shadow
     title.setShadow(0, 0, COLORS.TERMINAL_GREEN_CSS, 10, true, true);
 
-    // Tagline
-    this.add.text(centerX, 300, '"TYPE THE TRUTH OR BE ERASED"', {
+    // Tagline (scaled)
+    const tagline = this.add.text(centerX, 300, '"TYPE THE TRUTH OR BE ERASED"', {
       fontFamily: 'VT323, monospace',
-      fontSize: '24px',
+      fontSize: `${getScaledFontSize(24)}px`,
       color: COLORS.TERMINAL_GREEN_CSS,
     }).setOrigin(0.5).setAlpha(0.7);
+    this.trackScaledText(tagline, 24);
   }
 
   private createDifficultyButtons(): void {
@@ -106,12 +124,13 @@ export class MenuScene extends Phaser.Scene {
     const bg = this.add.rectangle(0, 0, 280, 50, 0x000000)
       .setStrokeStyle(3, COLORS.TERMINAL_GREEN);
 
-    // Button text
+    // Button text (scaled)
     const label = this.add.text(0, 0, text, {
       fontFamily: 'VT323, monospace',
-      fontSize: '32px',
+      fontSize: `${getScaledFontSize(32)}px`,
       color: COLORS.TERMINAL_GREEN_CSS,
     }).setOrigin(0.5);
+    this.trackScaledText(label, 32);
 
     container.add([bg, label]);
 
@@ -155,18 +174,20 @@ export class MenuScene extends Phaser.Scene {
   private createFooter(): void {
     const centerX = GAME_WIDTH / 2;
 
-    this.add.text(centerX, GAME_HEIGHT - 50, '[ TRANSMIT TO SURVIVE ]', {
+    const motto = this.add.text(centerX, GAME_HEIGHT - 50, '[ TRANSMIT TO SURVIVE ]', {
       fontFamily: 'VT323, monospace',
-      fontSize: '18px',
+      fontSize: `${getScaledFontSize(18)}px`,
       color: COLORS.TERMINAL_GREEN_CSS,
     }).setOrigin(0.5).setAlpha(0.4);
+    this.trackScaledText(motto, 18);
 
     // Controls hint
-    this.add.text(centerX, GAME_HEIGHT - 25, '[W/S or \u2191/\u2193] SELECT  \u2022  [ENTER] START', {
+    const hint = this.add.text(centerX, GAME_HEIGHT - 25, '[W/S or \u2191/\u2193] SELECT  \u2022  [ENTER] START', {
       fontFamily: 'VT323, monospace',
-      fontSize: '16px',
+      fontSize: `${getScaledFontSize(16)}px`,
       color: COLORS.TERMINAL_GREEN_CSS,
     }).setOrigin(0.5).setAlpha(0.4);
+    this.trackScaledText(hint, 16);
   }
 
   private setupInput(): void {

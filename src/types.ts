@@ -348,8 +348,9 @@ export interface ControlSettings {
 
 /** Rebindable key actions */
 export interface KeyBindings {
-  pause: string;           // Default: 'ESC'
-  // Future: add more rebindable keys as needed
+  pause: string;           // Default: 'ESCAPE'
+  restart: string;         // Default: 'R' - Quick restart during gameplay
+  mute: string;            // Default: 'M' - Toggle mute
 }
 
 /** Gameplay/debug settings */

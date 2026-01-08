@@ -28,6 +28,9 @@ export class BreakRoomScene extends Phaser.Scene {
   private fixtures: Fixture[] = [];
   private fixtureContainers: Map<string, Phaser.GameObjects.Container> = new Map();
   private tooltipContainer!: Phaser.GameObjects.Container;
+  private selectedFixtureIndex: number = 0;
+  private activeModal: Phaser.GameObjects.Text | null = null;
+  private modalDismissHandler: (() => void) | null = null;
 
   constructor() {
     super({ key: 'BreakRoomScene' });
@@ -327,10 +330,10 @@ export class BreakRoomScene extends Phaser.Scene {
       .on('pointerdown', () => this.scene.start('MenuScene'));
 
     // Instructions
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 30, 'CLICK A FIXTURE TO INTERACT', {
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 30, '[\u2190/\u2192 or A/D] SELECT  \u2022  [ENTER] INTERACT  \u2022  [ESC] MENU', {
       fontFamily: 'VT323, monospace',
-      fontSize: '18px',
-      color: '#444444',
+      fontSize: '16px',
+      color: '#666666',
     }).setOrigin(0.5);
   }
 
@@ -425,17 +428,148 @@ export class BreakRoomScene extends Phaser.Scene {
   private setupInput(): void {
     // ESC to go to menu
     this.input.keyboard?.on('keydown-ESC', () => {
+      // If modal is open, let modal handler deal with ESC
+      if (this.activeModal) return;
       this.scene.start('MenuScene');
     });
 
-    // Quick shortcuts
-    this.input.keyboard?.on('keydown-SPACE', () => {
-      this.startGame();
+    // Fixture navigation - cycle through fixtures
+    const navigatePrev = () => {
+      if (this.activeModal) return;
+      this.updateFixtureSelection(this.selectedFixtureIndex - 1);
+    };
+
+    const navigateNext = () => {
+      if (this.activeModal) return;
+      this.updateFixtureSelection(this.selectedFixtureIndex + 1);
+    };
+
+    // Arrow keys
+    this.input.keyboard?.on('keydown-LEFT', navigatePrev);
+    this.input.keyboard?.on('keydown-RIGHT', navigateNext);
+    this.input.keyboard?.on('keydown-UP', navigatePrev);
+    this.input.keyboard?.on('keydown-DOWN', navigateNext);
+
+    // WASD
+    this.input.keyboard?.on('keydown-A', navigatePrev);
+    this.input.keyboard?.on('keydown-D', navigateNext);
+    this.input.keyboard?.on('keydown-W', navigatePrev);
+    this.input.keyboard?.on('keydown-S', navigateNext);
+
+    // Activate selected fixture
+    this.input.keyboard?.on('keydown-ENTER', () => {
+      if (this.activeModal) return;
+      this.activateSelectedFixture();
     });
 
-    this.input.keyboard?.on('keydown-ENTER', () => {
-      this.startGame();
+    this.input.keyboard?.on('keydown-SPACE', () => {
+      if (this.activeModal) return;
+      this.activateSelectedFixture();
     });
+
+    // Initialize selection visual on first fixture
+    this.time.delayedCall(100, () => {
+      this.updateFixtureSelection(0);
+    });
+  }
+
+  // ===========================================================================
+  // MODAL HELPERS
+  // ===========================================================================
+
+  /** Show a modal with proper dismiss handling */
+  private showModal(content: string): void {
+    // Clean up any existing modal first
+    this.dismissModal();
+
+    const msg = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2, content, {
+      fontFamily: 'VT323, monospace',
+      fontSize: '20px',
+      color: COLORS.TERMINAL_GREEN_CSS,
+      align: 'center',
+      backgroundColor: '#000000',
+      padding: { x: 40, y: 30 },
+    }).setOrigin(0.5).setDepth(200);
+
+    this.activeModal = msg;
+
+    // Create dismiss handler with proper cleanup
+    const dismiss = () => {
+      this.dismissModal();
+    };
+
+    this.modalDismissHandler = dismiss;
+    this.input.on('pointerdown', dismiss);
+    this.input.keyboard?.on('keydown-ESC', dismiss);
+    this.input.keyboard?.on('keydown-ENTER', dismiss);
+    this.input.keyboard?.on('keydown-SPACE', dismiss);
+  }
+
+  /** Dismiss the active modal and clean up listeners */
+  private dismissModal(): void {
+    if (this.activeModal && this.activeModal.active) {
+      this.activeModal.destroy();
+    }
+    this.activeModal = null;
+
+    if (this.modalDismissHandler) {
+      this.input.off('pointerdown', this.modalDismissHandler);
+      this.input.keyboard?.off('keydown-ESC', this.modalDismissHandler);
+      this.input.keyboard?.off('keydown-ENTER', this.modalDismissHandler);
+      this.input.keyboard?.off('keydown-SPACE', this.modalDismissHandler);
+      this.modalDismissHandler = null;
+    }
+  }
+
+  // ===========================================================================
+  // FIXTURE SELECTION
+  // ===========================================================================
+
+  /** Update visual highlight for selected fixture */
+  private updateFixtureSelection(newIndex: number): void {
+    // Wrap around
+    if (newIndex < 0) newIndex = this.fixtures.length - 1;
+    if (newIndex >= this.fixtures.length) newIndex = 0;
+
+    const oldIndex = this.selectedFixtureIndex;
+    this.selectedFixtureIndex = newIndex;
+
+    // Update old fixture visual (if different)
+    if (oldIndex !== newIndex) {
+      const oldFixture = this.fixtures[oldIndex];
+      const oldContainer = this.fixtureContainers.get(oldFixture.id);
+      if (oldContainer) {
+        const bg = oldContainer.list[0] as Phaser.GameObjects.Rectangle;
+        const isUnlocked = oldFixture.unlockRequirement();
+        bg.setStrokeStyle(2, isUnlocked ? COLORS.TERMINAL_GREEN : 0x444444);
+        oldContainer.setScale(1);
+      }
+    }
+
+    // Update new fixture visual
+    const newFixture = this.fixtures[newIndex];
+    const newContainer = this.fixtureContainers.get(newFixture.id);
+    if (newContainer) {
+      const bg = newContainer.list[0] as Phaser.GameObjects.Rectangle;
+      bg.setStrokeStyle(3, COLORS.OVERDRIVE_WHITE);
+      newContainer.setScale(1.05);
+
+      // Show tooltip for selected fixture
+      const isUnlocked = newFixture.unlockRequirement();
+      this.showTooltip(newFixture, isUnlocked);
+    }
+  }
+
+  /** Activate the currently selected fixture */
+  private activateSelectedFixture(): void {
+    const fixture = this.fixtures[this.selectedFixtureIndex];
+    const isUnlocked = fixture.unlockRequirement();
+
+    if (isUnlocked) {
+      this.fixtureClick(fixture);
+    } else {
+      this.showLockedMessage(fixture);
+    }
   }
 
   // ===========================================================================
@@ -470,22 +604,9 @@ export class BreakRoomScene extends Phaser.Scene {
     console.log(`Lifetime scrap: ${SaveManager.getLifetimeScrap()}`);
     console.log(`Current balance: ${SaveManager.getCubeScrap()}`);
 
-    // Placeholder: show stats
-    const msg = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2,
-      `THE PIT\n\nLifetime Failures: ${SaveManager.getLifetimeScrap()}\nSpendable Scrap: ${SaveManager.getCubeScrap()}\n\n[Coming Soon]`,
-      {
-        fontFamily: 'VT323, monospace',
-        fontSize: '24px',
-        color: COLORS.TERMINAL_GREEN_CSS,
-        align: 'center',
-        backgroundColor: '#000000',
-        padding: { x: 40, y: 30 },
-      }
-    ).setOrigin(0.5).setDepth(200);
-
-    // Click to dismiss
-    this.input.once('pointerdown', () => msg.destroy());
-    this.input.keyboard?.once('keydown', () => msg.destroy());
+    this.showModal(
+      `THE PIT\n\nLifetime Failures: ${SaveManager.getLifetimeScrap()}\nSpendable Scrap: ${SaveManager.getCubeScrap()}\n\n[Coming Soon]\n\n[Click or ESC to close]`
+    );
   }
 
   private openScoreboard(): void {
@@ -493,58 +614,25 @@ export class BreakRoomScene extends Phaser.Scene {
     console.log('[BreakRoom] Opening scoreboard...');
 
     const stats = SaveManager.getStats();
-    const msg = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2,
-      `SCOREBOARD\n\nChapters: ${stats.chaptersCompleted}\nStories: ${stats.storiesCompleted}\nBest WPM: ${stats.bestWPM}\nPerfect Runs: ${stats.perfectChapters}\nTotal Errors: ${stats.totalErrors}\nBales Created: ${stats.balesCreated}\n\n[Coming Soon]`,
-      {
-        fontFamily: 'VT323, monospace',
-        fontSize: '20px',
-        color: COLORS.TERMINAL_GREEN_CSS,
-        align: 'center',
-        backgroundColor: '#000000',
-        padding: { x: 40, y: 30 },
-      }
-    ).setOrigin(0.5).setDepth(200);
-
-    this.input.once('pointerdown', () => msg.destroy());
-    this.input.keyboard?.once('keydown', () => msg.destroy());
+    this.showModal(
+      `SCOREBOARD\n\nChapters: ${stats.chaptersCompleted}\nStories: ${stats.storiesCompleted}\nBest WPM: ${stats.bestWPM}\nPerfect Runs: ${stats.perfectChapters}\nTotal Errors: ${stats.totalErrors}\nBales Created: ${stats.balesCreated}\n\n[Coming Soon]\n\n[Click or ESC to close]`
+    );
   }
 
   private openMutators(): void {
     console.log('[BreakRoom] Opening mutators...');
 
-    const msg = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2,
-      'MUTATORS\n\n[Coming Soon]\n\nChallenge modifiers that\nincrease difficulty for\nbonus Cube Scrap.',
-      {
-        fontFamily: 'VT323, monospace',
-        fontSize: '20px',
-        color: COLORS.TERMINAL_GREEN_CSS,
-        align: 'center',
-        backgroundColor: '#000000',
-        padding: { x: 40, y: 30 },
-      }
-    ).setOrigin(0.5).setDepth(200);
-
-    this.input.once('pointerdown', () => msg.destroy());
-    this.input.keyboard?.once('keydown', () => msg.destroy());
+    this.showModal(
+      'MUTATORS\n\n[Coming Soon]\n\nChallenge modifiers that\nincrease difficulty for\nbonus Cube Scrap.\n\n[Click or ESC to close]'
+    );
   }
 
   private quickPlay(): void {
     console.log('[BreakRoom] Quick play...');
 
-    const msg = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2,
-      'QUICK PLAY\n\n[Coming Soon]\n\nJump into a random\nchapter for practice.',
-      {
-        fontFamily: 'VT323, monospace',
-        fontSize: '20px',
-        color: COLORS.TERMINAL_GREEN_CSS,
-        align: 'center',
-        backgroundColor: '#000000',
-        padding: { x: 40, y: 30 },
-      }
-    ).setOrigin(0.5).setDepth(200);
-
-    this.input.once('pointerdown', () => msg.destroy());
-    this.input.keyboard?.once('keydown', () => msg.destroy());
+    this.showModal(
+      'QUICK PLAY\n\n[Coming Soon]\n\nJump into a random\nchapter for practice.\n\n[Click or ESC to close]'
+    );
   }
 
   private openLoadout(): void {
@@ -553,58 +641,24 @@ export class BreakRoomScene extends Phaser.Scene {
     const unlocked = SaveManager.getUnlockedHelpers();
     const equipped = SaveManager.getEquippedHelpers();
 
-    const msg = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2,
-      `LOADOUT\n\nUnlocked Helpers: ${unlocked.length}\nEquipped: ${equipped.length}\n\n${unlocked.join(', ') || 'None yet'}\n\n[Coming Soon]`,
-      {
-        fontFamily: 'VT323, monospace',
-        fontSize: '18px',
-        color: COLORS.TERMINAL_GREEN_CSS,
-        align: 'center',
-        backgroundColor: '#000000',
-        padding: { x: 40, y: 30 },
-        wordWrap: { width: 400 },
-      }
-    ).setOrigin(0.5).setDepth(200);
-
-    this.input.once('pointerdown', () => msg.destroy());
-    this.input.keyboard?.once('keydown', () => msg.destroy());
+    this.showModal(
+      `LOADOUT\n\nUnlocked Helpers: ${unlocked.length}\nEquipped: ${equipped.length}\n\n${unlocked.join(', ') || 'None yet'}\n\n[Coming Soon]\n\n[Click or ESC to close]`
+    );
   }
 
   private dailyChallenge(): void {
     console.log('[BreakRoom] Daily challenge...');
 
-    const msg = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2,
-      'DAILY CHALLENGE\n\n[Coming Soon]\n\nNew challenge every day.\nCompete on the leaderboard.',
-      {
-        fontFamily: 'VT323, monospace',
-        fontSize: '20px',
-        color: COLORS.TERMINAL_GREEN_CSS,
-        align: 'center',
-        backgroundColor: '#000000',
-        padding: { x: 40, y: 30 },
-      }
-    ).setOrigin(0.5).setDepth(200);
-
-    this.input.once('pointerdown', () => msg.destroy());
-    this.input.keyboard?.once('keydown', () => msg.destroy());
+    this.showModal(
+      'DAILY CHALLENGE\n\n[Coming Soon]\n\nNew challenge every day.\nCompete on the leaderboard.\n\n[Click or ESC to close]'
+    );
   }
 
   private openEndless(): void {
     console.log('[BreakRoom] Endless mode...');
 
-    const msg = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2,
-      'THE WINDOW\n\n[Coming Soon]\n\nEndless mode.\nHow long can you last?',
-      {
-        fontFamily: 'VT323, monospace',
-        fontSize: '20px',
-        color: COLORS.TERMINAL_GREEN_CSS,
-        align: 'center',
-        backgroundColor: '#000000',
-        padding: { x: 40, y: 30 },
-      }
-    ).setOrigin(0.5).setDepth(200);
-
-    this.input.once('pointerdown', () => msg.destroy());
-    this.input.keyboard?.once('keydown', () => msg.destroy());
+    this.showModal(
+      'THE WINDOW\n\n[Coming Soon]\n\nEndless mode.\nHow long can you last?\n\n[Click or ESC to close]'
+    );
   }
 }
