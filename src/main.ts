@@ -15,6 +15,8 @@ import { TutorialScene } from '@scenes/TutorialScene';
 import { GameScene } from '@scenes/GameScene';
 import { UIScene } from '@scenes/UIScene';
 import { ResultScene } from '@scenes/ResultScene';
+import { PauseScene } from '@scenes/PauseScene';
+import { SettingsScene } from '@scenes/SettingsScene';
 
 // Game configuration
 const config: Phaser.Types.Core.GameConfig = {
@@ -49,6 +51,8 @@ const config: Phaser.Types.Core.GameConfig = {
     GameScene,
     UIScene,
     ResultScene,
+    PauseScene,
+    SettingsScene,
   ],
   
   // Rendering
@@ -57,11 +61,11 @@ const config: Phaser.Types.Core.GameConfig = {
     antialias: true,
   },
   
-  // Input
+  // Input - mouse/touch enabled for mouse-only mode and UI
   input: {
     keyboard: true,
-    mouse: false,
-    touch: false,
+    mouse: true,
+    touch: true,
   },
 };
 

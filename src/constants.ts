@@ -56,6 +56,7 @@ export const COLORS = {
   ERROR_RED: 0xff0000,
   ERROR_RED_CSS: '#ff0000',
   WARNING_ORANGE: 0xff8800,
+  WARNING_ORANGE_CSS: '#ff8800',
   
   // Highlights
   RADIOACTIVE: 0xccff00,

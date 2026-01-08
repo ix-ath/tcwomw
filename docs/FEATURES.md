@@ -102,26 +102,27 @@ Status Legend:
 - [💭] FB.99: Full automation (idle mode)
 
 ### Break Room Hub
-- [📋] FB.100: Break Room scene
-- [📋] FB.101: Chair fixture (start runs)
-- [📋] FB.102: Crack in tile (Pit access)
-- [📋] FB.103: Fridge (scoreboard) - unlock at 5 books
-- [📋] FB.104: Bulletin Board (mutators) - unlock at 10 books
-- [📋] FB.105: Microwave (quick play) - unlock at 15 books
-- [📋] FB.106: Locker (loadout) - unlock at 20 books
-- [📋] FB.107: Time Clock (daily challenge) - unlock at 30 books
-- [📋] FB.108: Window (endless/ending) - unlock at 40 books
-- [💭] FB.109: Environmental lore per fixture
+- [✅] FB.100: Break Room scene
+- [✅] FB.101: Chair fixture (start runs)
+- [✅] FB.102: Crack in tile (Pit access) - placeholder modal
+- [✅] FB.103: Fridge (scoreboard) - placeholder modal, unlock at 2 chapters
+- [✅] FB.104: Bulletin Board (mutators) - placeholder modal, unlock at 4 chapters
+- [✅] FB.105: Microwave (quick play) - placeholder modal, unlock at 6 chapters
+- [✅] FB.106: Locker (loadout) - placeholder modal, unlock at 8 chapters
+- [✅] FB.107: Time Clock (daily challenge) - placeholder modal, unlock at story complete
+- [✅] FB.108: Window (endless/ending) - placeholder modal, unlock at story complete
+- [✅] FB.109: Keyboard navigation (arrows/WASD to select, Enter to interact)
+- [💭] FB.110: Environmental lore per fixture
 
 ### Mutator System
-- [📋] FB.110: Mutator unlock progression
-- [📋] FB.111: Foggy Lens mutator (+20% scrap)
-- [📋] FB.112: Crumbling Type mutator (+30% scrap)
-- [📋] FB.113: No Theme mutator (+50% scrap)
-- [📋] FB.114: Mirror Shift mutator (+25% scrap)
-- [📋] FB.115: Heavy Ink mutator (+40% scrap)
-- [📋] FB.116: Sticky Keys mutator (+35% scrap)
-- [📋] FB.117: Mutator stacking (late game)
+- [📋] FB.120: Mutator unlock progression
+- [📋] FB.121: Foggy Lens mutator (+20% scrap)
+- [📋] FB.122: Crumbling Type mutator (+30% scrap)
+- [📋] FB.123: No Theme mutator (+50% scrap)
+- [📋] FB.124: Mirror Shift mutator (+25% scrap)
+- [📋] FB.125: Heavy Ink mutator (+40% scrap)
+- [📋] FB.126: Sticky Keys mutator (+35% scrap)
+- [📋] FB.127: Mutator stacking (late game)
 
 ---
 
@@ -165,15 +166,20 @@ Status Legend:
 - [📋] FB.141: Adaptive scoring toggle
 - [📋] FB.142: High contrast mode
 - [📋] FB.143: Reduced motion mode
-- [📋] FB.144: Colorblind palettes
+- [✅] FB.144: Colorblind palettes (Protanopia, Deuteranopia, Tritanopia)
 - [📋] FB.145: Screen reader support
 
 ### Quality of Life
-- [📋] FB.150: Settings menu
-- [📋] FB.151: Key rebinding
+- [✅] FB.150: Settings menu (Visual/Audio/Controls/Gameplay tabs)
+- [✅] FB.151: Key rebinding (Pause key)
 - [📋] FB.152: Save/load system
 - [📋] FB.153: Statistics tracking
-- [📋] FB.154: Pause menu
+- [✅] FB.154: Pause menu (ESC in GameScene)
+- [✅] FB.155: Keyboard navigation (WASD + arrows in all menus)
+- [✅] FB.156: Consistent control hints (footer in each scene)
+- [✅] FB.157: Mouse-only mode (click letters for tablet/accessibility)
+- [✅] FB.158: Screen shake toggle
+- [✅] FB.159: UI font scaling (Small/Medium/Large)
 
 ---
 

@@ -25,20 +25,27 @@ src/
 ├── types.ts                # TypeScript definitions
 │
 ├── scenes/                 # Phaser scenes (game states)
-│   ├── BootScene.ts        # Initial setup
+│   ├── BootScene.ts        # Initial setup, settings init
 │   ├── PreloadScene.ts     # Asset loading
 │   ├── MenuScene.ts        # Title screen
+│   ├── BreakRoomScene.ts   # Hub with fixtures
+│   ├── TutorialScene.ts    # Scripted tutorial
 │   ├── GameScene.ts        # Core gameplay
 │   ├── UIScene.ts          # HUD overlay
+│   ├── PauseScene.ts       # Pause menu overlay
+│   ├── SettingsScene.ts    # Settings menu (Visual/Audio/Controls/Gameplay)
 │   └── ResultScene.ts      # Win/lose screen
 │
-├── systems/                # Modular game logic (future)
-│   ├── InputSystem.ts      # Keyboard handling
-│   ├── CrusherSystem.ts    # Crusher physics/behavior
-│   ├── ComboSystem.ts      # Streak tracking
-│   ├── ScoreSystem.ts      # Point calculation
-│   ├── AudioSystem.ts      # Sound management
-│   └── ParticleSystem.ts   # VFX management
+├── systems/                # Modular game logic
+│   ├── SaveManager.ts      # Save/load progress & economy
+│   ├── SettingsManager.ts  # User preferences persistence
+│   ├── ScriptedEvent.ts    # Tutorial & cutscene system
+│   ├── InputSystem.ts      # Keyboard handling (future)
+│   ├── CrusherSystem.ts    # Crusher physics/behavior (future)
+│   ├── ComboSystem.ts      # Streak tracking (future)
+│   ├── ScoreSystem.ts      # Point calculation (future)
+│   ├── AudioSystem.ts      # Sound management (future)
+│   └── ParticleSystem.ts   # VFX management (future)
 │
 ├── entities/               # Game object classes (future)
 │   ├── Crusher.ts
@@ -52,7 +59,8 @@ src/
 │   └── ComboDisplay.ts
 │
 ├── utils/                  # Helper functions
-│   └── wordUtils.ts        # Phrase data & scrambling
+│   ├── wordUtils.ts        # Phrase data & scrambling
+│   └── colorblindFilter.ts # CSS colorblind filter utility
 │
 └── assets/                 # Game assets
     ├── audio/
@@ -66,21 +74,35 @@ src/
 
 ### Scene Flow
 ```
-BootScene → PreloadScene → MenuScene ─┬→ GameScene ←→ UIScene
-                              ↑       │      │
-                              │       │      ↓
-                              └───────┴─ ResultScene
+BootScene → PreloadScene → MenuScene → BreakRoomScene → TutorialScene (first time)
+                                            │                │
+                                            ↓                ↓
+                                       GameScene ←──────────┘
+                                       ↕ (parallel)
+                                      UIScene
+                                         │
+                            ESC ───→ PauseScene (overlay)
+                                         │
+                                         ↓
+                                    ResultScene
+                                         │
+                                         ↓
+                                   BreakRoomScene (loop)
 ```
 
 ### Scene Responsibilities
 
 | Scene | Purpose | Runs Parallel |
 |-------|---------|---------------|
-| BootScene | Registry setup, config | No |
+| BootScene | Registry setup, settings init | No |
 | PreloadScene | Asset loading | No |
 | MenuScene | Title, difficulty select | No |
+| BreakRoomScene | Hub with fixtures, keyboard nav | No |
+| TutorialScene | Teaches mechanics via scripted events | No |
 | GameScene | Core gameplay loop | Yes (with UI) |
 | UIScene | HUD overlay | Yes (with Game) |
+| PauseScene | Pause overlay (Resume/Restart/Quit) | Yes (over Game) |
+| SettingsScene | Visual/Audio/Controls/Gameplay settings | No |
 | ResultScene | Stats, continue/retry | No |
 
 ### Scene Communication

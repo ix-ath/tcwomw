@@ -76,6 +76,11 @@ export class MenuScene extends Phaser.Scene {
       action: () => this.startGame(Difficulty.MEDIUM),
     });
 
+    options.push({
+      label: 'SETTINGS',
+      action: () => this.goToSettings(),
+    });
+
     // Create buttons
     options.forEach((opt, index) => {
       const button = this.createButton(centerX, startY + index * spacing, opt.label, opt.action);
@@ -88,6 +93,10 @@ export class MenuScene extends Phaser.Scene {
 
   private goToBreakRoom(): void {
     this.scene.start('BreakRoomScene');
+  }
+
+  private goToSettings(): void {
+    this.scene.start('SettingsScene');
   }
 
   private createButton(x: number, y: number, text: string, callback: () => void): Phaser.GameObjects.Container {
@@ -153,34 +162,41 @@ export class MenuScene extends Phaser.Scene {
     }).setOrigin(0.5).setAlpha(0.4);
 
     // Controls hint
-    this.add.text(centerX, GAME_HEIGHT - 25, '↑↓ SELECT  •  ENTER START', {
+    this.add.text(centerX, GAME_HEIGHT - 25, '[W/S or \u2191/\u2193] SELECT  \u2022  [ENTER] START', {
       fontFamily: 'VT323, monospace',
       fontSize: '16px',
       color: COLORS.TERMINAL_GREEN_CSS,
-    }).setOrigin(0.5).setAlpha(0.3);
+    }).setOrigin(0.5).setAlpha(0.4);
   }
 
   private setupInput(): void {
-    // Keyboard navigation
-    this.input.keyboard?.on('keydown-UP', () => {
+    // Navigation helpers
+    const navigateUp = () => {
       const newIndex = (this.selectedIndex - 1 + this.buttons.length) % this.buttons.length;
       this.updateSelection(newIndex);
-    });
+    };
 
-    this.input.keyboard?.on('keydown-DOWN', () => {
+    const navigateDown = () => {
       const newIndex = (this.selectedIndex + 1) % this.buttons.length;
       this.updateSelection(newIndex);
-    });
+    };
 
-    this.input.keyboard?.on('keydown-ENTER', () => {
+    const activateSelection = () => {
       const callback = this.buttons[this.selectedIndex].getData('callback') as () => void;
       callback();
-    });
+    };
 
-    this.input.keyboard?.on('keydown-SPACE', () => {
-      const callback = this.buttons[this.selectedIndex].getData('callback') as () => void;
-      callback();
-    });
+    // Arrow keys
+    this.input.keyboard?.on('keydown-UP', navigateUp);
+    this.input.keyboard?.on('keydown-DOWN', navigateDown);
+
+    // WASD
+    this.input.keyboard?.on('keydown-W', navigateUp);
+    this.input.keyboard?.on('keydown-S', navigateDown);
+
+    // Confirm
+    this.input.keyboard?.on('keydown-ENTER', activateSelection);
+    this.input.keyboard?.on('keydown-SPACE', activateSelection);
   }
 
   private startGame(difficulty: Difficulty): void {

@@ -30,6 +30,7 @@ import {
   Phrase,
 } from '../types';
 import { getRandomPhrase } from '@utils/wordUtils';
+import { SettingsManager } from '@systems/SettingsManager';
 
 // Physics body labels for collision detection
 const BODY_LABELS = {
@@ -107,6 +108,7 @@ export class GameScene extends Phaser.Scene {
     this.createTargetDisplay();
     this.createParticleSystems();
     this.setupInput();
+    this.setupLetterClickHandlers();
     this.setupCollisionHandlers();
 
     this.mainCamera = this.cameras.main;
@@ -533,6 +535,7 @@ export class GameScene extends Phaser.Scene {
   }
 
   private setupInput(): void {
+    // Keyboard input (standard mode)
     this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
       if (this.isGameOver) return;
       if (event.repeat) return;
@@ -541,6 +544,64 @@ export class GameScene extends Phaser.Scene {
       if (key.length !== 1) return;
 
       this.processInput(key);
+    });
+
+    // ESC to pause
+    this.input.keyboard?.on('keydown-ESC', () => {
+      if (this.isGameOver) return;
+      this.scene.launch('PauseScene');
+      this.scene.pause();
+    });
+
+    // Mouse-only mode: clicking letters acts as typing them
+    // Set up in setupLetterClickHandlers() after letters are created
+  }
+
+  /**
+   * Set up click handlers for all letter bodies.
+   * In mouse-only mode, clicking a letter processes it as input.
+   */
+  private setupLetterClickHandlers(): void {
+    this.letterBodies.forEach((letterBody) => {
+      if (letterBody.isPenalty) return; // Can't click penalty letters
+
+      const block = letterBody.container.list[0] as Phaser.GameObjects.Image;
+      if (!block) return;
+
+      // Make the block interactive
+      block.setInteractive({ useHandCursor: true });
+
+      // Handle click
+      block.on('pointerdown', () => {
+        if (this.isGameOver) return;
+
+        // Only process clicks in mouse-only mode
+        if (!SettingsManager.isMouseOnlyMode()) return;
+
+        // Process this letter as input
+        this.processInput(letterBody.char);
+      });
+
+      // Hover feedback in mouse-only mode
+      block.on('pointerover', () => {
+        if (!SettingsManager.isMouseOnlyMode()) return;
+        if (letterBody.isUsed) return;
+
+        // Highlight on hover
+        letterBody.container.setScale(1.15);
+        const textChild = letterBody.container.list[1] as Phaser.GameObjects.Text;
+        textChild.setShadow(0, 0, COLORS.TERMINAL_GREEN_CSS, 10, true, true);
+      });
+
+      block.on('pointerout', () => {
+        if (!SettingsManager.isMouseOnlyMode()) return;
+        if (letterBody.isUsed) return;
+
+        // Reset hover state
+        letterBody.container.setScale(1);
+        const textChild = letterBody.container.list[1] as Phaser.GameObjects.Text;
+        textChild.setShadow(0, 0, 'transparent', 0);
+      });
     });
   }
 
@@ -687,8 +748,10 @@ export class GameScene extends Phaser.Scene {
     }
     // AWAKENED state: continuous descent handled in update()
 
-    // Screen shake
-    this.mainCamera.shake(TIMING.SCREEN_SHAKE_DURATION_MS, 0.01);
+    // Screen shake (if enabled)
+    if (SettingsManager.isScreenShakeEnabled()) {
+      this.mainCamera.shake(TIMING.SCREEN_SHAKE_DURATION_MS, 0.01);
+    }
 
     // Spawn penalty letter near the crusher
     this.spawnPenaltyLetter(pressed);
@@ -923,6 +986,8 @@ export class GameScene extends Phaser.Scene {
 
   /** Play visual/audio feedback for crusher state transitions */
   private playCrusherStateTransition(from: CrusherState, to: CrusherState): void {
+    const shakeEnabled = SettingsManager.isScreenShakeEnabled();
+
     if (from === CrusherState.DORMANT) {
       // First mistake - crusher "stirs"
       this.tweens.add({
@@ -931,7 +996,7 @@ export class GameScene extends Phaser.Scene {
         duration: 150,
         ease: 'Bounce.out',
       });
-      this.mainCamera.shake(100, 0.003);
+      if (shakeEnabled) this.mainCamera.shake(100, 0.003);
     }
 
     if (to === CrusherState.LOOSENING && from === CrusherState.STIRRING) {
@@ -942,7 +1007,7 @@ export class GameScene extends Phaser.Scene {
         duration: 180,
         ease: 'Bounce.out',
       });
-      this.mainCamera.shake(120, 0.005);
+      if (shakeEnabled) this.mainCamera.shake(120, 0.005);
     }
 
     if (to === CrusherState.AWAKENED) {
@@ -963,7 +1028,7 @@ export class GameScene extends Phaser.Scene {
         repeat: 2,
       });
 
-      this.mainCamera.shake(150, 0.008);
+      if (shakeEnabled) this.mainCamera.shake(150, 0.008);
     }
   }
 
@@ -1060,6 +1125,78 @@ export class GameScene extends Phaser.Scene {
     });
   }
 
+  /**
+   * Debug assist: Show the order in which letters should be typed.
+   * Highlights the current expected letter brightly.
+   */
+  private updateLetterOrderHighlight(): void {
+    if (!SettingsManager.isShowLetterOrder()) return;
+
+    // Get the expected next character (skip non-alphanumeric)
+    let nextCharIndex = this.typedIndex;
+    while (nextCharIndex < this.currentPhrase.text.length) {
+      const char = this.currentPhrase.text[nextCharIndex].toUpperCase();
+      if (/^[A-Z0-9]$/.test(char)) break;
+      nextCharIndex++;
+    }
+    const expectedChar = this.currentPhrase.text[nextCharIndex]?.toUpperCase();
+
+    // Find the letter body that matches the expected character
+    const expectedLetter = this.letterBodies.find(
+      lb => lb.char === expectedChar && !lb.isUsed && !lb.isPenalty
+    );
+
+    // Highlight expected letter
+    this.letterBodies.forEach((letterBody) => {
+      if (letterBody.isUsed || !letterBody.container.active || letterBody.isPenalty) return;
+
+      const textChild = letterBody.container.list[1] as Phaser.GameObjects.Text;
+      const blockChild = letterBody.container.list[0] as Phaser.GameObjects.Image;
+
+      if (letterBody === expectedLetter) {
+        // Strong highlight for expected letter
+        textChild.setColor('#ffffff');
+        textChild.setShadow(0, 0, '#00ff41', 20, true, true);
+        letterBody.container.setScale(1.25);
+
+        // Pulse animation if not already pulsing
+        if (!letterBody.container.getData('isPulsing')) {
+          letterBody.container.setData('isPulsing', true);
+          this.tweens.add({
+            targets: letterBody.container,
+            scale: { from: 1.25, to: 1.35 },
+            duration: 400,
+            yoyo: true,
+            repeat: -1,
+            onStop: () => {
+              letterBody.container.setData('isPulsing', false);
+            },
+          });
+        }
+
+        // Tint block to indicate it's the next one
+        if (blockChild.setTint) {
+          blockChild.setTint(0x00ff41);
+        }
+      } else {
+        // Dim other letters slightly
+        textChild.setAlpha(0.6);
+
+        // Stop any pulsing
+        if (letterBody.container.getData('isPulsing')) {
+          this.tweens.killTweensOf(letterBody.container);
+          letterBody.container.setData('isPulsing', false);
+          letterBody.container.setScale(1);
+        }
+
+        // Clear tint
+        if (blockChild.clearTint) {
+          blockChild.clearTint();
+        }
+      }
+    });
+  }
+
   private handleWin(): void {
     this.isGameOver = true;
 
@@ -1115,7 +1252,9 @@ export class GameScene extends Phaser.Scene {
     };
 
     // Camera effects
-    this.mainCamera.shake(500, 0.03);
+    if (SettingsManager.isScreenShakeEnabled()) {
+      this.mainCamera.shake(500, 0.03);
+    }
     this.mainCamera.flash(300, 255, 0, 0, false);
 
     // Compress remaining letters into "The Bale"
@@ -1263,6 +1402,7 @@ export class GameScene extends Phaser.Scene {
     this.applyPenaltyGravity();
     this.syncLetterVisuals();
     this.highlightNearCrusher();
+    this.updateLetterOrderHighlight();
 
     // Check for loss
     if (this.crusherY >= killZoneY) {

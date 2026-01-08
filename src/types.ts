@@ -309,10 +309,60 @@ export interface GameConfig {
   soundEnabled: boolean;
   musicEnabled: boolean;
   screenShakeEnabled: boolean;
-  
+
   // Accessibility (future)
   highContrastMode: boolean;
   reducedMotion: boolean;
+}
+
+// =============================================================================
+// SETTINGS (User-configurable options)
+// =============================================================================
+
+/** Colorblind mode types - top 3 most common */
+export type ColorblindMode = 'none' | 'protanopia' | 'deuteranopia' | 'tritanopia';
+
+/** Font scaling for UI (not game board) */
+export type FontScale = 'small' | 'medium' | 'large';
+
+/** Visual settings */
+export interface VisualSettings {
+  colorblindMode: ColorblindMode;
+  fontScale: FontScale;
+  screenShakeEnabled: boolean;
+}
+
+/** Audio settings */
+export interface AudioSettings {
+  musicVolume: number;    // 0-100
+  sfxVolume: number;      // 0-100
+  uiVolume: number;       // 0-100
+  muteAll: boolean;
+}
+
+/** Control settings */
+export interface ControlSettings {
+  mouseOnlyMode: boolean;    // Click letters instead of typing (tablet support)
+  keyBindings: KeyBindings;
+}
+
+/** Rebindable key actions */
+export interface KeyBindings {
+  pause: string;           // Default: 'ESC'
+  // Future: add more rebindable keys as needed
+}
+
+/** Gameplay/debug settings */
+export interface GameplaySettings {
+  showLetterOrder: boolean;  // Debug assist: highlights letters in sequence
+}
+
+/** Complete settings structure */
+export interface Settings {
+  visual: VisualSettings;
+  audio: AudioSettings;
+  controls: ControlSettings;
+  gameplay: GameplaySettings;
 }
 
 // =============================================================================

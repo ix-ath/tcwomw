@@ -132,19 +132,25 @@ npm run electron:build   # Package for distribution
 ### Scene Flow
 ```
 BootScene → PreloadScene → MenuScene → BreakRoomScene → TutorialScene (first time)
-                                            │                    │
-                                            ↓                    ↓
-                                       GameScene ← ─ ─ ─ ─ ─ ─ ─ ┘
-                                            │
-                                       UIScene (parallel)
-                                            │
-                                       ResultScene
-                                            │
-                                       BreakRoomScene (loop)
+                               │            │                │
+                               ↓            ↓                ↓
+                         SettingsScene  GameScene ←─────────┘
+                               │       ↕ (parallel)
+                               │      UIScene
+                               │         │
+                               │    ESC ───→ PauseScene (overlay)
+                               │         │
+                               ↓         ↓
+                            MenuScene  ResultScene
+                                         │
+                                         ↓
+                                   BreakRoomScene (loop)
 ```
 
-- **BreakRoomScene**: Hub with clickable fixtures. Checks tutorial completion.
+- **BreakRoomScene**: Hub with clickable fixtures and keyboard navigation. Checks tutorial completion.
 - **TutorialScene**: Scripted tutorial using ScriptedEvent framework.
+- **PauseScene**: Overlay launched via ESC during gameplay. Resume/Restart/Quit options.
+- **SettingsScene**: Full settings menu accessible from MenuScene. Visual/Audio/Controls/Gameplay tabs.
 - **GameScene** and **UIScene** run in parallel during gameplay. Scenes communicate via:
 - **Registry**: Shared state (progress, config, selectedDifficulty)
 - **Events**: Cross-scene events via `scene.events` using `GameEvents` enum
@@ -155,10 +161,12 @@ BootScene → PreloadScene → MenuScene → BreakRoomScene → TutorialScene (f
 - `src/constants.ts` - All tunable game values (speeds, lift amounts, colors, timing). Adjust these to change game feel.
 - `src/types.ts` - TypeScript interfaces, enums (`Difficulty`, `GameEvents`, `WordTier`), campaign types, economy types.
 - `src/main.ts` - Phaser config with Matter.js physics enabled. Exposes `window.game` in dev mode.
+- `src/scenes/PauseScene.ts` - Pause overlay with Resume/Restart/Quit. Launched via ESC from GameScene.
 
 ### Key Systems
 
 - `src/systems/SaveManager.ts` - LocalStorage persistence singleton. Handles economy (scrap), helpers (unlock/equip), progress tracking, stats.
+- `src/systems/SettingsManager.ts` - User preferences persistence (separate from save data). Handles visual, audio, controls, and gameplay settings.
 - `src/systems/ScriptedEvent.ts` - Data-driven framework for scripted sequences (tutorials, cutscenes, story beats). Step types: `dialogue`, `page`, `wait`, `award`, `overlay`, `branch`, `goto`, `end`.
 
 ### Data Files
@@ -196,6 +204,21 @@ Located in `GameScene.processInput()`:
 - Crusher state machine: DORMANT → AWAKENED on first mistake
 - Lift/drop/pause calculations use constants from `CRUSHER` object
 
+### Keyboard Controls
+
+All menu scenes support both arrow keys and WASD for navigation:
+
+| Scene | Controls |
+|-------|----------|
+| MenuScene | W/S/Up/Down to navigate, Enter/Space to confirm |
+| SettingsScene | Tab/Q/E to switch tabs, W/S to select item, A/D to adjust, ESC to back |
+| BreakRoomScene | Arrows/WASD to select fixture, Enter/Space to interact, ESC for menu |
+| GameScene | Type letters to play (or click in mouse-only mode), ESC to pause |
+| PauseScene | W/S/Up/Down to navigate, Enter/Space to confirm, ESC to resume |
+| ResultScene | Space/Enter to continue, ESC for menu |
+
+Footer hints are displayed at the bottom of each scene showing available controls.
+
 ### Physics System
 
 Letters are Matter.js bodies that get pushed by the descending crusher:
@@ -229,6 +252,53 @@ Key physics constants in `PHYSICS` object:
 **References:** Terry Gilliam animations, Victorian factory engravings, workhouse horror, Dickensian poverty, dangerous machinery, dimly lit foundries.
 
 See `docs/PROMPTS.md` for reusable AI art prompts.
+
+## Designer Philosophy (Bryan's Preferences)
+
+**Hidden Delights & Secrets:**
+- Hidden achievements that reward exploration/curiosity
+- Interesting interactables with no obvious purpose (Diablo's clickable diamond)
+- Background elements that respond to interaction (birds fly away when clicked)
+- Easter eggs and surprises that make players feel clever
+
+**Achievements:**
+- Comprehensive achievement system
+- Mix of obvious and hidden achievements
+- Achievements that encourage different playstyles
+- "Figured Out the Impossible" already planned for tutorial edge case
+
+**Accessibility & QOL (High Priority):**
+- Goal: Make the game playable by everyone without gatekeeping
+- Tooltips everywhere
+- Hotkey support and rebinding
+- Settings menu with comprehensive options
+
+**Settings Menu Spec (✅ Implemented):**
+
+| Category | Setting | Status |
+|----------|---------|--------|
+| **Visual** | Colorblind modes (Protanopia, Deuteranopia, Tritanopia) | ✅ CSS filter |
+| **Visual** | Font scaling (Small/Medium/Large) | ✅ UI only |
+| **Visual** | Screen shake toggle | ✅ Default ON |
+| **Audio** | Music volume | ✅ Slider (ready for audio system) |
+| **Audio** | SFX volume | ✅ Slider |
+| **Audio** | UI sounds volume | ✅ Slider |
+| **Audio** | Mute all | ✅ Toggle |
+| **Controls** | Key rebinding (Pause key) | ✅ Expandable |
+| **Controls** | Mouse-only mode | ✅ Click letters for tablet play |
+| **Gameplay** | Show letter order | ✅ Debug assist, highlights next letter |
+
+Settings persist to LocalStorage separately from save data (survives save resets).
+Access via SETTINGS button in MenuScene, or import `SettingsManager` singleton.
+
+*Note: Most gameplay assists (slower crusher, hints, etc.) will be in-game Helpers/Modifiers, not settings. Settings are for accessibility/preference, not difficulty cheats.*
+
+**Future Planning Sessions Needed:**
+- [ ] Achievement system design
+- [ ] Hidden interactables placement (Break Room secrets, clickable background elements)
+- [ ] "Balloon Pop" kids mode - letters are balloons, click/tap to pop them. Different theme, same mechanics. (Bryan's daughter loves popping!)
+
+*Bryan notes: "I know what I need but need guidance to verbalize it" - use design sessions to help articulate these requirements.*
 
 ## Design Reference
 

@@ -4,6 +4,8 @@
  */
 
 import Phaser from 'phaser';
+import { SettingsManager } from '@systems/SettingsManager';
+import { applyColorblindFilter } from '@utils/colorblindFilter';
 
 export class BootScene extends Phaser.Scene {
   constructor() {
@@ -30,6 +32,14 @@ export class BootScene extends Phaser.Scene {
       screenShakeEnabled: true,
       highContrastMode: false,
       reducedMotion: false,
+    });
+
+    // Apply initial colorblind filter from settings
+    applyColorblindFilter(SettingsManager.getColorblindMode());
+
+    // Subscribe to colorblind mode changes
+    SettingsManager.onChange('colorblindMode', (mode) => {
+      applyColorblindFilter(mode as Parameters<typeof applyColorblindFilter>[0]);
     });
 
     // Move to preload
