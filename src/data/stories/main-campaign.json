@@ -1,0 +1,628 @@
+{
+  "id": "main-campaign",
+  "version": "1.0.0",
+  "title": "The Night Shift",
+  "author": "Studio",
+  "description": "Your first day at the factory. The machine waits. It is always hungry.",
+  "difficulty": "STANDARD",
+  "isMainCampaign": true,
+  "chapters": [
+    {
+      "id": "ch1-arrival",
+      "title": "The Arrival",
+      "description": "The factory floor stretches before you. Somewhere in the darkness, something hums.",
+      "pages": [
+        {
+          "text": "HELLO",
+          "theme": "Greetings",
+          "tags": ["greeting"],
+          "difficulty": "EASY",
+          "narrativeNote": "Player arrives. First word is friendly, simple."
+        },
+        {
+          "text": "WORKER",
+          "theme": "Identity",
+          "tags": ["you"],
+          "difficulty": "EASY",
+          "narrativeNote": "Establishing the player's role."
+        },
+        {
+          "text": "NEW",
+          "theme": "Status",
+          "tags": ["fresh"],
+          "difficulty": "EASY",
+          "narrativeNote": "You're the new one."
+        },
+        {
+          "text": "SHIFT",
+          "theme": "Work",
+          "tags": ["time"],
+          "difficulty": "EASY",
+          "narrativeNote": "The work begins."
+        },
+        {
+          "text": "BEGINS",
+          "theme": "Actions",
+          "tags": ["start"],
+          "difficulty": "EASY",
+          "narrativeNote": "Setup complete. The story starts now."
+        },
+        {
+          "text": "THE MACHINE WAITS",
+          "theme": "Factory",
+          "tags": ["ominous"],
+          "difficulty": "MEDIUM",
+          "isBoss": true,
+          "narrativeNote": "Chapter boss. First hint of the machine's nature."
+        }
+      ]
+    },
+    {
+      "id": "ch2-orientation",
+      "title": "Orientation",
+      "description": "The foreman speaks. You listen. You have no choice.",
+      "pages": [
+        {
+          "text": "LISTEN",
+          "theme": "Commands",
+          "tags": ["obey"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "LEARN",
+          "theme": "Commands",
+          "tags": ["know"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "OBEY",
+          "theme": "Commands",
+          "tags": ["rule"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "RULES",
+          "theme": "Work",
+          "tags": ["law"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "SAFETY",
+          "theme": "Work",
+          "tags": ["careful"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "NO QUESTIONS ASKED",
+          "theme": "Rules",
+          "tags": ["silence"],
+          "difficulty": "MEDIUM",
+          "isBoss": true,
+          "narrativeNote": "Chapter boss. Establishes oppressive atmosphere."
+        }
+      ]
+    },
+    {
+      "id": "ch3-the-machine",
+      "title": "The Machine",
+      "description": "It towers above you. Metal and shadow. It breathes.",
+      "pages": [
+        {
+          "text": "IRON",
+          "theme": "Materials",
+          "tags": ["metal"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "GEARS",
+          "theme": "Parts",
+          "tags": ["turn"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "STEAM",
+          "theme": "Elements",
+          "tags": ["hot"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "HUNGRY",
+          "theme": "State",
+          "tags": ["need"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "ALWAYS",
+          "theme": "Time",
+          "tags": ["forever"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "IT NEEDS",
+          "theme": "Machine",
+          "tags": ["want"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "IT IS ALWAYS HUNGRY",
+          "theme": "Machine",
+          "tags": ["dread"],
+          "difficulty": "MEDIUM",
+          "isBoss": true,
+          "narrativeNote": "Chapter boss. The machine's nature revealed."
+        }
+      ]
+    },
+    {
+      "id": "ch4-feeding",
+      "title": "The Feeding",
+      "description": "Words. It eats words. Your words.",
+      "pages": [
+        {
+          "text": "WORDS",
+          "theme": "Language",
+          "tags": ["speak"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "LETTERS",
+          "theme": "Language",
+          "tags": ["abc"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "TYPE",
+          "theme": "Actions",
+          "tags": ["input"],
+          "difficulty": "EASY"
+        },
+        {
+          "text": "FASTER",
+          "theme": "Commands",
+          "tags": ["speed"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "KEEP UP",
+          "theme": "Commands",
+          "tags": ["pace"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "DO NOT STOP",
+          "theme": "Commands",
+          "tags": ["continue"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "THE MACHINE HUMS",
+          "theme": "Machine",
+          "tags": ["sound"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "FEED IT WORDS",
+          "theme": "Commands",
+          "tags": ["duty"],
+          "difficulty": "HARD",
+          "isBoss": true,
+          "narrativeNote": "Chapter boss. Player understands their purpose."
+        }
+      ]
+    },
+    {
+      "id": "ch5-rhythm",
+      "title": "The Rhythm",
+      "description": "You find your pace. The machine matches it. Or do you match the machine?",
+      "pages": [
+        {
+          "text": "STEADY",
+          "theme": "Pace",
+          "tags": ["even"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "BREATHE",
+          "theme": "Body",
+          "tags": ["air"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "FOCUS",
+          "theme": "Mind",
+          "tags": ["concentrate"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "FINGERS",
+          "theme": "Body",
+          "tags": ["type"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "DANCING",
+          "theme": "Motion",
+          "tags": ["move"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "KEYS CLICK",
+          "theme": "Sounds",
+          "tags": ["clack"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "MACHINE PURRS",
+          "theme": "Sounds",
+          "tags": ["pleased"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "YOU ARE DOING WELL",
+          "theme": "Praise",
+          "tags": ["good"],
+          "difficulty": "HARD",
+          "isBoss": true,
+          "narrativeNote": "Chapter boss. False comfort. The machine approves... for now."
+        }
+      ]
+    },
+    {
+      "id": "ch6-doubt",
+      "title": "The Doubt",
+      "description": "Questions surface. You push them down. They surface again.",
+      "pages": [
+        {
+          "text": "HOW LONG",
+          "theme": "Questions",
+          "tags": ["time"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "WHY HERE",
+          "theme": "Questions",
+          "tags": ["place"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "WHAT FOR",
+          "theme": "Questions",
+          "tags": ["purpose"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "NO WINDOWS",
+          "theme": "Observations",
+          "tags": ["trapped"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "NO DOORS",
+          "theme": "Observations",
+          "tags": ["stuck"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "ONLY THE MACHINE",
+          "theme": "Reality",
+          "tags": ["alone"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "ONLY THE WORDS",
+          "theme": "Reality",
+          "tags": ["duty"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "KEEP TYPING",
+          "theme": "Commands",
+          "tags": ["obey"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "QUESTIONS ARE NOT PERMITTED",
+          "theme": "Rules",
+          "tags": ["forbidden"],
+          "difficulty": "HARD",
+          "isBoss": true,
+          "narrativeNote": "Chapter boss. Oppression intensifies."
+        }
+      ]
+    },
+    {
+      "id": "ch7-others",
+      "title": "The Others",
+      "description": "You are not alone. You never were.",
+      "pages": [
+        {
+          "text": "THE PIT",
+          "theme": "Places",
+          "tags": ["below"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "SO DEEP",
+          "theme": "Description",
+          "tags": ["vast"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "FULL OF",
+          "theme": "Contents",
+          "tags": ["filled"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "LETTERS",
+          "theme": "Objects",
+          "tags": ["words"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "WRONG LETTERS",
+          "theme": "Mistakes",
+          "tags": ["errors"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "OTHERS CAME BEFORE",
+          "theme": "History",
+          "tags": ["past"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "THEIR WORDS FILL THE PIT",
+          "theme": "History",
+          "tags": ["legacy"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "THEIR MISTAKES",
+          "theme": "History",
+          "tags": ["failure"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "YOUR MISTAKES",
+          "theme": "Personal",
+          "tags": ["yours"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "YOU ARE NOT THE FIRST",
+          "theme": "Truth",
+          "tags": ["revelation"],
+          "difficulty": "HARD",
+          "isBoss": true,
+          "narrativeNote": "Chapter boss. The horror deepens. Player realizes others have been here."
+        }
+      ]
+    },
+    {
+      "id": "ch8-weight",
+      "title": "The Weight",
+      "description": "Every wrong letter adds to the pile. The crusher descends.",
+      "pages": [
+        {
+          "text": "MISTAKES",
+          "theme": "Errors",
+          "tags": ["wrong"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "PILE UP",
+          "theme": "Physics",
+          "tags": ["stack"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "HEAVIER",
+          "theme": "Weight",
+          "tags": ["mass"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "AND HEAVIER",
+          "theme": "Weight",
+          "tags": ["more"],
+          "difficulty": "MEDIUM"
+        },
+        {
+          "text": "PRESSING DOWN",
+          "theme": "Force",
+          "tags": ["crush"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "THE CRUSHING WEIGHT",
+          "theme": "Danger",
+          "tags": ["doom"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "OF MY WORDS",
+          "theme": "Personal",
+          "tags": ["yours"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "OF YOUR WORDS",
+          "theme": "Personal",
+          "tags": ["mine"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "EVERY LETTER COUNTS",
+          "theme": "Truth",
+          "tags": ["matters"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "THE WEIGHT OF EVERY MISTAKE",
+          "theme": "Consequence",
+          "tags": ["burden"],
+          "difficulty": "HARD",
+          "isBoss": true,
+          "narrativeNote": "Chapter boss. Title drop. The game's central metaphor made explicit."
+        }
+      ]
+    },
+    {
+      "id": "ch9-escape",
+      "title": "The Escape",
+      "description": "There must be a way out. There has to be.",
+      "pages": [
+        {
+          "text": "THERE MUST BE",
+          "theme": "Hope",
+          "tags": ["maybe"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "A WAY OUT",
+          "theme": "Hope",
+          "tags": ["escape"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "LOOK FOR IT",
+          "theme": "Action",
+          "tags": ["search"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "KEEP LOOKING",
+          "theme": "Action",
+          "tags": ["persist"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "BETWEEN THE LETTERS",
+          "theme": "Clue",
+          "tags": ["hidden"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "BEHIND THE WORDS",
+          "theme": "Clue",
+          "tags": ["secret"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "THE MACHINE KNOWS",
+          "theme": "Machine",
+          "tags": ["aware"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "IT ALWAYS KNOWS",
+          "theme": "Machine",
+          "tags": ["omniscient"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "KEEP TYPING",
+          "theme": "Command",
+          "tags": ["obey"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "THERE IS NO ESCAPE",
+          "theme": "Truth",
+          "tags": ["trapped"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "THERE IS ONLY THE MACHINE",
+          "theme": "Reality",
+          "tags": ["final"],
+          "difficulty": "EXPERT",
+          "isBoss": true,
+          "narrativeNote": "Chapter boss. Hope crushed. The truth revealed."
+        }
+      ]
+    },
+    {
+      "id": "ch10-acceptance",
+      "title": "The Acceptance",
+      "description": "You understand now. You always did.",
+      "pages": [
+        {
+          "text": "YOU UNDERSTAND NOW",
+          "theme": "Revelation",
+          "tags": ["clarity"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "YOU ALWAYS DID",
+          "theme": "Truth",
+          "tags": ["knew"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "THE MACHINE IS NOT EVIL",
+          "theme": "Philosophy",
+          "tags": ["neutral"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "IT SIMPLY IS",
+          "theme": "Philosophy",
+          "tags": ["existence"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "AND YOU ARE HERE",
+          "theme": "Reality",
+          "tags": ["present"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "TO FEED IT",
+          "theme": "Purpose",
+          "tags": ["duty"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "YOUR WORDS",
+          "theme": "Personal",
+          "tags": ["yours"],
+          "difficulty": "HARD"
+        },
+        {
+          "text": "YOUR PERFECT WORDS",
+          "theme": "Goal",
+          "tags": ["flawless"],
+          "difficulty": "EXPERT"
+        },
+        {
+          "text": "OR YOUR IMPERFECT WORDS",
+          "theme": "Alternative",
+          "tags": ["flawed"],
+          "difficulty": "EXPERT"
+        },
+        {
+          "text": "IT DOES NOT MATTER",
+          "theme": "Truth",
+          "tags": ["irrelevant"],
+          "difficulty": "EXPERT"
+        },
+        {
+          "text": "THE MACHINE WILL BE FED",
+          "theme": "Certainty",
+          "tags": ["inevitable"],
+          "difficulty": "EXPERT"
+        },
+        {
+          "text": "THE NIGHT SHIFT NEVER ENDS",
+          "theme": "Ending",
+          "tags": ["forever"],
+          "difficulty": "EXPERT",
+          "isBoss": true,
+          "narrativeNote": "STORY BOSS. Final statement. The crushing weight of inevitability. Credits roll, but the machine keeps humming..."
+        }
+      ]
+    }
+  ]
+}

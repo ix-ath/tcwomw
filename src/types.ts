@@ -71,6 +71,81 @@ export interface WordDataFile {
   words: WordEntry[];
 }
 
+// =============================================================================
+// CAMPAIGN DATA STRUCTURES
+// =============================================================================
+
+/**
+ * A single page in a chapter - one word/phrase/sentence to complete.
+ * Extends the WordEntry format with campaign-specific fields.
+ */
+export interface PageData {
+  text: string;              // The word/phrase/sentence to type
+  theme: string;             // Category shown to player (e.g., "Food", "Greetings")
+  tags?: string[];           // First tag shown as hint (e.g., "FOOD • fruit")
+  difficulty: 'EASY' | 'MEDIUM' | 'HARD' | 'EXPERT';
+  hints?: string[];          // Optional hint phrases for hint system
+
+  // Campaign-specific
+  isBoss?: boolean;          // True for chapter/story boss pages
+  narrativeNote?: string;    // Internal dev note about story beat (not shown to player)
+}
+
+/**
+ * A chapter is a thematic unit containing multiple pages.
+ * Loss = restart chapter (not entire story).
+ */
+export interface ChapterData {
+  id: string;                // Unique within story (e.g., "ch1-arrival")
+  title: string;             // Display name (e.g., "The Arrival")
+  description?: string;      // Flavor text shown before chapter starts
+  pages: PageData[];         // All pages including boss (boss has isBoss: true)
+}
+
+/**
+ * A story is a complete narrative arc - the main campaign or a Workshop upload.
+ * Each story is stored as a separate JSON file for Workshop support.
+ */
+export interface StoryData {
+  id: string;                // Unique identifier (e.g., "main-campaign", "tutorial")
+  version: string;           // Schema version for future migrations
+  title: string;             // Display name
+  author: string;            // Creator name (for Workshop attribution)
+  description?: string;      // Story blurb/synopsis
+  difficulty: 'BEGINNER' | 'STANDARD' | 'CHALLENGING' | 'MASTERY';
+  chapters: ChapterData[];
+
+  // Story flags
+  isTutorial?: boolean;      // Special tutorial handling
+  isMainCampaign?: boolean;  // The primary story
+
+  // Workshop metadata (future)
+  workshopId?: string;       // Steam Workshop ID when uploaded
+  createdAt?: string;        // ISO date string
+  updatedAt?: string;        // ISO date string
+  tags?: string[];           // For Workshop filtering/search
+}
+
+/**
+ * Index file that lists all available stories.
+ * Used to discover stories without loading each file.
+ */
+export interface StoryIndex {
+  version: string;
+  stories: StoryIndexEntry[];
+}
+
+export interface StoryIndexEntry {
+  id: string;                // Matches StoryData.id
+  file: string;              // Relative path to JSON file
+  title: string;             // For display without loading full file
+  author: string;
+  difficulty: 'BEGINNER' | 'STANDARD' | 'CHALLENGING' | 'MASTERY';
+  chapterCount: number;      // Quick stats
+  isMainCampaign?: boolean;
+  isTutorial?: boolean;
+}
+
 export interface GameStats {
   score: number;
   accuracy: number;       // 0-100

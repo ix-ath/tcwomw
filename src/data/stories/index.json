@@ -1,0 +1,23 @@
+{
+  "version": "1.0.0",
+  "stories": [
+    {
+      "id": "tutorial",
+      "file": "tutorial.json",
+      "title": "Training Day",
+      "author": "Studio",
+      "difficulty": "BEGINNER",
+      "chapterCount": 1,
+      "isTutorial": true
+    },
+    {
+      "id": "main-campaign",
+      "file": "main-campaign.json",
+      "title": "The Night Shift",
+      "author": "Studio",
+      "difficulty": "STANDARD",
+      "chapterCount": 10,
+      "isMainCampaign": true
+    }
+  ]
+}

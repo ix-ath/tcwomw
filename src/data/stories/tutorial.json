@@ -1,0 +1,67 @@
+{
+  "id": "tutorial",
+  "version": "1.0.0",
+  "title": "Training Day",
+  "author": "Studio",
+  "description": "Learn the machine. Feed the machine. Become the machine.",
+  "difficulty": "BEGINNER",
+  "isTutorial": true,
+  "chapters": [
+    {
+      "id": "tutorial-basics",
+      "title": "Basic Training",
+      "description": "The foreman points at the machine. Time to learn.",
+      "pages": [
+        {
+          "text": "ON",
+          "theme": "Commands",
+          "tags": ["power"],
+          "difficulty": "EASY",
+          "narrativeNote": "Step 1: Machine powers up. Simple 2-letter success to teach basic input."
+        },
+        {
+          "text": "START",
+          "theme": "Commands",
+          "tags": ["begin"],
+          "difficulty": "EASY",
+          "narrativeNote": "Step 2: Machine starts. Reinforces basic input with 5 letters."
+        },
+        {
+          "text": "OOPS",
+          "theme": "Commands",
+          "tags": ["mistake"],
+          "difficulty": "EASY",
+          "narrativeNote": "Step 3: CRITICAL - Letters shown scrambled as OOSP. Player types O, O correctly. Types S (wrong position - expected P). S highlights on board. Player learns wrong-position mechanic, types P, then S."
+        }
+      ]
+    },
+    {
+      "id": "tutorial-failure",
+      "title": "The Lesson",
+      "description": "Some things cannot be known without help.",
+      "pages": [
+        {
+          "text": "FEED THE MACHINE",
+          "theme": "Factory Orders",
+          "tags": ["command", "work", "obey"],
+          "difficulty": "HARD",
+          "narrativeNote": "Step 4: THE IMPOSSIBLE SENTENCE. Theme/Tag helpers not yet available. Player WILL fail. This teaches: (1) failure earns cube scrap, (2) The Pit exists, (3) helpers have value. If player somehow guesses it, award achievement 'Figured Out the Impossible' and give 1 scrap anyway."
+        }
+      ]
+    },
+    {
+      "id": "tutorial-economy",
+      "title": "From The Pit",
+      "description": "Your failures have value.",
+      "pages": [
+        {
+          "text": "FEED THE MACHINE",
+          "theme": "Factory Orders",
+          "tags": ["command", "work", "obey"],
+          "difficulty": "HARD",
+          "narrativeNote": "Step 6: SAME SENTENCE but now Theme helper is unlocked. Player should complete it easily with 'Factory Orders' visible. Full economy loop taught: fail -> earn scrap -> buy helper -> succeed."
+        }
+      ]
+    }
+  ]
+}
