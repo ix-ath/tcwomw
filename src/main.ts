@@ -11,6 +11,7 @@ import { BootScene } from '@scenes/BootScene';
 import { PreloadScene } from '@scenes/PreloadScene';
 import { MenuScene } from '@scenes/MenuScene';
 import { BreakRoomScene } from '@scenes/BreakRoomScene';
+import { TutorialScene } from '@scenes/TutorialScene';
 import { GameScene } from '@scenes/GameScene';
 import { UIScene } from '@scenes/UIScene';
 import { ResultScene } from '@scenes/ResultScene';
@@ -44,6 +45,7 @@ const config: Phaser.Types.Core.GameConfig = {
     PreloadScene,
     MenuScene,
     BreakRoomScene,
+    TutorialScene,
     GameScene,
     UIScene,
     ResultScene,

@@ -120,20 +120,22 @@ Letters from the target phrase are scattered across the playing field in a grid 
 
 ## 6. PROGRESSION SYSTEM
 
-### Campaign: Books & Chapters
+### Campaign: Stories, Chapters & Pages
 
-**Structure:**
-- **Campaign** = ~40 Books
-- **Book** = 3-5 Chapters (thematic unit, micro-story)
-- **Chapter** = 5-10 words/phrases/sentences
+**Hierarchy:**
+- **Story/Book** = Complete narrative arc (~8-10 chapters)
+- **Chapter** = Thematic unit with 5-10 pages + chapter boss
+- **Page** = Single word/phrase/sentence to complete
 
 **Content scales with progression:**
-- Books 1-5: Single words (4-6 letters)
-- Books 6-15: Longer words, 2-word phrases
-- Books 16-30: Phrases, 3-5 words
-- Books 31-40: Full sentences, story beats
+- Chapters 1-2: Single words (4-6 letters)
+- Chapters 3-5: Longer words, 2-word phrases
+- Chapters 6-8: Phrases, 3-5 words
+- Chapters 9-10: Full sentences, story beats + Story Boss
 
-**Loss = restart chapter** (not entire book). Early chapters ~30 sec, later chapters ~2 min.
+**Bosses:** Chapter boss ends each chapter. Story boss ends final chapter.
+**Loss = restart chapter** (not entire story). Early chapters ~30 sec, later chapters ~2 min.
+**Workshop:** Users can upload their own Stories for others to play.
 
 ### Cube Scrap Economy
 
@@ -155,15 +157,15 @@ Letters from the target phrase are scattered across the playing field in a grid 
 
 ### The Break Room Hub
 
-Depressing workplace break room. Fixtures unlock with book completions:
+Depressing workplace break room. Fixtures unlock with chapter completions:
 
 | Fixture | Unlock | Function |
 |---------|--------|----------|
 | Chair | Start | Start a run |
 | Crack in tile | Start | The Pit, spend scrap |
-| Fridge | 5 books | Scoreboard |
-| Locker | 20 books | Loadout |
-| Window | 40 books | Endless mode |
+| Fridge | 2 chapters | Scoreboard |
+| Locker | 8 chapters | Loadout |
+| Window | Complete story | Endless mode |
 
 See `CORE_LOOP_SPEC.md` for full campaign details.
 

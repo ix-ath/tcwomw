@@ -269,14 +269,29 @@ export const PHYSICS = {
 // LETTER POOL (physics-based scattered letters)
 // =============================================================================
 export const LETTER_POOL = {
-  // Initial spawn area (now absolute pixels within game area)
-  // Letters spawn below crusher, above fail zone
-  SPAWN_X_MIN: 200,               // LAYOUT.GAME_AREA_X + padding
-  SPAWN_X_MAX: 1080,              // LAYOUT.GAME_AREA_X + GAME_AREA_WIDTH - padding
+  // Initial spawn area - centered, slightly narrower than crusher (800px)
+  // ~750px span centered at 640px
+  SPAWN_X_MIN: 265,               // 640 - 375 (centered)
+  SPAWN_X_MAX: 1015,              // 640 + 375 (centered)
   SPAWN_Y_MIN: 180,               // Below crusher starting position
   SPAWN_Y_MAX: 500,               // Above fail zone
+
+  // Scatter settings
+  MIN_SPACING: 50,                // Minimum pixels between letter centers
 
   // Readability
   MAX_ROTATION: 15,               // ±degrees (readability guard from design doc)
   FONT_SIZE: 40,
+} as const;
+
+// =============================================================================
+// BLANK DISPLAY (word reveal at bottom)
+// =============================================================================
+export const BLANK_DISPLAY = {
+  CHAR_WIDTH: 44,                 // Box width (was 36)
+  CHAR_HEIGHT: 52,                // Box height (was 44)
+  FONT_SIZE: 36,                  // Character font size (was 28)
+  WORD_GAP: 28,                   // Space between words (was 24)
+  THEME_FONT_SIZE: 22,            // Theme label font size (was 18)
+  MAX_WIDTH: 900,                 // Max width before scaling down
 } as const;

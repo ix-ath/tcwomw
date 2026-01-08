@@ -445,11 +445,12 @@ export class BreakRoomScene extends Phaser.Scene {
   private startGame(): void {
     // Check if tutorial completed
     if (!SaveManager.isTutorialCompleted()) {
-      // TODO: Start tutorial story
       console.log('[BreakRoom] Starting tutorial...');
+      this.scene.start('TutorialScene');
+      return;
     }
 
-    // For now, go straight to game
+    // Normal game start
     this.registry.set('playerProgress', {
       totalScore: 0,
       stage: 1,

@@ -1,0 +1,193 @@
+{
+  "id": "main-tutorial",
+  "name": "Training Day",
+  "description": "The tutorial sequence that teaches core mechanics and introduces the economy.",
+  "startStep": "intro-1",
+  "steps": [
+    {
+      "id": "intro-1",
+      "type": "dialogue",
+      "text": "The machine hums in the darkness.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "intro-2",
+      "type": "dialogue",
+      "text": "It needs to be fed.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "intro-3",
+      "type": "dialogue",
+      "text": "Type the words. Feed the machine.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "page-on",
+      "type": "page",
+      "text": "ON",
+      "theme": "Commands",
+      "difficulty": "EASY",
+      "onSuccess": "success-on",
+      "onFailure": "page-on"
+    },
+    {
+      "id": "success-on",
+      "type": "dialogue",
+      "text": "Good. The machine stirs.",
+      "position": "bottom",
+      "dismissOn": "auto",
+      "autoDelay": 1500
+    },
+    {
+      "id": "page-start",
+      "type": "page",
+      "text": "START",
+      "theme": "Commands",
+      "difficulty": "EASY",
+      "onSuccess": "success-start",
+      "onFailure": "page-start"
+    },
+    {
+      "id": "success-start",
+      "type": "dialogue",
+      "text": "The gears begin to turn.",
+      "position": "bottom",
+      "dismissOn": "auto",
+      "autoDelay": 1500
+    },
+    {
+      "id": "explain-oops",
+      "type": "dialogue",
+      "text": "Sometimes the letters... shift.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "page-oops",
+      "type": "page",
+      "text": "OOPS",
+      "theme": "Commands",
+      "forceScramble": "OOSP",
+      "difficulty": "EASY",
+      "onSuccess": "success-oops",
+      "onFailure": "page-oops"
+    },
+    {
+      "id": "success-oops",
+      "type": "dialogue",
+      "text": "You learn quickly. The highlighted letter showed you where to look.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "warn-impossible",
+      "type": "dialogue",
+      "text": "But some things cannot be known without help.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "page-impossible",
+      "type": "page",
+      "text": "FEED THE MACHINE",
+      "theme": "???",
+      "difficulty": "HARD",
+      "allowFailure": true,
+      "onSuccess": "impossible-success",
+      "onFailure": "failure-lesson"
+    },
+    {
+      "id": "impossible-success",
+      "type": "award",
+      "scrap": 1,
+      "setFlag": "figured_out_impossible",
+      "message": "Impossible. You figured it out anyway."
+    },
+    {
+      "id": "impossible-success-2",
+      "type": "dialogue",
+      "text": "The machine is... impressed? Here. Take this.",
+      "position": "center",
+      "dismissOn": "key",
+      "next": "pit-intro"
+    },
+    {
+      "id": "failure-lesson",
+      "type": "dialogue",
+      "text": "You failed. Good.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "failure-lesson-2",
+      "type": "dialogue",
+      "text": "Your mistakes have value here.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "pit-intro",
+      "type": "overlay",
+      "overlayType": "pit",
+      "title": "THE PIT",
+      "body": "Every wrong letter falls into The Pit.\n\nThe Pit remembers.\n\nYour failures become Cube Scrap.\n\nSpend it to unlock helpers.",
+      "dismissable": true
+    },
+    {
+      "id": "unlock-theme",
+      "type": "overlay",
+      "overlayType": "shop",
+      "title": "UNLOCK: THEME",
+      "body": "The THEME helper shows the word category.\n\nCost: 1 Cube Scrap",
+      "options": [
+        { "label": "UNLOCK THEME", "goto": "do-unlock-theme" }
+      ]
+    },
+    {
+      "id": "do-unlock-theme",
+      "type": "award",
+      "unlockHelper": "theme",
+      "message": "THEME unlocked and equipped."
+    },
+    {
+      "id": "retry-intro",
+      "type": "dialogue",
+      "text": "Now try again. With help.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "page-retry",
+      "type": "page",
+      "text": "FEED THE MACHINE",
+      "theme": "Factory Orders",
+      "tags": ["command", "obey"],
+      "difficulty": "HARD",
+      "onSuccess": "tutorial-complete",
+      "onFailure": "page-retry"
+    },
+    {
+      "id": "tutorial-complete",
+      "type": "dialogue",
+      "text": "The machine is satisfied. For now.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "tutorial-complete-2",
+      "type": "dialogue",
+      "text": "Your shift begins.",
+      "position": "center",
+      "dismissOn": "key"
+    },
+    {
+      "id": "end",
+      "type": "end",
+      "nextScene": "BreakRoomScene"
+    }
+  ]
+}

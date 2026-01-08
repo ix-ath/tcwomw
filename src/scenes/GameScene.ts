@@ -20,6 +20,7 @@ import {
   TIMING,
   PARTICLES,
   PHYSICS,
+  BLANK_DISPLAY,
 } from '../constants';
 import {
   CrusherState,
@@ -62,6 +63,7 @@ export class GameScene extends Phaser.Scene {
   private isOverdrive: boolean = false;
   private isGameOver: boolean = false;
   private isCompressing: boolean = false;
+  private hasStartedTyping: boolean = false;
 
   // Crusher state machine (graduated awakening)
   private crusherState: CrusherState = CrusherState.DORMANT;
@@ -108,7 +110,6 @@ export class GameScene extends Phaser.Scene {
     this.setupCollisionHandlers();
 
     this.mainCamera = this.cameras.main;
-    this.startTime = Date.now();
 
     // Launch UI scene in parallel
     this.scene.launch('UIScene');
@@ -123,6 +124,8 @@ export class GameScene extends Phaser.Scene {
     this.isOverdrive = false;
     this.isGameOver = false;
     this.isCompressing = false;
+    this.hasStartedTyping = false;
+    this.startTime = 0;
     this.crusherY = CRUSHER.INITIAL_Y;
     this.letterBodies = [];
 
@@ -251,26 +254,55 @@ export class GameScene extends Phaser.Scene {
     // Get letters from phrase (excluding spaces/punctuation)
     const chars = this.currentPhrase.text.replace(/[^A-Z0-9]/gi, '').toUpperCase();
     const blockSize = PHYSICS.LETTER_BLOCK_SIZE;
+    const minSpacing = LETTER_POOL.MIN_SPACING;
 
-    // Calculate spawn positions within game area (now using absolute pixel values)
-    const spawnWidth = LETTER_POOL.SPAWN_X_MAX - LETTER_POOL.SPAWN_X_MIN;
-    const spawnXStart = LETTER_POOL.SPAWN_X_MIN;
-    const spawnYMin = LETTER_POOL.SPAWN_Y_MIN;
-    const spawnYMax = LETTER_POOL.SPAWN_Y_MAX;
+    // Track placed positions for collision avoidance
+    const placedPositions: { x: number; y: number }[] = [];
+
+    // Find a valid position that doesn't overlap existing letters
+    const findValidPosition = (): { x: number; y: number } => {
+      const maxAttempts = 50;
+      for (let attempt = 0; attempt < maxAttempts; attempt++) {
+        const x = Phaser.Math.Between(
+          LETTER_POOL.SPAWN_X_MIN + blockSize / 2,
+          LETTER_POOL.SPAWN_X_MAX - blockSize / 2
+        );
+        const y = Phaser.Math.Between(
+          LETTER_POOL.SPAWN_Y_MIN + blockSize / 2,
+          LETTER_POOL.SPAWN_Y_MAX - blockSize / 2
+        );
+
+        // Check distance from all placed letters
+        let valid = true;
+        for (const pos of placedPositions) {
+          const dist = Math.sqrt((x - pos.x) ** 2 + (y - pos.y) ** 2);
+          if (dist < minSpacing) {
+            valid = false;
+            break;
+          }
+        }
+
+        if (valid) {
+          return { x, y };
+        }
+      }
+
+      // Fallback: just pick a random spot (physics will sort it out)
+      return {
+        x: Phaser.Math.Between(LETTER_POOL.SPAWN_X_MIN, LETTER_POOL.SPAWN_X_MAX),
+        y: Phaser.Math.Between(LETTER_POOL.SPAWN_Y_MIN, LETTER_POOL.SPAWN_Y_MAX),
+      };
+    };
 
     chars.split('').forEach((char, i) => {
-      // Distribute letters somewhat evenly with randomness
-      const col = i % 10;
-      const row = Math.floor(i / 10);
-      const baseX = spawnXStart + (col / 10) * spawnWidth + spawnWidth / 20;
-      const baseY = spawnYMin + row * (blockSize + 10);
+      const pos = findValidPosition();
+      placedPositions.push(pos);
 
-      // Add randomness
-      const x = baseX + Phaser.Math.Between(-20, 20);
-      const y = Math.min(baseY + Phaser.Math.Between(-10, 10), spawnYMax);
-      const rotation = Phaser.Math.DegToRad(Phaser.Math.Between(-LETTER_POOL.MAX_ROTATION, LETTER_POOL.MAX_ROTATION));
+      const rotation = Phaser.Math.DegToRad(
+        Phaser.Math.Between(-LETTER_POOL.MAX_ROTATION, LETTER_POOL.MAX_ROTATION)
+      );
 
-      this.createLetterBody(char, x, y, rotation, false, `letter-${i}`);
+      this.createLetterBody(char, pos.x, pos.y, rotation, false, `letter-${i}`);
     });
   }
 
@@ -343,9 +375,9 @@ export class GameScene extends Phaser.Scene {
     // Build theme + tag label (e.g., "FOOD • fruit")
     const theme = this.currentPhrase.category?.toUpperCase() || 'UNKNOWN';
     const tag = this.currentPhrase.tag ? ` • ${this.currentPhrase.tag}` : '';
-    const themeLabel = this.add.text(0, -45, `${theme}${tag}`, {
+    const themeLabel = this.add.text(0, -55, `${theme}${tag}`, {
       fontFamily: 'VT323, monospace',
-      fontSize: '18px',
+      fontSize: `${BLANK_DISPLAY.THEME_FONT_SIZE}px`,
       color: COLORS.TERMINAL_GREEN_CSS,
     }).setOrigin(0.5).setAlpha(0.7);
     this.targetDisplay.add(themeLabel);
@@ -380,13 +412,39 @@ export class GameScene extends Phaser.Scene {
   private updateTargetDisplay(): void {
     this.targetDisplay.removeAll(true);
 
+    // Re-add theme label (gets destroyed by removeAll)
+    const theme = this.currentPhrase.category?.toUpperCase() || 'UNKNOWN';
+    const tag = this.currentPhrase.tag ? ` • ${this.currentPhrase.tag}` : '';
+    const themeLabel = this.add.text(0, -55, `${theme}${tag}`, {
+      fontFamily: 'VT323, monospace',
+      fontSize: `${BLANK_DISPLAY.THEME_FONT_SIZE}px`,
+      color: COLORS.TERMINAL_GREEN_CSS,
+    }).setOrigin(0.5).setAlpha(0.7);
+    this.targetDisplay.add(themeLabel);
+
     const words = this.currentPhrase.text.split(' ');
     let globalCharIndex = 0;
-    const charWidth = 36;
-    const charHeight = 44;
-    const wordGap = 24;
 
-    // Calculate total width for centering
+    // Use constants, with scaling if too wide
+    let charWidth: number = BLANK_DISPLAY.CHAR_WIDTH;
+    let charHeight: number = BLANK_DISPLAY.CHAR_HEIGHT;
+    let fontSize: number = BLANK_DISPLAY.FONT_SIZE;
+    const wordGap = BLANK_DISPLAY.WORD_GAP;
+
+    // Calculate total width at full size
+    const totalChars = this.currentPhrase.text.replace(/ /g, '').length;
+    const numSpaces = words.length - 1;
+    const fullWidth = totalChars * charWidth + numSpaces * wordGap;
+
+    // Scale down if too wide (single step, not continuous)
+    if (fullWidth > BLANK_DISPLAY.MAX_WIDTH) {
+      const scale = BLANK_DISPLAY.MAX_WIDTH / fullWidth;
+      charWidth = Math.floor(charWidth * scale);
+      charHeight = Math.floor(charHeight * scale);
+      fontSize = Math.floor(fontSize * scale);
+    }
+
+    // Calculate total width for centering (with potentially scaled values)
     const totalWidth = words.reduce((sum, word, i) => {
       return sum + word.length * charWidth + (i < words.length - 1 ? wordGap : 0);
     }, 0);
@@ -400,7 +458,7 @@ export class GameScene extends Phaser.Scene {
         const isCurrent = absoluteIndex === this.typedIndex;
         const isAlphanumeric = /^[A-Z0-9]$/i.test(char);
 
-        // Character box
+        // Character box (add first so text appears on top)
         const box = this.add.rectangle(
           currentX + charWidth / 2,
           0,
@@ -414,6 +472,7 @@ export class GameScene extends Phaser.Scene {
             isCurrent ? COLORS.OVERDRIVE_WHITE :
               COLORS.UI_DIM
         );
+        this.targetDisplay.add(box);
 
         // Character text (only show if typed or non-alphanumeric)
         if (isTyped || !isAlphanumeric) {
@@ -423,7 +482,7 @@ export class GameScene extends Phaser.Scene {
             char.toUpperCase(),
             {
               fontFamily: 'VT323, monospace',
-              fontSize: '28px',
+              fontSize: `${fontSize}px`,
               color: isTyped ? COLORS.TERMINAL_GREEN_CSS : '#666666',
             }
           ).setOrigin(0.5);
@@ -441,8 +500,6 @@ export class GameScene extends Phaser.Scene {
             repeat: -1,
           });
         }
-
-        this.targetDisplay.add(box);
         currentX += charWidth;
         globalCharIndex++;
       });
@@ -513,6 +570,12 @@ export class GameScene extends Phaser.Scene {
     const currentChar = this.currentPhrase.text[this.typedIndex]?.toUpperCase();
 
     if (!currentChar) return;
+
+    // Start timer on first keypress (not level load)
+    if (!this.hasStartedTyping) {
+      this.hasStartedTyping = true;
+      this.startTime = Date.now();
+    }
 
     // Check if current character should be auto-completed (space, punctuation)
     if (!/^[A-Z0-9]$/.test(currentChar)) {
@@ -682,25 +745,36 @@ export class GameScene extends Phaser.Scene {
     const textChild = letterBody.container.list[1] as Phaser.GameObjects.Text;
     const blockChild = letterBody.container.list[0] as Phaser.GameObjects.Image;
 
-    // Yellow/warning highlight
+    // Bright yellow highlight with strong glow
     textChild.setColor('#ffff00');
-    textChild.setShadow(0, 0, '#ffff00', 15, true, true);
+    textChild.setShadow(0, 0, '#ffff00', 25, true, true);
 
-    // Scale pulse
-    this.tweens.add({
-      targets: letterBody.container,
-      scale: { from: 1.4, to: 1.1 },
-      duration: 200,
-      ease: 'Bounce.out',
-    });
-
-    // Optional: tint the block
+    // Tint the block yellow
     if (blockChild.setTint) {
       blockChild.setTint(0xffff00);
     }
 
-    // Fade back to normal after 1 second
-    this.time.delayedCall(1000, () => {
+    // Initial pop
+    this.tweens.add({
+      targets: letterBody.container,
+      scale: { from: 1.5, to: 1.2 },
+      duration: 150,
+      ease: 'Back.out',
+    });
+
+    // Pulsing glow animation (repeats while highlighted)
+    const pulseKey = `highlight-pulse-${letterBody.id}`;
+    this.tweens.add({
+      targets: letterBody.container,
+      scale: { from: 1.2, to: 1.3 },
+      duration: 300,
+      yoyo: true,
+      repeat: 2,
+      key: pulseKey,
+    });
+
+    // Fade back to normal after 1.5 seconds (longer visibility)
+    this.time.delayedCall(1500, () => {
       if (!letterBody.container.active) return;
 
       // Reset text color

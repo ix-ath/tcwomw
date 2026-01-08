@@ -13,6 +13,8 @@
 
 **Core Fantasy:** "I must be perfect. Every imperfection is shoved in my face."
 
+**Emotional Peak:** The clutch recovery. Being an inch from crushing, then typing your way back. This feeling of ultimate relief is what makes the game compelling.
+
 **Mastery Goal:** Perfect run with no helpers on hardest difficulty.
 
 ---
@@ -275,6 +277,9 @@ Both success and failure have value.
 | Word memorization | How to prevent trivializing via memorization? | Massive pools + Workshop |
 | Speed mode specifics | Exact mechanics of shrinking space | Future |
 | Upgrade balancing | How much do upgrades help? | Playtest |
+| Early game sameness | Books 1-15 lack variety (no mutators/helpers yet) | Needs design |
+| Theme+Tag balance | May be too easy once unlocked - test and tune | Playtest |
+| Economy values | Scrap costs are placeholder - tune after loop is solid | Playtest |
 
 ---
 
@@ -311,50 +316,57 @@ The tutorial teaches mechanics organically through gameplay:
 
 ---
 
-### Campaign Structure: Books & Chapters
+### Campaign Structure: Stories, Chapters & Pages
 
 **Target scope:** 1-2 hour campaign, $2.99-$8.99 price point.
 
 **Hierarchy:**
-- **Campaign** = ~40 Books
-- **Book** = 3-5 Chapters (thematic unit, tells a micro-story)
-- **Chapter** = 5-10 words/phrases/sentences
+- **Campaign** = The main story (~8-10 chapters)
+- **Story/Book** = A complete narrative arc (main campaign OR user-uploaded Workshop content)
+- **Chapter** = A thematic unit with 5-10 pages + chapter boss
+- **Page** = A single word/phrase/sentence to complete
+
+**Boss structure:**
+- **Chapter Boss:** Challenging word/phrase at end of each chapter
+- **Story Boss:** Final boss at end of last chapter (hardest content in that story)
 
 **Loss behavior:**
-- Lose a chapter = restart that chapter (lose ~30 sec to 2 min of progress)
-- Do NOT lose the whole book
+- Lose a page = restart that chapter (lose ~30 sec to 2 min of progress)
+- Do NOT lose the whole story
 - Early chapters: short, quick retry
 - Later chapters: longer, higher stakes
 
 **Content progression:**
 
-| Phase | Books | Content Type | Chapter Length |
-|-------|-------|--------------|----------------|
-| **Learning** | 1-5 | Single words (4-6 letters) | 5 words, ~30 sec |
-| **Growing** | 6-15 | Longer words, 2-word phrases | 6-8 items, ~1 min |
-| **Challenging** | 16-30 | Phrases, 3-5 words | 8-10 items, ~1.5 min |
-| **Mastery** | 31-40 | Full sentences, story beats | 10+ items, ~2 min |
-| **Endgame** | 40+ | Paragraphs (split into half-lines) | Variable |
+| Phase | Chapters | Content Type | Pages per Chapter |
+|-------|----------|--------------|-------------------|
+| **Learning** | 1-2 | Single words (4-6 letters) | 5 pages, ~30 sec |
+| **Growing** | 3-5 | Longer words, 2-word phrases | 6-8 pages, ~1 min |
+| **Challenging** | 6-8 | Phrases, 3-5 words | 8-10 pages, ~1.5 min |
+| **Mastery** | 9-10 | Full sentences, story beats | 10+ pages, ~2 min |
+| **Endgame** | Workshop | Paragraphs (split into half-lines) | Variable |
 
 **Chapter structure:**
-- Warmup: 1-2 easy items (get in rhythm)
-- Core: 3-6 themed items (the meat)
-- Boss: 1 challenging item (climax)
+- Warmup: 1-2 easy pages (get in rhythm)
+- Core: 3-6 themed pages (the meat)
+- Chapter Boss: 1 challenging page (climax)
+
+**Workshop:** Users can upload their own Stories (books) for others to play.
 
 ---
 
 ### The Typed Story
 
-The words themselves ARE the narrative. Word curation is critical.
+The words themselves ARE the narrative. Page curation is critical.
 
 **Example progression:**
 
-| Book | Sample Content | Narrative Beat |
-|------|----------------|----------------|
+| Chapter | Sample Pages | Narrative Beat |
+|---------|--------------|----------------|
 | 1 | "HELLO" → "WORKER" → "NEW" → "SHIFT" → "BEGINS" | Player arrives |
-| 10 | "THE MACHINE HUMS" → "FEED IT WORDS" → "IT IS HUNGRY" | Machine awakens |
-| 25 | "OTHERS CAME BEFORE" → "THEIR WORDS FILL THE PIT" → "YOU ARE NOT THE FIRST" | Dread builds |
-| 40 | Full sentences revealing the ending | Resolution |
+| 4 | "THE MACHINE HUMS" → "FEED IT WORDS" → "IT IS HUNGRY" | Machine awakens |
+| 7 | "OTHERS CAME BEFORE" → "THEIR WORDS FILL THE PIT" → "YOU ARE NOT THE FIRST" | Dread builds |
+| 10 | Full sentences revealing the ending + Story Boss | Resolution |
 
 **AI-assisted writing:** Story content will be generated with AI assistance, then curated for pacing and theming.
 
@@ -443,12 +455,12 @@ The words themselves ARE the narrative. Word curation is critical.
 |---------|------------------|----------|
 | Chair | Start | Sit to start a run |
 | Crack in tile | Start | Access The Pit, spend scrap |
-| Fridge | 5 books complete | Scoreboard, stats, leaderboards |
-| Bulletin Board | 10 books complete | View unlocked mutators |
-| Microwave | 15 books complete | Quick play (random book) |
-| Locker | 20 books complete | Upgrade loadout customization |
-| Time Clock | 30 books complete | Daily challenge access |
-| Window | 40 books complete | Endless mode? Story ending? |
+| Fridge | 2 chapters complete | Scoreboard, stats, leaderboards |
+| Bulletin Board | 4 chapters complete | View unlocked mutators |
+| Microwave | 6 chapters complete | Quick play (random chapter) |
+| Locker | 8 chapters complete | Upgrade loadout customization |
+| Time Clock | Complete main story | Daily challenge access |
+| Window | Complete main story | Endless mode? Story ending? |
 
 **Lore integration:** Each fixture reveals environmental storytelling when unlocked. Notes from previous workers. The clock frozen at a specific time. Old lunches in the fridge with names on them.
 

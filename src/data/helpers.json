@@ -45,7 +45,7 @@
     {
       "id": "heavy-letters",
       "name": "Heavy Letters",
-      "description": "Vowels briefly pause the crusher when typed correctly",
+      "description": "Certain letters briefly pause the crusher when typed correctly",
       "cost": 50,
       "category": "TIMING"
     },
@@ -59,7 +59,7 @@
     {
       "id": "first-letter-focus",
       "name": "First Letter Focus",
-      "description": "The next required letter is slightly larger",
+      "description": "The first letter of the phrase is slightly larger",
       "cost": 100,
       "category": "VISION"
     },
@@ -69,41 +69,17 @@
       "description": "One free mistake per chapter (letter doesn't count as error)",
       "cost": 150,
       "category": "FORGIVENESS"
-    },
-    {
-      "id": "breather",
-      "name": "Breather",
-      "description": "Crusher pauses for 1 second at the start of each page",
-      "cost": 200,
-      "category": "TIMING"
-    },
-    {
-      "id": "word-preview",
-      "name": "Word Preview",
-      "description": "Briefly shows the next word before it scrambles",
-      "cost": 250,
-      "category": "VISION"
-    },
-    {
-      "id": "cushion",
-      "name": "Cushion",
-      "description": "Fail zone is 10% higher (more room before crushing)",
-      "cost": 300,
-      "category": "FORGIVENESS"
-    },
-    {
-      "id": "auto-punctuation",
-      "name": "Auto-Punctuation",
-      "description": "Spaces and punctuation are auto-filled with a small delay",
-      "cost": 400,
-      "category": "ENDGAME"
-    },
-    {
-      "id": "slow-motion",
-      "name": "Slow Motion",
-      "description": "Crusher descends 25% slower",
-      "cost": 500,
-      "category": "ENDGAME"
     }
-  ]
+  ],
+  "_notes": {
+    "removed": [
+      "auto-punctuation: Punctuation already auto-fills by default",
+      "breather: Crusher is DORMANT at start, so pause is useless",
+      "word-preview: Letters aren't 'scrambled' - they're spatially scattered"
+    ],
+    "future_endgame": [
+      "Auto-type assists that slowly type letters for you",
+      "Full automation for idle mode (very late unlock)"
+    ]
+  }
 }

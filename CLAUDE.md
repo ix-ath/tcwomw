@@ -8,6 +8,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **Core Fantasy:** "Overwhelming sense of 'I must be perfect' - every imperfection shoved in player's face. Mistakes literally crush you."
 
+**Emotional Peak:** The clutch recovery - being an inch from crushing, then typing your way back to safety. This ultimate relief is the game's hook.
+
 ## Core Loop Design
 
 **See `docs/CORE_LOOP_SPEC.md` for full specification.**
@@ -61,10 +63,15 @@ Words are stored in JSON files at `src/data/words/`:
 
 **See `docs/CORE_LOOP_SPEC.md` "Campaign Structure & Game Flow" section for full details.**
 
-- **Books & Chapters**: ~40 books, each with 3-5 chapters, each chapter has 5-10 words/phrases
-- **Content scales**: Words → phrases → sentences → paragraphs (late game)
-- **Loss = restart chapter** (not entire book)
-- **Tutorial**: ON → START → OOPS (teaches mechanics) → Impossible sentence (teaches economy)
+**Hierarchy:** Story → Chapter → Page
+- **Story/Book**: Complete narrative arc (~8-10 chapters). Main campaign or Workshop uploads.
+- **Chapter**: Thematic unit with 5-10 pages + chapter boss
+- **Page**: Single word/phrase/sentence to complete
+
+**Bosses:** Chapter boss at end of each chapter. Story boss at end of final chapter.
+**Loss:** Restart current chapter (not entire story)
+**Workshop:** Users can upload their own Stories for others to play.
+**Tutorial:** ON → START → OOPS (teaches mechanics) → Impossible sentence (teaches economy)
 
 ### Cube Scrap Economy
 
@@ -74,10 +81,34 @@ Words are stored in JSON files at `src/data/words/`:
 - **The Pit**: Permanent monument to failures, lifetime count is spendable
 - **Philosophy**: All helpers equippable (accessibility), score penalty for using many (mastery)
 
+### Helper Design Decisions
+
+Helpers must provide real value. The following were considered and **rejected**:
+- **Auto-Punctuation**: Rejected - punctuation already auto-fills by default (player only types alphanumeric)
+- **Breather**: Rejected - crusher starts DORMANT, so a pause at game start is useless
+- **Word Preview**: Rejected - letters aren't "scrambled" in a sequence, they're spatially scattered on a board
+
+Current helpers in `src/data/helpers.json`:
+- **VISION**: Theme, Tag, First Word Glow, First Letter Focus
+- **TIMING**: Keep Highlight I/II/III (tiered), Heavy Letters
+- **FORGIVENESS**: Second Chance
+
 ### Break Room Hub
 
 Depressing workplace break room. Fixtures unlock with book completions:
 - Chair (start), Crack in tile (Pit access), Fridge (scoreboard), Locker (loadouts), etc.
+
+## Git Config
+
+This repo uses personal credentials:
+- **Name:** Bryan W
+- **Email:** bw@pixeltools.us
+
+If commits show wrong author, run:
+```bash
+git config user.name "Bryan W"
+git config user.email "bw@pixeltools.us"
+```
 
 ## Commands
 
@@ -100,12 +131,21 @@ npm run electron:build   # Package for distribution
 
 ### Scene Flow
 ```
-BootScene → PreloadScene → MenuScene → GameScene ↔ UIScene
-                              ↑               │
-                              └─────── ResultScene
+BootScene → PreloadScene → MenuScene → BreakRoomScene → TutorialScene (first time)
+                                            │                    │
+                                            ↓                    ↓
+                                       GameScene ← ─ ─ ─ ─ ─ ─ ─ ┘
+                                            │
+                                       UIScene (parallel)
+                                            │
+                                       ResultScene
+                                            │
+                                       BreakRoomScene (loop)
 ```
 
-GameScene and UIScene run in parallel during gameplay. Scenes communicate via:
+- **BreakRoomScene**: Hub with clickable fixtures. Checks tutorial completion.
+- **TutorialScene**: Scripted tutorial using ScriptedEvent framework.
+- **GameScene** and **UIScene** run in parallel during gameplay. Scenes communicate via:
 - **Registry**: Shared state (progress, config, selectedDifficulty)
 - **Events**: Cross-scene events via `scene.events` using `GameEvents` enum
 - **Data**: Passed via `scene.start(key, data)`
@@ -113,8 +153,19 @@ GameScene and UIScene run in parallel during gameplay. Scenes communicate via:
 ### Core Files
 
 - `src/constants.ts` - All tunable game values (speeds, lift amounts, colors, timing). Adjust these to change game feel.
-- `src/types.ts` - TypeScript interfaces, enums (`Difficulty`, `GameEvents`, `WordTier`), and event payload types.
+- `src/types.ts` - TypeScript interfaces, enums (`Difficulty`, `GameEvents`, `WordTier`), campaign types, economy types.
 - `src/main.ts` - Phaser config with Matter.js physics enabled. Exposes `window.game` in dev mode.
+
+### Key Systems
+
+- `src/systems/SaveManager.ts` - LocalStorage persistence singleton. Handles economy (scrap), helpers (unlock/equip), progress tracking, stats.
+- `src/systems/ScriptedEvent.ts` - Data-driven framework for scripted sequences (tutorials, cutscenes, story beats). Step types: `dialogue`, `page`, `wait`, `award`, `overlay`, `branch`, `goto`, `end`.
+
+### Data Files
+
+- `src/data/stories/` - Campaign JSON files. Each story is its own file (Workshop-ready).
+- `src/data/helpers.json` - Helper definitions with costs, prerequisites, and tiers.
+- `src/data/scripts/` - Scripted event definitions (tutorial.json, etc.).
 
 ### Event-Driven Architecture
 
