@@ -322,6 +322,6 @@ export class ResultScene extends Phaser.Scene {
   }
 
   private returnToMenu(): void {
-    this.scene.start('MenuScene');
+    this.scene.start('BreakRoomScene');
   }
 }

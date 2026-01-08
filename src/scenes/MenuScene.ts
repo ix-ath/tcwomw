@@ -1,12 +1,13 @@
 /**
  * MENU SCENE
- * Title screen with difficulty selection.
+ * Title screen with main navigation.
  * Styled to match the CRT terminal aesthetic.
  */
 
 import Phaser from 'phaser';
 import { COLORS, GAME_WIDTH, GAME_HEIGHT } from '../constants';
 import { Difficulty } from '../types';
+import { SaveManager } from '../systems/SaveManager';
 
 export class MenuScene extends Phaser.Scene {
   private buttons: Phaser.GameObjects.Container[] = [];
@@ -51,22 +52,42 @@ export class MenuScene extends Phaser.Scene {
     const startY = 380;
     const spacing = 60;
 
-    const difficulties: { key: Difficulty; label: string }[] = [
-      { key: Difficulty.EASY, label: 'EASY ACCESS' },
-      { key: Difficulty.MEDIUM, label: 'MODERATE' },
-      { key: Difficulty.HARD, label: 'CRITICAL' },
-      { key: Difficulty.EXPERT, label: 'CRUSHING' },
-    ];
+    // Check if player has any progress
+    const stats = SaveManager.getStats();
+    const hasProgress = stats.chaptersCompleted > 0 || stats.totalPlayTime > 0;
 
-    difficulties.forEach((diff, index) => {
-      const button = this.createButton(centerX, startY + index * spacing, diff.label, () => {
-        this.startGame(diff.key);
+    // Main menu options
+    const options: { label: string; action: () => void }[] = [];
+
+    if (hasProgress) {
+      options.push({
+        label: 'CONTINUE',
+        action: () => this.goToBreakRoom(),
       });
+    }
+
+    options.push({
+      label: 'NEW SHIFT',
+      action: () => this.goToBreakRoom(),
+    });
+
+    options.push({
+      label: 'QUICK PLAY',
+      action: () => this.startGame(Difficulty.MEDIUM),
+    });
+
+    // Create buttons
+    options.forEach((opt, index) => {
+      const button = this.createButton(centerX, startY + index * spacing, opt.label, opt.action);
       this.buttons.push(button);
     });
 
     // Highlight first button
     this.updateSelection(0);
+  }
+
+  private goToBreakRoom(): void {
+    this.scene.start('BreakRoomScene');
   }
 
   private createButton(x: number, y: number, text: string, callback: () => void): Phaser.GameObjects.Container {

@@ -10,6 +10,7 @@ import { GAME_WIDTH, GAME_HEIGHT, BACKGROUND_COLOR } from './constants';
 import { BootScene } from '@scenes/BootScene';
 import { PreloadScene } from '@scenes/PreloadScene';
 import { MenuScene } from '@scenes/MenuScene';
+import { BreakRoomScene } from '@scenes/BreakRoomScene';
 import { GameScene } from '@scenes/GameScene';
 import { UIScene } from '@scenes/UIScene';
 import { ResultScene } from '@scenes/ResultScene';
@@ -42,6 +43,7 @@ const config: Phaser.Types.Core.GameConfig = {
     BootScene,
     PreloadScene,
     MenuScene,
+    BreakRoomScene,
     GameScene,
     UIScene,
     ResultScene,

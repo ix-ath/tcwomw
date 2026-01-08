@@ -6,6 +6,7 @@
 export { BootScene } from './BootScene';
 export { PreloadScene } from './PreloadScene';
 export { MenuScene } from './MenuScene';
+export { BreakRoomScene } from './BreakRoomScene';
 export { GameScene } from './GameScene';
 export { UIScene } from './UIScene';
 export { ResultScene } from './ResultScene';
