@@ -1,0 +1,109 @@
+{
+  "version": "1.0.0",
+  "helpers": [
+    {
+      "id": "theme",
+      "name": "Theme",
+      "description": "Shows the word category (e.g., 'Food', 'Places')",
+      "cost": 1,
+      "category": "VISION"
+    },
+    {
+      "id": "tag",
+      "name": "Tag",
+      "description": "Shows a hint word below the theme (e.g., 'Food - fruit')",
+      "cost": 5,
+      "category": "VISION",
+      "prerequisite": "theme"
+    },
+    {
+      "id": "keep-highlight-1",
+      "name": "Keep Highlight I",
+      "description": "Wrong-position letters glow 50% longer",
+      "cost": 10,
+      "category": "TIMING",
+      "tier": 1
+    },
+    {
+      "id": "keep-highlight-2",
+      "name": "Keep Highlight II",
+      "description": "Wrong-position letters glow twice as long",
+      "cost": 25,
+      "category": "TIMING",
+      "tier": 2,
+      "prerequisite": "keep-highlight-1"
+    },
+    {
+      "id": "keep-highlight-3",
+      "name": "Keep Highlight III",
+      "description": "Wrong-position letters stay highlighted until typed",
+      "cost": 50,
+      "category": "TIMING",
+      "tier": 3,
+      "prerequisite": "keep-highlight-2"
+    },
+    {
+      "id": "heavy-letters",
+      "name": "Heavy Letters",
+      "description": "Vowels briefly pause the crusher when typed correctly",
+      "cost": 50,
+      "category": "TIMING"
+    },
+    {
+      "id": "first-word-glow",
+      "name": "First Word Glow",
+      "description": "All letters of the first word glow blue",
+      "cost": 75,
+      "category": "VISION"
+    },
+    {
+      "id": "first-letter-focus",
+      "name": "First Letter Focus",
+      "description": "The next required letter is slightly larger",
+      "cost": 100,
+      "category": "VISION"
+    },
+    {
+      "id": "second-chance",
+      "name": "Second Chance",
+      "description": "One free mistake per chapter (letter doesn't count as error)",
+      "cost": 150,
+      "category": "FORGIVENESS"
+    },
+    {
+      "id": "breather",
+      "name": "Breather",
+      "description": "Crusher pauses for 1 second at the start of each page",
+      "cost": 200,
+      "category": "TIMING"
+    },
+    {
+      "id": "word-preview",
+      "name": "Word Preview",
+      "description": "Briefly shows the next word before it scrambles",
+      "cost": 250,
+      "category": "VISION"
+    },
+    {
+      "id": "cushion",
+      "name": "Cushion",
+      "description": "Fail zone is 10% higher (more room before crushing)",
+      "cost": 300,
+      "category": "FORGIVENESS"
+    },
+    {
+      "id": "auto-punctuation",
+      "name": "Auto-Punctuation",
+      "description": "Spaces and punctuation are auto-filled with a small delay",
+      "cost": 400,
+      "category": "ENDGAME"
+    },
+    {
+      "id": "slow-motion",
+      "name": "Slow Motion",
+      "description": "Crusher descends 25% slower",
+      "cost": 500,
+      "category": "ENDGAME"
+    }
+  ]
+}

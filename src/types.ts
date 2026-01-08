@@ -160,15 +160,54 @@ export interface PlayerProgress {
   totalScore: number;
   stage: number;
   wordsCompleted: number;
-  
+
   // Machine repair status (future)
   hydraulicsRepair: number;  // 0-100
   steamVentRepair: number;   // 0-100
   brassGearsRepair: number;  // 0-100
-  
-  // Economy (future)
-  scrip: number;
-  scrapCollected: number;
+}
+
+// =============================================================================
+// ECONOMY & PROGRESSION
+// =============================================================================
+
+/** Helper/upgrade categories from design doc */
+export type HelperCategory = 'VISION' | 'TIMING' | 'FORGIVENESS' | 'ENDGAME';
+
+/** Definition of a purchasable helper/upgrade */
+export interface HelperDefinition {
+  id: string;                // Unique identifier (e.g., "theme", "keep-highlight-1")
+  name: string;              // Display name
+  description: string;       // What it does
+  cost: number;              // Cube scrap cost
+  category: HelperCategory;
+  tier?: number;             // For upgrades with multiple levels (Keep Highlight I/II/III)
+  prerequisite?: string;     // Helper ID that must be unlocked first
+}
+
+/** Cube scrap economy state */
+export interface EconomyState {
+  cubeScrap: number;         // Current spendable balance
+  lifetimeScrap: number;     // The Pit - total ever earned, never decreases
+}
+
+/** Progress within a single chapter */
+export interface ChapterProgressData {
+  completed: boolean;
+  completedAt?: string;      // ISO date string
+  bestScore?: number;
+  bestTime?: number;         // Seconds
+  perfectRun?: boolean;      // Completed with no mistakes
+  deathCount: number;        // Times failed this chapter
+}
+
+/** Progress within a story */
+export interface StoryProgressData {
+  storyId: string;
+  currentChapterIndex: number;  // Where player left off
+  chapters: Record<string, ChapterProgressData>;  // Keyed by chapter ID
+  completed: boolean;
+  completedAt?: string;
 }
 
 // =============================================================================
@@ -277,19 +316,40 @@ export interface GameConfig {
 }
 
 // =============================================================================
-// SAVE DATA (future)
+// SAVE DATA
 // =============================================================================
 
 export interface SaveData {
   version: string;
-  progress: PlayerProgress;
+
+  // Economy
+  economy: EconomyState;
+
+  // Helpers/upgrades
+  unlockedHelpers: string[];   // Array of helper IDs that have been purchased
+  equippedHelpers: string[];   // Currently active helpers (subset of unlocked)
+
+  // Campaign progress
+  storyProgress: Record<string, StoryProgressData>;  // Keyed by story ID
+  tutorialCompleted: boolean;
+
+  // Settings
   config: GameConfig;
+
+  // Lifetime stats
   stats: {
-    totalPlayTime: number;
+    totalPlayTime: number;     // Seconds
     totalWordsTyped: number;
+    totalLettersTyped: number;
     totalErrors: number;
     bestWPM: number;
-    pitLetterCount: number;  // The Pit of Failure
-    balesCreated: number;    // Trash cubes from losses
+    balesCreated: number;      // Trash cubes from losses (visual in The Pit)
+    chaptersCompleted: number;
+    storiesCompleted: number;
+    perfectChapters: number;   // Chapters with no mistakes
   };
+
+  // Metadata
+  createdAt: string;           // ISO date string
+  lastPlayedAt: string;        // ISO date string
 }
