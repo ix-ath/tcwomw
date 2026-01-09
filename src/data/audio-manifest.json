@@ -1,0 +1,151 @@
+{
+  "$schema": "./audio-manifest.schema.json",
+  "_comment": "Audio manifest - maps sound keys to file paths. Swap paths to change assets without code changes.",
+
+  "sfx": {
+    "correct_letter": {
+      "path": null,
+      "fallback": "procedural:blip",
+      "category": "sfx",
+      "pitchVariance": 0.1,
+      "notes": "Rising pitch based on combo. Procedural for now."
+    },
+    "wrong_letter": {
+      "path": null,
+      "fallback": "procedural:buzz",
+      "category": "sfx",
+      "notes": "Error sound - metallic clang eventually"
+    },
+    "word_complete": {
+      "path": null,
+      "fallback": "procedural:fanfare",
+      "category": "sfx",
+      "notes": "Brief celebration, 3-note rising"
+    },
+    "crusher_drop": {
+      "path": null,
+      "fallback": "procedural:thud",
+      "category": "sfx",
+      "notes": "Heavy impact when crusher drops"
+    },
+    "crusher_lift": {
+      "path": null,
+      "fallback": "procedural:whoosh",
+      "category": "sfx",
+      "notes": "Relief sound when crusher lifts"
+    },
+    "overdrive_activate": {
+      "path": null,
+      "fallback": "procedural:powerup",
+      "category": "sfx",
+      "notes": "20-streak reached - big moment"
+    },
+    "penalty_fall": {
+      "path": null,
+      "fallback": "procedural:clunk",
+      "category": "sfx",
+      "notes": "Penalty letter landing on crusher"
+    },
+    "game_over": {
+      "path": null,
+      "fallback": "procedural:crush",
+      "category": "sfx",
+      "notes": "Final crushing sound"
+    },
+    "victory": {
+      "path": null,
+      "fallback": "procedural:victory",
+      "category": "sfx",
+      "notes": "Chapter/page complete"
+    }
+  },
+
+  "ui": {
+    "button_hover": {
+      "path": null,
+      "fallback": "procedural:tick",
+      "category": "ui",
+      "notes": "Subtle hover feedback"
+    },
+    "button_click": {
+      "path": null,
+      "fallback": "procedural:click",
+      "category": "ui",
+      "notes": "Confirmation click"
+    },
+    "menu_navigate": {
+      "path": null,
+      "fallback": "procedural:blip_low",
+      "category": "ui",
+      "notes": "Arrow key navigation"
+    },
+    "menu_back": {
+      "path": null,
+      "fallback": "procedural:swoosh_down",
+      "category": "ui",
+      "notes": "ESC / back action"
+    },
+    "purchase": {
+      "path": null,
+      "fallback": "procedural:coin",
+      "category": "ui",
+      "notes": "Scrap spending"
+    },
+    "unlock": {
+      "path": null,
+      "fallback": "procedural:unlock",
+      "category": "ui",
+      "notes": "Helper/fixture unlocked"
+    },
+    "error": {
+      "path": null,
+      "fallback": "procedural:deny",
+      "category": "ui",
+      "notes": "Can't afford / invalid action"
+    }
+  },
+
+  "music": {
+    "ambient_factory": {
+      "path": null,
+      "fallback": null,
+      "category": "music",
+      "loop": true,
+      "notes": "Main gameplay ambient - industrial hum, distant machinery"
+    },
+    "tension_layer": {
+      "path": null,
+      "fallback": null,
+      "category": "music",
+      "loop": true,
+      "notes": "Layered on top when crusher gets close - increases dread"
+    },
+    "breakroom_ambient": {
+      "path": null,
+      "fallback": null,
+      "category": "music",
+      "loop": true,
+      "notes": "Hub area - fluorescent buzz, quiet, sad"
+    },
+    "menu_theme": {
+      "path": null,
+      "fallback": null,
+      "category": "music",
+      "loop": true,
+      "notes": "Title/menu music"
+    }
+  },
+
+  "combo": {
+    "_comment": "Combo sounds use pitch scaling. Base sound + pitch offset per combo level.",
+    "base_note": {
+      "path": null,
+      "fallback": "procedural:tone_c4",
+      "category": "sfx",
+      "notes": "Base tone for combo system - pitch shifts up"
+    },
+    "pitch_increment": 0.05,
+    "max_pitch": 2.0,
+    "reset_after": 12
+  }
+}

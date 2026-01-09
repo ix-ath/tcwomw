@@ -3,7 +3,14 @@
     "allow": [
       "Bash(npm run typecheck:*)",
       "Bash(npm run dev:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(node -e:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(dir:*)",
+      "Bash(git config:*)",
+      "Bash(git restore:*)",
+      "Bash(git push:*)"
     ]
   }
 }

@@ -33,6 +33,7 @@ import { getRandomPhrase } from '@utils/wordUtils';
 import { SettingsManager } from '@systems/SettingsManager';
 import { SaveManager } from '@systems/SaveManager';
 import { CampaignManager } from '@systems/CampaignManager';
+import { AudioManager } from '@systems/AudioManager';
 
 // Physics body labels for collision detection
 const BODY_LABELS = {
@@ -733,6 +734,9 @@ export class GameScene extends Phaser.Scene {
     // Emit event for UI/audio
     this.events.emit(GameEvents.CORRECT_LETTER, { char, index: this.typedIndex, combo: this.combo });
 
+    // Play audio with pitch scaling based on combo
+    AudioManager.playCombo('correct_letter');
+
     // Check for phrase completion
     if (this.typedIndex >= this.currentPhrase.text.length) {
       this.handleWin();
@@ -810,6 +814,10 @@ export class GameScene extends Phaser.Scene {
 
     // Emit event
     this.events.emit(GameEvents.WRONG_LETTER, { expected, received: pressed, index: this.typedIndex });
+
+    // Play error sound and reset combo pitch
+    AudioManager.play('wrong_letter');
+    AudioManager.resetCombo();
   }
 
   private removeTypedLetter(char: string): void {
@@ -962,6 +970,9 @@ export class GameScene extends Phaser.Scene {
 
   private triggerOverdrive(): void {
     this.isOverdrive = true;
+
+    // Audio feedback
+    AudioManager.play('overdrive_activate');
 
     // Visual feedback
     this.mainCamera.flash(500, 0, 255, 65, false);
@@ -1233,6 +1244,9 @@ export class GameScene extends Phaser.Scene {
   private handleWin(): void {
     this.isGameOver = true;
 
+    // Play victory sound
+    AudioManager.play('victory');
+
     const totalTime = (Date.now() - this.startTime) / 1000;
     const totalChars = this.currentPhrase.text.replace(/[^A-Z0-9]/gi, '').length;
     const accuracy = Math.floor((totalChars / (totalChars + this.errors)) * 100);
@@ -1271,6 +1285,9 @@ export class GameScene extends Phaser.Scene {
     if (this.isCompressing) return;
     this.isGameOver = true;
     this.isCompressing = true;
+
+    // Play crushing/death sound
+    AudioManager.play('game_over');
 
     const totalTime = (Date.now() - this.startTime) / 1000;
     const typedChars = this.currentPhrase.text.slice(0, this.typedIndex).replace(/[^A-Z0-9]/gi, '').length;

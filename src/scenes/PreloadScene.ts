@@ -6,6 +6,7 @@
 
 import Phaser from 'phaser';
 import { COLORS, GAME_WIDTH, GAME_HEIGHT } from '../constants';
+import { AudioManager } from '../systems/AudioManager';
 
 export class PreloadScene extends Phaser.Scene {
   private loadingBar!: Phaser.GameObjects.Graphics;
@@ -117,6 +118,9 @@ export class PreloadScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Initialize audio system (uses Web Audio API with procedural fallbacks)
+    AudioManager.init();
+
     // Brief delay before menu for effect
     this.time.delayedCall(500, () => {
       this.scene.start('MenuScene');
