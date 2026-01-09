@@ -40,6 +40,7 @@ export class SettingsScene extends Phaser.Scene {
   private isRebinding: boolean = false;
   private rebindTarget: string | null = null;
   private toastText: Phaser.GameObjects.Text | null = null;
+  private returnTo: string = 'MenuScene'; // Where to go when exiting settings
   private toastTween: Phaser.Tweens.Tween | null = null;
 
   // Settings definitions by category
@@ -172,6 +173,11 @@ export class SettingsScene extends Phaser.Scene {
 
   constructor() {
     super({ key: 'SettingsScene' });
+  }
+
+  init(data?: { returnTo?: string }): void {
+    // Set return destination (default to MenuScene)
+    this.returnTo = data?.returnTo || 'MenuScene';
   }
 
   create(): void {
@@ -796,7 +802,7 @@ export class SettingsScene extends Phaser.Scene {
 
   private goBack(): void {
     // Return to the scene that launched settings
-    this.scene.start('MenuScene');
+    this.scene.start(this.returnTo);
   }
 
   /**

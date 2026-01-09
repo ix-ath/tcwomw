@@ -200,10 +200,10 @@ export class PauseScene extends Phaser.Scene {
 
   private openSettings(): void {
     // Stop the pause overlay and game scenes, go to settings
-    // Settings will return to MenuScene, which is fine for now
+    // Settings will return to BreakRoomScene (hub) when done
     this.scene.stop();
     this.scene.stop('UIScene');
     this.scene.stop('GameScene');
-    this.scene.start('SettingsScene');
+    this.scene.start('SettingsScene', { returnTo: 'BreakRoomScene' });
   }
 }
