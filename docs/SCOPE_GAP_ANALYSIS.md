@@ -224,21 +224,50 @@
 
 ---
 
-## TOMORROW'S ACTIONABLE PLAN
+## UI DESIGN SESSION (2026-01-09)
 
-### Morning: Fix the Bug
+**Full spec saved to:** `docs/UI_SPEC.md`
+
+### Key Decisions
+
+| Topic | Decision |
+|-------|----------|
+| **Left Sidebar** | Chapter/Page progress (verbose) + Score only |
+| **Right Sidebar** | Combo lights (glass indicator panel, pink→yellow→green) |
+| **Score Philosophy** | "Whose Line" - flashy, meaningless, slot machine animation |
+| **Removed from UI** | Pressure bar, status label, scrap, helpers during gameplay |
+| **Error Count** | Keep, but as mechanical counter (machine aesthetic) |
+| **Helpers** | Pause menu only, not during gameplay |
+| **Core Principle** | Eyes on letters + crusher, nowhere else |
+
+### Deferred Topics
+- Scrap feedback system (needs separate 3-5 Q session)
+- Score math formula details
+
+---
+
+## ACTIONABLE PLAN
+
+### Bug Fix
 1. Fix double-counting in CampaignManager.calculateFailureScrap()
 
-### Then: Make Helpers Work
-2. Add Theme/Tag display to GameScene (check SaveManager.isHelperEquipped)
-3. Add Keep Highlight duration extension
-4. Add First Letter Focus visual
-5. Add First Word Glow visual
+### UI Implementation (per UI_SPEC.md)
+2. Refactor UIScene for left/right sidebar zones
+3. Chapter/Page verbose progress display
+4. Score with slot machine animation
+5. Remove pressure bar, status label from sidebar
+6. Right sidebar combo light system (word progress bar + 3-column lights)
 
-### Then: Scrap UI
-6. Add scrap display to UIScene during gameplay
-7. Add spending UI to PitScene (list helpers, costs, unlock buttons)
+### Make Helpers Work
+7. Add Theme/Tag display to GameScene (check SaveManager.isHelperEquipped)
+8. Add Keep Highlight duration extension
+9. Add First Letter Focus visual
+10. Add First Word Glow visual
+
+### Scrap UI
+11. Error counter as mechanical element (not plain text)
+12. Add spending UI to PitScene (list helpers, costs, unlock buttons)
 
 ### Stretch: Feel
-8. Add basic audio (correct beep, error buzz)
-9. Visual feedback on scrap earned (+1 floating text)
+13. Add basic audio (correct beep, error buzz)
+14. Combo light audio feedback
