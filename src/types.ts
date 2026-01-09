@@ -359,6 +359,7 @@ export interface KeyBindings {
 /** Gameplay/debug settings */
 export interface GameplaySettings {
   showLetterOrder: boolean;  // Debug assist: highlights letters in sequence
+  randomWordMode: boolean;   // Test mode: use random words instead of campaign/scripted words
 }
 
 /** Complete settings structure */

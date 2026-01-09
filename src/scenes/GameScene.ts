@@ -32,6 +32,7 @@ import {
 import { getRandomPhrase } from '@utils/wordUtils';
 import { SettingsManager } from '@systems/SettingsManager';
 import { SaveManager } from '@systems/SaveManager';
+import { CampaignManager } from '@systems/CampaignManager';
 
 // Physics body labels for collision detection
 const BODY_LABELS = {
@@ -157,6 +158,25 @@ export class GameScene extends Phaser.Scene {
   }
 
   private setupPhrase(): void {
+    // Random word mode override (for testing with harder/unknown words)
+    if (SettingsManager.isRandomWordMode()) {
+      const difficulty = this.getDifficulty();
+      this.currentPhrase = getRandomPhrase(difficulty);
+      console.log(`[GameScene] Random word mode: "${this.currentPhrase.text}"`);
+      return;
+    }
+
+    // Use campaign page if active, otherwise fall back to random phrase
+    if (CampaignManager.isActive()) {
+      const phrase = CampaignManager.getCurrentPageAsPhrase();
+      if (phrase) {
+        this.currentPhrase = phrase;
+        console.log(`[GameScene] Loaded campaign page: "${phrase.text}"`);
+        return;
+      }
+    }
+
+    // Fallback: random phrase by difficulty (for non-campaign play)
     const difficulty = this.getDifficulty();
     this.currentPhrase = getRandomPhrase(difficulty);
   }
@@ -731,6 +751,11 @@ export class GameScene extends Phaser.Scene {
     // Track failed letter for The Pit
     SaveManager.recordFailedLetter(pressed);
 
+    // Track error for campaign (for scrap calculation on loss)
+    if (CampaignManager.isActive()) {
+      CampaignManager.recordError();
+    }
+
     const difficulty = this.getDifficulty();
     const awakeningThreshold = CRUSHER.AWAKENING_THRESHOLD[difficulty];
 
@@ -1235,6 +1260,9 @@ export class GameScene extends Phaser.Scene {
         won: true,
         stats,
         phrase: this.currentPhrase,
+        // Campaign context
+        isCampaign: CampaignManager.isActive(),
+        campaignProgress: CampaignManager.getProgressSummary(),
       });
     });
   }
@@ -1272,6 +1300,9 @@ export class GameScene extends Phaser.Scene {
         won: false,
         stats,
         phrase: this.currentPhrase,
+        // Campaign context
+        isCampaign: CampaignManager.isActive(),
+        campaignProgress: CampaignManager.getProgressSummary(),
       });
     });
   }

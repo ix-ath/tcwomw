@@ -2,22 +2,39 @@
  * RESULT SCENE
  * Displays after a round ends (win or lose).
  * Shows stats, badges, and options to continue or return to menu.
+ * Handles campaign progression (chapter/story completion, restart on loss).
  */
 
 import Phaser from 'phaser';
 import { COLORS, GAME_WIDTH, GAME_HEIGHT } from '../constants';
 import { GameStats, Phrase } from '../types';
+import { CampaignManager, PageOutcome } from '@systems/CampaignManager';
+
+interface CampaignProgress {
+  storyTitle: string;
+  chapterTitle: string;
+  chapterNumber: number;
+  totalChapters: number;
+  pageNumber: number;
+  totalPages: number;
+  isBossPage: boolean;
+}
 
 interface ResultSceneData {
   won: boolean;
   stats: GameStats;
   phrase: Phrase;
+  isCampaign?: boolean;
+  campaignProgress?: CampaignProgress | null;
 }
 
 export class ResultScene extends Phaser.Scene {
   private won: boolean = false;
   private stats!: GameStats;
   private phrase!: Phrase;
+  private isCampaign: boolean = false;
+  private campaignProgress: CampaignProgress | null = null;
+  private pageOutcome: PageOutcome | null = null;
 
   constructor() {
     super({ key: 'ResultScene' });
@@ -27,11 +44,26 @@ export class ResultScene extends Phaser.Scene {
     this.won = data.won;
     this.stats = data.stats;
     this.phrase = data.phrase;
+    this.isCampaign = data.isCampaign || false;
+    this.campaignProgress = data.campaignProgress || null;
+    this.pageOutcome = null;
+
+    // Process campaign progression
+    if (this.isCampaign && CampaignManager.isActive()) {
+      this.pageOutcome = CampaignManager.completePage({
+        won: this.won,
+        score: this.stats.score,
+        time: this.stats.time,
+        errors: this.stats.errors,
+        isPerfect: this.stats.accuracy === 100,
+      });
+    }
   }
 
   create(): void {
     this.createBackground();
     this.createTitle();
+    this.createCampaignProgress();
     this.createPhraseDisplay();
     this.createStatsGrid();
     this.createBadges();
@@ -50,17 +82,52 @@ export class ResultScene extends Phaser.Scene {
   }
 
   private createTitle(): void {
-    const title = this.won ? 'CLEARED' : 'SIGNAL LOST';
+    let title: string;
+    let subtitle: string | null = null;
     const color = this.won ? COLORS.TERMINAL_GREEN_CSS : '#ff0000';
-    
-    const titleText = this.add.text(GAME_WIDTH / 2, 130, title, {
+
+    // Determine title based on campaign outcome
+    if (this.pageOutcome) {
+      switch (this.pageOutcome.type) {
+        case 'nextPage':
+          title = 'CLEARED';
+          break;
+        case 'chapterComplete':
+          title = 'CHAPTER COMPLETE';
+          subtitle = this.pageOutcome.nextChapter
+            ? `Next: ${this.pageOutcome.nextChapter.title}`
+            : null;
+          break;
+        case 'storyComplete':
+          title = 'STORY COMPLETE';
+          subtitle = 'The night shift never ends...';
+          break;
+        case 'chapterFailed':
+          title = 'CRUSHED';
+          subtitle = `Restart: ${this.pageOutcome.restartChapter.title}`;
+          break;
+      }
+    } else {
+      title = this.won ? 'CLEARED' : 'SIGNAL LOST';
+    }
+
+    const titleText = this.add.text(GAME_WIDTH / 2, 110, title, {
       fontFamily: 'VT323, monospace',
-      fontSize: '72px',
+      fontSize: '64px',
       color: color,
     }).setOrigin(0.5);
-    
+
     titleText.setShadow(0, 0, color, 15, true, true);
-    
+
+    // Show subtitle if present
+    if (subtitle) {
+      this.add.text(GAME_WIDTH / 2, 150, subtitle, {
+        fontFamily: 'VT323, monospace',
+        fontSize: '24px',
+        color: '#aaaaaa',
+      }).setOrigin(0.5);
+    }
+
     if (!this.won) {
       // Glitch effect for loss
       this.tweens.add({
@@ -71,11 +138,65 @@ export class ResultScene extends Phaser.Scene {
         repeat: 5,
       });
     }
+
+    // Special effect for story complete
+    if (this.pageOutcome?.type === 'storyComplete') {
+      this.cameras.main.flash(1000, 0, 255, 65, false);
+    }
+  }
+
+  private createCampaignProgress(): void {
+    if (!this.isCampaign || !this.campaignProgress) return;
+
+    const { chapterTitle, chapterNumber, totalChapters, pageNumber, totalPages, isBossPage } = this.campaignProgress;
+
+    // Chapter progress bar
+    const barWidth = 300;
+    const barHeight = 20;
+    const barX = GAME_WIDTH / 2;
+    const barY = 175;
+
+    // Background
+    this.add.rectangle(barX, barY, barWidth, barHeight, 0x222222)
+      .setStrokeStyle(1, COLORS.UI_DIM);
+
+    // Progress fill
+    const progress = pageNumber / totalPages;
+    const fillWidth = (barWidth - 4) * progress;
+    this.add.rectangle(barX - barWidth / 2 + 2 + fillWidth / 2, barY, fillWidth, barHeight - 4, COLORS.TERMINAL_GREEN);
+
+    // Chapter label
+    const chapterLabel = `Chapter ${chapterNumber}/${totalChapters}: ${chapterTitle}`;
+    this.add.text(barX, barY - 18, chapterLabel, {
+      fontFamily: 'VT323, monospace',
+      fontSize: '16px',
+      color: COLORS.TERMINAL_GREEN_CSS,
+    }).setOrigin(0.5);
+
+    // Page progress
+    const pageLabel = isBossPage ? `BOSS (${pageNumber}/${totalPages})` : `Page ${pageNumber}/${totalPages}`;
+    this.add.text(barX, barY + 18, pageLabel, {
+      fontFamily: 'VT323, monospace',
+      fontSize: '14px',
+      color: isBossPage ? '#ffaa00' : '#888888',
+    }).setOrigin(0.5);
+
+    // Scrap awarded (if any)
+    if (this.pageOutcome && 'scrapAwarded' in this.pageOutcome && this.pageOutcome.scrapAwarded > 0) {
+      this.add.text(barX + 180, barY, `+${this.pageOutcome.scrapAwarded}`, {
+        fontFamily: 'VT323, monospace',
+        fontSize: '18px',
+        color: '#ffaa00',
+      }).setOrigin(0, 0.5);
+    }
   }
 
   private createPhraseDisplay(): void {
+    // Adjust Y position if campaign progress is shown
+    const phraseY = this.isCampaign ? 230 : 190;
+
     // Label
-    this.add.text(GAME_WIDTH / 2, 190, 'DECRYPTED PHRASE:', {
+    this.add.text(GAME_WIDTH / 2, phraseY, 'DECRYPTED PHRASE:', {
       fontFamily: 'VT323, monospace',
       fontSize: '18px',
       color: COLORS.TERMINAL_GREEN_CSS,
@@ -83,7 +204,7 @@ export class ResultScene extends Phaser.Scene {
     
     // The phrase
     const phraseColor = this.won ? '#ffffff' : '#ff0000';
-    const phraseText = this.add.text(GAME_WIDTH / 2, 230, `"${this.phrase.text}"`, {
+    const phraseText = this.add.text(GAME_WIDTH / 2, phraseY + 40, `"${this.phrase.text}"`, {
       fontFamily: 'VT323, monospace',
       fontSize: '32px',
       color: phraseColor,
@@ -297,18 +418,48 @@ export class ResultScene extends Phaser.Scene {
   }
 
   private continueGame(): void {
-    // Increment stage
+    // Handle campaign progression
+    if (this.isCampaign && this.pageOutcome) {
+      switch (this.pageOutcome.type) {
+        case 'nextPage':
+        case 'chapterComplete':
+          // Continue to next page/chapter
+          this.scene.start('GameScene');
+          this.scene.launch('UIScene');
+          return;
+
+        case 'storyComplete':
+          // Return to break room after story completion
+          CampaignManager.endCampaign();
+          this.scene.start('BreakRoomScene');
+          return;
+
+        case 'chapterFailed':
+          // Retry chapter (handled by retryGame)
+          this.retryGame();
+          return;
+      }
+    }
+
+    // Non-campaign: Increment stage and continue
     const progress = this.registry.get('playerProgress');
     progress.stage++;
     this.registry.set('playerProgress', progress);
-    
-    // Start next round
+
     this.scene.start('GameScene');
     this.scene.launch('UIScene');
   }
 
   private retryGame(): void {
-    // Reset progress
+    // Campaign mode: chapter restart is already handled by CampaignManager
+    if (this.isCampaign) {
+      // CampaignManager.completePage() already reset to chapter start on failure
+      this.scene.start('GameScene');
+      this.scene.launch('UIScene');
+      return;
+    }
+
+    // Non-campaign: Reset progress for fresh start
     this.registry.set('playerProgress', {
       totalScore: 0,
       stage: 1,
@@ -319,12 +470,16 @@ export class ResultScene extends Phaser.Scene {
       scrip: 0,
       scrapCollected: 0,
     });
-    
+
     this.scene.start('GameScene');
     this.scene.launch('UIScene');
   }
 
   private returnToMenu(): void {
+    // End campaign if active
+    if (CampaignManager.isActive()) {
+      CampaignManager.endCampaign();
+    }
     this.scene.start('BreakRoomScene');
   }
 }

@@ -39,6 +39,7 @@ src/
 ├── systems/                # Modular game logic
 │   ├── SaveManager.ts      # Save/load progress & economy
 │   ├── SettingsManager.ts  # User preferences persistence
+│   ├── CampaignManager.ts  # Story/chapter/page orchestration
 │   ├── ScriptedEvent.ts    # Tutorial & cutscene system
 │   ├── InputSystem.ts      # Keyboard handling (future)
 │   ├── CrusherSystem.ts    # Crusher physics/behavior (future)

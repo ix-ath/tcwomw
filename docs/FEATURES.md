@@ -45,47 +45,51 @@ Status Legend:
 ## PHASE 2: PHYSICS ENHANCEMENT
 
 ### Coin-Pusher Mechanics
-- [📋] FB.40: Matter.js letter bodies
-- [📋] FB.41: Letter collision and piling
-- [📋] FB.42: Crusher as physics body
-- [📋] FB.43: Penalty letter spawning (3x mass)
-- [📋] FB.44: Readability guard (±15° constraint)
+- [✅] FB.40: Matter.js letter bodies
+- [✅] FB.41: Letter collision and piling
+- [✅] FB.42: Crusher as physics body (kinematic)
+- [✅] FB.43: Penalty letter spawning (3x mass)
+- [✅] FB.44: Readability guard (±15° constraint)
 - [📋] FB.45: Clearance blast physics (shockwave)
 
 ### The Pit of Failure
-- [📋] FB.50: Pit visual zone
-- [📋] FB.51: Letter fall into pit on error
+- [✅] FB.50: Pit scene (PitScene.ts)
+- [✅] FB.51: Letter frequency tracking (SaveManager.failedLetters)
 - [📋] FB.52: Static batching for pit letters
-- [📋] FB.53: 3pt font rendering
-- [📋] FB.54: The Bale (trash cube on loss)
-- [📋] FB.55: Persistent pit state across sessions
+- [📋] FB.53: 3pt font rendering (visual pile)
+- [✅] FB.54: The Bale (compressIntoBale animation on loss)
+- [✅] FB.55: Persistent pit state across sessions
+- [💭] FB.56: Simplified mobile view (overall count + highlights vs full letter list)
+- [💭] FB.57: Yeeters - purchasable mechanisms that fling letters
+- [💭] FB.58: Treadmill upgrades - change letter distribution behavior
+- [💭] FB.59: Pit cosmetics - visual upgrades for idle enjoyment
 
 ---
 
 ## PHASE 3: CAMPAIGN & PROGRESSION
 
 ### Tutorial System
-- [📋] FB.60: Tutorial scene (ON → START → OOPS sequence)
-- [📋] FB.61: OOPS scramble mechanic (teaches wrong-position)
-- [📋] FB.62: Impossible sentence (forces first failure)
-- [📋] FB.63: Pit introduction screen
-- [📋] FB.64: Theme unlock purchase (1 scrap)
+- [✅] FB.60: Tutorial scene (ON → START → OOPS sequence)
+- [✅] FB.61: OOPS scramble mechanic (teaches wrong-position)
+- [✅] FB.62: Impossible sentence (forces first failure)
+- [✅] FB.63: Pit introduction screen
+- [✅] FB.64: Theme unlock purchase (1 scrap)
 - [📋] FB.65: "Figured Out the Impossible" achievement
 
 ### Campaign Structure
-- [📋] FB.70: Book/Chapter data structure
-- [📋] FB.71: Chapter progression (5-10 items per chapter)
-- [📋] FB.72: Book progression (~40 books total)
-- [📋] FB.73: Loss = restart chapter (not book)
-- [📋] FB.74: Content scaling (words → phrases → sentences)
-- [📋] FB.75: Boss word/sentence per chapter
+- [✅] FB.70: Story/Chapter/Page data structure (CampaignManager.ts)
+- [✅] FB.71: Chapter progression (5-12 pages per chapter)
+- [✅] FB.72: Main campaign (10 chapters, 61 pages)
+- [✅] FB.73: Loss = restart chapter (not story)
+- [✅] FB.74: Content scaling (words → phrases → sentences)
+- [✅] FB.75: Boss page per chapter (isBoss flag)
 - [💭] FB.76: Paragraph mode (split into half-lines)
 
 ### Cube Scrap Economy
-- [📋] FB.80: Cube Scrap currency system
-- [📋] FB.81: Scrap earned on wrong letter (1 each)
-- [📋] FB.82: Scrap earned on chapter loss (5-10)
-- [📋] FB.83: Book completion bonuses
+- [✅] FB.80: Cube Scrap currency system (SaveManager.ts)
+- [✅] FB.81: Scrap earned on wrong letter (1 each)
+- [✅] FB.82: Scrap earned on chapter loss (5-10 + errors)
+- [🚧] FB.83: Chapter/Story completion bonuses (partial - see ECONOMY_ISSUES)
 - [📋] FB.84: Scrap display in HUD
 - [📋] FB.85: Scrap spending UI (in Pit)
 
@@ -234,3 +238,6 @@ Status Legend:
 | HOLE.07 | Tier Progression | Linear unlock path or branching tree? | **Resolved:** Linear books, all helpers equippable |
 | HOLE.08 | Loss Scope | Restart word, chapter, or book on loss? | **Resolved:** Restart chapter only |
 | HOLE.09 | Helper Limits | Loadout restrictions? | **Resolved:** No limits, score penalty instead |
+| HOLE.10 | Economy Balance | See `docs/ECONOMY_ANALYSIS.md` | **In Progress:** Double-counting bug, missing story bonus |
+| HOLE.11 | Skilled Player Scrap | Should perfect players unlock all helpers in one run? | Open |
+| HOLE.12 | Achievement Scrap | Which achievements give scrap bonuses? | Open |

@@ -55,6 +55,7 @@ function createDefaultSettings(): Settings {
     },
     gameplay: {
       showLetterOrder: false,
+      randomWordMode: false,
     },
   };
 }
@@ -218,6 +219,10 @@ class SettingsManagerClass {
     return this.settings.gameplay.showLetterOrder;
   }
 
+  isRandomWordMode(): boolean {
+    return this.settings.gameplay.randomWordMode;
+  }
+
   // ===========================================================================
   // SETTERS - Visual
   // ===========================================================================
@@ -292,6 +297,12 @@ class SettingsManagerClass {
     this.settings.gameplay.showLetterOrder = enabled;
     this.save();
     this.notify('showLetterOrder', enabled);
+  }
+
+  setRandomWordMode(enabled: boolean): void {
+    this.settings.gameplay.randomWordMode = enabled;
+    this.save();
+    this.notify('randomWordMode', enabled);
   }
 
   // ===========================================================================

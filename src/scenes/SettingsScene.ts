@@ -168,6 +168,14 @@ export class SettingsScene extends Phaser.Scene {
         setValue: (v) => SettingsManager.setShowLetterOrder(v as boolean),
         description: 'Highlights the next letter to type (testing assist)',
       },
+      {
+        key: 'randomWordMode',
+        label: 'Random Word Mode (Test)',
+        type: 'toggle',
+        getValue: () => SettingsManager.isRandomWordMode(),
+        setValue: (v) => SettingsManager.setRandomWordMode(v as boolean),
+        description: 'Use random words instead of campaign/scripted words',
+      },
     ],
   };
 

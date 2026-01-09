@@ -9,6 +9,7 @@
 import Phaser from 'phaser';
 import { COLORS, GAME_WIDTH, GAME_HEIGHT } from '../constants';
 import { SaveManager } from '../systems/SaveManager';
+import { CampaignManager } from '../systems/CampaignManager';
 
 /** Fixture definition with unlock requirements */
 interface Fixture {
@@ -580,11 +581,17 @@ export class BreakRoomScene extends Phaser.Scene {
     // Check if tutorial completed
     if (!SaveManager.isTutorialCompleted()) {
       console.log('[BreakRoom] Starting tutorial...');
+      // Start tutorial campaign
+      CampaignManager.startCampaign('tutorial');
       this.scene.start('TutorialScene');
       return;
     }
 
-    // Normal game start
+    // Start main campaign
+    console.log('[BreakRoom] Starting main campaign...');
+    CampaignManager.startCampaign('main-campaign');
+
+    // Set up progress tracking
     this.registry.set('playerProgress', {
       totalScore: 0,
       stage: 1,

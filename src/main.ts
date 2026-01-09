@@ -71,6 +71,14 @@ const config: Phaser.Types.Core.GameConfig = {
   },
 };
 
+// Prevent ESC from triggering browser/Electron close behavior
+// ESC should NEVER exit the game - only the quit button should do that
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    event.preventDefault();
+  }
+});
+
 // Create game instance
 const game = new Phaser.Game(config);
 

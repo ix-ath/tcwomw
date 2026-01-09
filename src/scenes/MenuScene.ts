@@ -218,6 +218,11 @@ export class MenuScene extends Phaser.Scene {
     // Confirm
     this.input.keyboard?.on('keydown-ENTER', activateSelection);
     this.input.keyboard?.on('keydown-SPACE', activateSelection);
+
+    // ESC does nothing at menu (prevent browser/Electron from closing)
+    this.input.keyboard?.on('keydown-ESC', () => {
+      // Intentionally empty - ESC should never exit the game
+    });
   }
 
   private startGame(difficulty: Difficulty): void {
