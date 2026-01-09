@@ -94,16 +94,18 @@ Status Legend:
 - [📋] FB.85: Scrap spending UI (in Pit)
 
 ### Helper/Upgrade System
-- [📋] FB.90: Theme unlock (1 scrap)
-- [📋] FB.91: Tag unlock (5 scrap)
-- [📋] FB.92: Keep Highlight I/II/III (10/25/50 scrap)
+- [✅] FB.90: Theme helper effect (shows category if equipped)
+- [✅] FB.91: Tag helper effect (shows hint if equipped)
+- [✅] FB.92: Keep Highlight I/II/III effects (1.5x/2x/permanent duration)
 - [📋] FB.93: Heavy Letters upgrade (50 scrap)
 - [📋] FB.94: First Word Glow (75 scrap)
 - [📋] FB.95: First Letter Focus (100 scrap)
-- [📋] FB.96: Helper loadout (all equippable)
+- [📋] FB.96: Helper loadout UI (all equippable, need shop)
 - [📋] FB.97: Score multiplier penalty for helpers
 - [💭] FB.98: Endgame auto-type assists
 - [💭] FB.99: Full automation (idle mode)
+
+*Note: Helper data exists in helpers.json, unlock/equip via SaveManager. Theme/Tag/KeepHighlight effects now work in GameScene.*
 
 ### Break Room Hub
 - [✅] FB.100: Break Room scene

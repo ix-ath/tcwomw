@@ -9,9 +9,9 @@
 
 You have a **solid vertical slice** with working core loop, campaign structure, and progression systems. What's missing is primarily **presentation layer** (visuals, juice) and **platform integration** (Steam, achievements).
 
-**Estimated gap:** ~45% complete toward shippable MVP.
+**Estimated gap:** ~50% complete toward shippable MVP.
 
-*Updated 2026-01-09: Audio system with procedural fallbacks now in place.*
+*Updated 2026-01-09: Audio system + Theme/Tag/KeepHighlight helpers now working.*
 
 ---
 
@@ -40,7 +40,7 @@ You have a **solid vertical slice** with working core loop, campaign structure, 
 | Gap | Impact | Effort | Notes |
 |-----|--------|--------|-------|
 | ~~**Audio - ANY sounds**~~ | ~~Critical~~ | ~~Medium~~ | ✅ Done - Procedural audio system in place |
-| **Helper effects working** | Critical | Medium | Data exists, GameScene doesn't apply effects |
+| ~~**Helper effects working**~~ | ~~Critical~~ | ~~Medium~~ | ✅ Done - Theme/Tag/KeepHighlight work (4 helpers remain) |
 | **Scrap spending UI** | Critical | Low | Can earn scrap, can't spend it (loop broken) |
 | **Visual identity** | High | High | Terminal green placeholder ≠ Victorian industrial |
 
@@ -201,7 +201,7 @@ Ship MVP to Early Access with placeholder art but REAL audio. Audio sells the ho
 ## Quick Wins (Do This Week)
 
 1. ~~**Any audio**~~ ✅ Done - Procedural audio system in place
-2. **Fix helper effects** - Theme/Tag display in GameScene
+2. ~~**Fix helper effects**~~ ✅ Done - Theme/Tag/KeepHighlight now work
 3. **Scrap spending** - Basic list in PitScene
 4. **One achievement** - "First Crush" for dying once
 

@@ -76,17 +76,17 @@
 
 | Helper | Cost | Status | Gap |
 |--------|------|--------|-----|
-| Theme | 1 | 🟡 Partial | Unlockable in tutorial, but not shown in gameplay |
-| Tag | 5 | 🔴 Data only | Helper exists, effect not implemented |
-| Keep Highlight I | 10 | 🔴 Data only | Effect not implemented |
-| Keep Highlight II | 25 | 🔴 Data only | Effect not implemented |
-| Keep Highlight III | 50 | 🔴 Data only | Effect not implemented |
+| Theme | 1 | ✅ Done | Shows category if equipped, "???" if not |
+| Tag | 5 | ✅ Done | Shows hint tag if equipped |
+| Keep Highlight I | 10 | ✅ Done | 50% longer highlight (2.25s) |
+| Keep Highlight II | 25 | ✅ Done | 100% longer highlight (3s) |
+| Keep Highlight III | 50 | ✅ Done | Permanent highlight until typed |
 | Heavy Letters | 50 | 🔴 Data only | Effect not implemented |
 | First Word Glow | 75 | 🔴 Data only | Effect not implemented |
 | First Letter Focus | 100 | 🔴 Data only | Effect not implemented |
 | Second Chance | 150 | 🔴 Data only | Effect not implemented |
 
-**Summary:** Helper data exists in helpers.json. SaveManager can unlock/equip them. But GameScene doesn't check equipped helpers or apply their effects.
+**Summary:** Theme, Tag, and Keep Highlight I/II/III effects now work in GameScene. Remaining helpers need implementation.
 
 ---
 
@@ -185,7 +185,7 @@
 1. Double-counting scrap on chapter failure (CampaignManager.calculateFailureScrap)
 
 ### 🟡 Core Gaps (needed for MVP feel)
-1. **Helpers not functional** - Data exists, effects don't
+1. ~~**Helpers not functional**~~ 🟡 Partial - Theme/Tag/KeepHighlight work, 4 helpers remain
 2. **No scrap spending UI** - Pit shows stats but no shop
 3. **No visual feedback** - Can't see scrap earned
 4. ~~**No audio** - Silent game~~ ✅ Procedural audio in place

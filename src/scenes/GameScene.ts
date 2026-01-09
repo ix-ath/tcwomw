@@ -87,6 +87,9 @@ export class GameScene extends Phaser.Scene {
   private crusherSprite!: Phaser.GameObjects.Rectangle;
   private crusherY: number = 0;
 
+  // Track permanently highlighted letters (for Keep Highlight III)
+  private permanentHighlights: Set<string> = new Set();
+
   // Target display
   private targetDisplay!: Phaser.GameObjects.Container;
 
@@ -395,11 +398,8 @@ export class GameScene extends Phaser.Scene {
     // Position in center of game area at bottom
     this.targetDisplay = this.add.container(LAYOUT.GAME_AREA_CENTER_X, LAYOUT.BLANK_DISPLAY_Y);
 
-    // Add theme label above the blanks
-    // Build theme + tag label (e.g., "FOOD • fruit")
-    const theme = this.currentPhrase.category?.toUpperCase() || 'UNKNOWN';
-    const tag = this.currentPhrase.tag ? ` • ${this.currentPhrase.tag}` : '';
-    const themeLabel = this.add.text(0, -55, `${theme}${tag}`, {
+    // Add theme/tag label above the blanks (only if helpers are equipped)
+    const themeLabel = this.add.text(0, -55, this.buildThemeTagLabel(), {
       fontFamily: 'VT323, monospace',
       fontSize: `${BLANK_DISPLAY.THEME_FONT_SIZE}px`,
       color: COLORS.TERMINAL_GREEN_CSS,
@@ -407,6 +407,29 @@ export class GameScene extends Phaser.Scene {
     this.targetDisplay.add(themeLabel);
 
     this.updateTargetDisplay();
+  }
+
+  /**
+   * Build the theme/tag label based on equipped helpers.
+   * - No helpers: "???"
+   * - Theme only: "FOOD"
+   * - Theme + Tag: "FOOD • fruit"
+   */
+  private buildThemeTagLabel(): string {
+    const hasTheme = SaveManager.isHelperEquipped('theme');
+    const hasTag = SaveManager.isHelperEquipped('tag');
+
+    if (!hasTheme) {
+      return '???';
+    }
+
+    const theme = this.currentPhrase.category?.toUpperCase() || 'UNKNOWN';
+
+    if (hasTag && this.currentPhrase.tag) {
+      return `${theme} • ${this.currentPhrase.tag}`;
+    }
+
+    return theme;
   }
 
   private createStagingArea(): void {
@@ -437,9 +460,7 @@ export class GameScene extends Phaser.Scene {
     this.targetDisplay.removeAll(true);
 
     // Re-add theme label (gets destroyed by removeAll)
-    const theme = this.currentPhrase.category?.toUpperCase() || 'UNKNOWN';
-    const tag = this.currentPhrase.tag ? ` • ${this.currentPhrase.tag}` : '';
-    const themeLabel = this.add.text(0, -55, `${theme}${tag}`, {
+    const themeLabel = this.add.text(0, -55, this.buildThemeTagLabel(), {
       fontFamily: 'VT323, monospace',
       fontSize: `${BLANK_DISPLAY.THEME_FONT_SIZE}px`,
       color: COLORS.TERMINAL_GREEN_CSS,
@@ -826,6 +847,9 @@ export class GameScene extends Phaser.Scene {
     if (letterBody) {
       letterBody.isUsed = true;
 
+      // Clear from permanent highlights if tracked (Keep Highlight III)
+      this.permanentHighlights.delete(letterBody.id);
+
       // Animate letter disappearing
       this.tweens.add({
         targets: letterBody.container,
@@ -877,27 +901,69 @@ export class GameScene extends Phaser.Scene {
       key: pulseKey,
     });
 
-    // Fade back to normal after 1.5 seconds (longer visibility)
-    this.time.delayedCall(1500, () => {
-      if (!letterBody.container.active) return;
+    // Get highlight duration based on equipped helpers
+    const duration = this.getHighlightDuration();
 
-      // Reset text color
-      const colorVariants = ['#00ff41', '#77ffaa', '#00ee66', '#aaffcc'];
-      textChild.setColor(colorVariants[Math.floor(Math.random() * 4)]);
-      textChild.setShadow(0, 0, 'transparent', 0);
+    // Keep Highlight III: permanent until typed
+    if (duration === Infinity) {
+      this.permanentHighlights.add(letterBody.id);
+      return; // Don't schedule reset
+    }
 
-      // Reset scale
-      this.tweens.add({
-        targets: letterBody.container,
-        scale: 1,
-        duration: 200,
-      });
-
-      // Clear tint
-      if (blockChild.clearTint) {
-        blockChild.clearTint();
-      }
+    // Fade back to normal after duration
+    this.time.delayedCall(duration, () => {
+      this.resetLetterHighlight(letterBody);
     });
+  }
+
+  /**
+   * Get highlight duration based on Keep Highlight helpers.
+   * - No helper: 1500ms
+   * - Keep Highlight I: 2250ms (50% longer)
+   * - Keep Highlight II: 3000ms (100% longer)
+   * - Keep Highlight III: Infinity (permanent until typed)
+   */
+  private getHighlightDuration(): number {
+    if (SaveManager.isHelperEquipped('keep-highlight-3')) {
+      return Infinity;
+    }
+    if (SaveManager.isHelperEquipped('keep-highlight-2')) {
+      return 3000;
+    }
+    if (SaveManager.isHelperEquipped('keep-highlight-1')) {
+      return 2250;
+    }
+    return 1500;
+  }
+
+  /**
+   * Reset a letter's highlight back to normal.
+   */
+  private resetLetterHighlight(letterBody: LetterBody): void {
+    if (!letterBody.container.active) return;
+
+    const textChild = letterBody.container.list[1] as Phaser.GameObjects.Text;
+    const blockChild = letterBody.container.list[0] as Phaser.GameObjects.Image;
+
+    // Reset text color
+    const colorVariants = ['#00ff41', '#77ffaa', '#00ee66', '#aaffcc'];
+    textChild.setColor(colorVariants[Math.floor(Math.random() * 4)]);
+    textChild.setShadow(0, 0, 'transparent', 0);
+
+    // Reset scale
+    this.tweens.add({
+      targets: letterBody.container,
+      scale: 1,
+      duration: 200,
+    });
+
+    // Clear tint
+    if (blockChild.clearTint) {
+      blockChild.clearTint();
+    }
+
+    // Remove from permanent highlights if tracked
+    this.permanentHighlights.delete(letterBody.id);
   }
 
   private spawnPenaltyLetter(char: string): void {
