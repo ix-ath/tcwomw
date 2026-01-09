@@ -535,48 +535,26 @@ export class GameScene extends Phaser.Scene {
   }
 
   private setupInput(): void {
-    // Get configured keybindings
-    const keyBindings = SettingsManager.getKeyBindings();
-
     // Keyboard input (standard mode)
     this.input.keyboard?.on('keydown', (event: KeyboardEvent) => {
       if (this.isGameOver) return;
       if (event.repeat) return;
 
-      const key = event.key.toUpperCase();
-
-      // Check for bound actions first
-      if (key === keyBindings.pause.toUpperCase() || key === 'ESCAPE') {
+      // ESC to pause (only non-letter hotkey allowed during gameplay)
+      if (event.key === 'Escape') {
         this.scene.launch('PauseScene');
         this.scene.pause();
         return;
       }
 
-      if (key === keyBindings.restart.toUpperCase()) {
-        this.restartGame();
-        return;
-      }
-
-      if (key === keyBindings.mute.toUpperCase()) {
-        SettingsManager.setMuteAll(!SettingsManager.isMuted());
-        return;
-      }
-
       // Only process single character inputs for typing
+      const key = event.key.toUpperCase();
       if (key.length !== 1) return;
       this.processInput(key);
     });
 
     // Mouse-only mode: clicking letters acts as typing them
     // Set up in setupLetterClickHandlers() after letters are created
-  }
-
-  /**
-   * Restart the current game.
-   */
-  private restartGame(): void {
-    this.scene.stop('UIScene');
-    this.scene.restart();
   }
 
   /**
