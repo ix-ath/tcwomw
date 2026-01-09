@@ -132,13 +132,20 @@ Status Legend:
 
 ## PHASE 4: AUDIO
 
-### Sound Effects
-- [📋] FB.100: Correct letter sound (pitch escalation)
-- [📋] FB.101: Error sound (metallic clang)
-- [📋] FB.102: Word complete fanfare
-- [📋] FB.103: Overdrive activation
-- [📋] FB.104: Crusher impact sounds
-- [📋] FB.105: UI feedback sounds
+### Audio System (Framework Complete)
+- [✅] FB.120: Procedural audio generation (Web Audio API fallbacks)
+- [✅] FB.121: Pitch scaling system (combo-based)
+- [✅] FB.122: Volume mixing (respects SettingsManager)
+- [✅] FB.123: Mute controls (via SettingsManager)
+- [✅] FB.124: Audio manifest system (src/data/audio-manifest.json)
+
+### Sound Effects (Procedural Placeholders)
+- [✅] FB.100: Correct letter sound (pitch escalation) - procedural blip
+- [✅] FB.101: Error sound - procedural buzz
+- [✅] FB.102: Victory fanfare - procedural 4-note
+- [✅] FB.103: Overdrive activation - procedural powerup
+- [🟡] FB.104: Crusher impact sounds - procedural thud (needs real asset)
+- [📋] FB.105: UI feedback sounds - defined in manifest, not wired up
 
 ### Music
 - [📋] FB.110: Ambient industrial loop
@@ -147,11 +154,7 @@ Status Legend:
 - [📋] FB.113: Loss music
 - [💭] FB.114: Breakroom ambient
 
-### Audio System
-- [📋] FB.120: Procedural audio generation
-- [📋] FB.121: Pitch scaling system
-- [📋] FB.122: Volume mixing
-- [📋] FB.123: Mute controls
+*Note: All sounds use procedural fallbacks. To add real assets, update paths in `src/data/audio-manifest.json`.*
 
 ---
 

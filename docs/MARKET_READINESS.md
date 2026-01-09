@@ -7,9 +7,11 @@
 
 ## Executive Summary
 
-You have a **solid vertical slice** with working core loop, campaign structure, and progression systems. What's missing is primarily **presentation layer** (audio, visuals, juice) and **platform integration** (Steam, achievements).
+You have a **solid vertical slice** with working core loop, campaign structure, and progression systems. What's missing is primarily **presentation layer** (visuals, juice) and **platform integration** (Steam, achievements).
 
-**Estimated gap:** ~40% complete toward shippable MVP.
+**Estimated gap:** ~45% complete toward shippable MVP.
+
+*Updated 2026-01-09: Audio system with procedural fallbacks now in place.*
 
 ---
 
@@ -37,7 +39,7 @@ You have a **solid vertical slice** with working core loop, campaign structure, 
 
 | Gap | Impact | Effort | Notes |
 |-----|--------|--------|-------|
-| **Audio - ANY sounds** | Critical | Medium | Silent game = unshippable. Even placeholder beeps help. |
+| ~~**Audio - ANY sounds**~~ | ~~Critical~~ | ~~Medium~~ | ✅ Done - Procedural audio system in place |
 | **Helper effects working** | Critical | Medium | Data exists, GameScene doesn't apply effects |
 | **Scrap spending UI** | Critical | Low | Can earn scrap, can't spend it (loop broken) |
 | **Visual identity** | High | High | Terminal green placeholder ≠ Victorian industrial |
@@ -79,7 +81,7 @@ You have a **solid vertical slice** with working core loop, campaign structure, 
 |--------|---------------|-------------------|-----|
 | **Core loop** | Solid, tested | ✅ Solid | None |
 | **Content volume** | 2-4 hours | ~1-2 hours (10 chapters) | Acceptable for $5 |
-| **Audio** | Full SFX + music | ❌ None | **Critical** |
+| **Audio** | Full SFX + music | ✅ Procedural SFX | Music needed |
 | **Visuals** | Cohesive art style | ❌ Placeholder | **High** |
 | **Achievements** | 20-40 | ❌ None | Medium |
 | **Settings** | Basic | ✅ Comprehensive | Ahead of typical |
@@ -198,9 +200,9 @@ Ship MVP to Early Access with placeholder art but REAL audio. Audio sells the ho
 
 ## Quick Wins (Do This Week)
 
-1. **Any audio** - Even free sfxr.me sounds
+1. ~~**Any audio**~~ ✅ Done - Procedural audio system in place
 2. **Fix helper effects** - Theme/Tag display in GameScene
 3. **Scrap spending** - Basic list in PitScene
 4. **One achievement** - "First Crush" for dying once
 
-These 4 things close the progression loop and make the game feel complete.
+These close the progression loop and make the game feel complete.

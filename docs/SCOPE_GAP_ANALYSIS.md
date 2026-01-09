@@ -162,11 +162,20 @@
 
 | Feature | Design | Status | Gap |
 |---------|--------|--------|-----|
-| Correct letter (rising pitch) | ✓ | 🔴 Missing | No audio |
-| Error (metallic clang) | ✓ | 🔴 Missing | No audio |
-| Word complete fanfare | ✓ | 🔴 Missing | No audio |
-| Overdrive activation | ✓ | 🔴 Missing | No audio |
-| Industrial ambient | ✓ | 🔴 Missing | No audio |
+| Audio system/framework | ✓ | ✅ Done | AudioManager + manifest |
+| Correct letter (rising pitch) | ✓ | ✅ Done | Procedural blip (needs real asset) |
+| Error sound | ✓ | ✅ Done | Procedural buzz (needs real asset) |
+| Victory fanfare | ✓ | ✅ Done | Procedural 4-note (needs real asset) |
+| Overdrive activation | ✓ | ✅ Done | Procedural sweep (needs real asset) |
+| Game over sound | ✓ | ✅ Done | Procedural rumble (needs real asset) |
+| UI feedback sounds | ✓ | 📋 Planned | Defined in manifest, not wired |
+| Industrial ambient music | ✓ | 📋 Planned | Requires real asset |
+
+**Audio System Notes:**
+- All SFX use Web Audio API procedural fallbacks (no files needed)
+- To add real assets: update `path` in `src/data/audio-manifest.json`
+- Respects SettingsManager volume levels
+- Combo pitch scaling implemented
 
 ---
 
@@ -179,7 +188,7 @@
 1. **Helpers not functional** - Data exists, effects don't
 2. **No scrap spending UI** - Pit shows stats but no shop
 3. **No visual feedback** - Can't see scrap earned
-4. **No audio** - Silent game
+4. ~~**No audio** - Silent game~~ ✅ Procedural audio in place
 
 ### 📋 Future Features (designed but not started)
 1. Mutator system

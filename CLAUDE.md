@@ -168,12 +168,14 @@ BootScene → PreloadScene → MenuScene → BreakRoomScene → TutorialScene (f
 - `src/systems/SaveManager.ts` - LocalStorage persistence singleton. Handles economy (scrap), helpers (unlock/equip), progress tracking, stats.
 - `src/systems/SettingsManager.ts` - User preferences persistence (separate from save data). Handles visual, audio, controls, and gameplay settings.
 - `src/systems/ScriptedEvent.ts` - Data-driven framework for scripted sequences (tutorials, cutscenes, story beats). Step types: `dialogue`, `page`, `wait`, `award`, `overlay`, `branch`, `goto`, `end`.
+- `src/systems/AudioManager.ts` - Web Audio API singleton with procedural fallbacks. Respects SettingsManager volumes. Uses manifest for easy asset swapping.
 
 ### Data Files
 
 - `src/data/stories/` - Campaign JSON files. Each story is its own file (Workshop-ready).
 - `src/data/helpers.json` - Helper definitions with costs, prerequisites, and tiers.
 - `src/data/scripts/` - Scripted event definitions (tutorial.json, etc.).
+- `src/data/audio-manifest.json` - Sound registry mapping keys to file paths. Procedural fallbacks when no file exists.
 
 ### Event-Driven Architecture
 
