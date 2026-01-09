@@ -17,6 +17,7 @@ import { UIScene } from '@scenes/UIScene';
 import { ResultScene } from '@scenes/ResultScene';
 import { PauseScene } from '@scenes/PauseScene';
 import { SettingsScene } from '@scenes/SettingsScene';
+import { PitScene } from '@scenes/PitScene';
 
 // Game configuration
 const config: Phaser.Types.Core.GameConfig = {
@@ -53,6 +54,7 @@ const config: Phaser.Types.Core.GameConfig = {
     ResultScene,
     PauseScene,
     SettingsScene,
+    PitScene,
   ],
   
   // Rendering

@@ -191,6 +191,9 @@ export interface EconomyState {
   lifetimeScrap: number;     // The Pit - total ever earned, never decreases
 }
 
+/** Letter frequency tracking for The Pit */
+export type LetterFrequencies = Record<string, number>;  // e.g., { A: 113, B: 94 }
+
 /** Progress within a single chapter */
 export interface ChapterProgressData {
   completed: boolean;
@@ -375,6 +378,9 @@ export interface SaveData {
 
   // Economy
   economy: EconomyState;
+
+  // The Pit - letter frequency tracking
+  failedLetters: LetterFrequencies;  // Count of each failed letter (The Pit display)
 
   // Helpers/upgrades
   unlockedHelpers: string[];   // Array of helper IDs that have been purchased

@@ -599,14 +599,8 @@ export class BreakRoomScene extends Phaser.Scene {
   }
 
   private openPit(): void {
-    // TODO: Create PitScene
     console.log('[BreakRoom] Opening The Pit...');
-    console.log(`Lifetime scrap: ${SaveManager.getLifetimeScrap()}`);
-    console.log(`Current balance: ${SaveManager.getCubeScrap()}`);
-
-    this.showModal(
-      `THE PIT\n\nLifetime Failures: ${SaveManager.getLifetimeScrap()}\nSpendable Scrap: ${SaveManager.getCubeScrap()}\n\n[Coming Soon]\n\n[Click or ESC to close]`
-    );
+    this.scene.start('PitScene');
   }
 
   private openScoreboard(): void {

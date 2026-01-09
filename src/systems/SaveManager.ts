@@ -17,6 +17,7 @@ import type {
   ChapterProgressData,
   GameConfig,
   Difficulty,
+  LetterFrequencies,
 } from '../types';
 
 const SAVE_KEY = 'tcwomw_save';
@@ -35,6 +36,8 @@ function createDefaultSave(): SaveData {
       cubeScrap: 0,
       lifetimeScrap: 0,
     },
+
+    failedLetters: {},  // The Pit - tracks frequency of each failed letter
 
     unlockedHelpers: [],
     equippedHelpers: [],
@@ -73,8 +76,11 @@ function createDefaultSave(): SaveData {
  * Add migration logic here as the save format evolves.
  */
 function migrateSave(data: SaveData): SaveData {
-  // Future migrations go here
-  // if (data.version === '0.9.0') { ... }
+  // Ensure failedLetters exists (for saves before The Pit feature)
+  if (!data.failedLetters) {
+    data.failedLetters = {};
+    console.log('[SaveManager] Migration: Added failedLetters field');
+  }
 
   data.version = CURRENT_VERSION;
   return data;
@@ -109,6 +115,12 @@ class SaveManagerClass {
       if (parsed.version !== CURRENT_VERSION) {
         console.log(`[SaveManager] Migrating save from ${parsed.version} to ${CURRENT_VERSION}`);
         return migrateSave(parsed);
+      }
+
+      // Always ensure new fields exist (for same-version saves created before field was added)
+      if (!parsed.failedLetters) {
+        parsed.failedLetters = {};
+        console.log('[SaveManager] Added missing failedLetters field');
       }
 
       console.log('[SaveManager] Save loaded successfully');
@@ -438,6 +450,45 @@ class SaveManagerClass {
   /** Get all stats. */
   getStats(): SaveData['stats'] {
     return { ...this.data.stats };
+  }
+
+  // ===========================================================================
+  // THE PIT (Failed Letter Tracking)
+  // ===========================================================================
+
+  /** Get all failed letter frequencies for The Pit display. */
+  getFailedLetters(): LetterFrequencies {
+    return { ...this.data.failedLetters };
+  }
+
+  /** Get total count of all failed letters. */
+  getTotalFailedLetters(): number {
+    return Object.values(this.data.failedLetters).reduce((sum, count) => sum + count, 0);
+  }
+
+  /**
+   * Record a failed letter (wrong guess).
+   * This is separate from recordError() which handles scrap economy.
+   */
+  recordFailedLetter(char: string): void {
+    const letter = char.toUpperCase();
+    if (!/^[A-Z0-9]$/.test(letter)) return; // Only track alphanumeric
+
+    if (!this.data.failedLetters[letter]) {
+      this.data.failedLetters[letter] = 0;
+    }
+    this.data.failedLetters[letter]++;
+    console.log(`[SaveManager] Failed letter '${letter}' (total: ${this.data.failedLetters[letter]})`);
+    this.autoSave();
+  }
+
+  /**
+   * Get letter frequencies sorted by count (descending).
+   * Returns array of [letter, count] tuples.
+   */
+  getFailedLettersSorted(): [string, number][] {
+    return Object.entries(this.data.failedLetters)
+      .sort((a, b) => b[1] - a[1]);
   }
 
   // ===========================================================================

@@ -31,6 +31,7 @@ import {
 } from '../types';
 import { getRandomPhrase } from '@utils/wordUtils';
 import { SettingsManager } from '@systems/SettingsManager';
+import { SaveManager } from '@systems/SaveManager';
 
 // Physics body labels for collision detection
 const BODY_LABELS = {
@@ -630,6 +631,8 @@ export class GameScene extends Phaser.Scene {
   private processInput(key: string): void {
     const currentChar = this.currentPhrase.text[this.typedIndex]?.toUpperCase();
 
+    console.log(`[GameScene] processInput: key='${key}', expected='${currentChar}', index=${this.typedIndex}`);
+
     if (!currentChar) return;
 
     // Start timer on first keypress (not level load)
@@ -717,11 +720,16 @@ export class GameScene extends Phaser.Scene {
   }
 
   private handleWrongInput(pressed: string, expected: string, isValidButWrongPosition: boolean = false): void {
+    console.log(`[GameScene] handleWrongInput: pressed='${pressed}', expected='${expected}'`);
+
     this.errors++;
     this.mistakeCount++;
     this.penaltyCount++;
     this.combo = 0;
     this.isOverdrive = false;
+
+    // Track failed letter for The Pit
+    SaveManager.recordFailedLetter(pressed);
 
     const difficulty = this.getDifficulty();
     const awakeningThreshold = CRUSHER.AWAKENING_THRESHOLD[difficulty];
