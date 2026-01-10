@@ -107,6 +107,17 @@ Status Legend:
 
 *Note: Helper data exists in helpers.json, unlock/equip via SaveManager + THE FOUNDRY shop. Theme/Tag/KeepHighlight effects work in GameScene. Remaining 4 helpers can be purchased but have no gameplay effect yet.*
 
+### Failsafe System (PROPOSED - see CRUSHER_AWAKENING_SYSTEM.md)
+- [📋] FB.250: Failsafe I (3 scrap) - First error only stirs crusher
+- [📋] FB.251: Failsafe II (8 scrap) - Second error only loosens
+- [📋] FB.252: Failsafe III (15 scrap) - Third error required for awakening
+- [📋] FB.253: Failsafe IV (30 scrap) - Fourth error required (max protection)
+- [📋] FB.254: Change default threshold to 0 (immediate awakening)
+- [📋] FB.255: Kid-Friendly mode setting (disables crusher entirely)
+- [📋] FB.256: Auto-suggest Kid-Friendly after 3 consecutive chapter failures
+
+*Note: This is a proposed redesign to make early game harder with purchasable safety nets.*
+
 ### Break Room Hub
 - [✅] FB.100: Break Room scene
 - [✅] FB.101: Chair fixture (start runs)
