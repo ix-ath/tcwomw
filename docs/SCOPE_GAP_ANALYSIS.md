@@ -68,7 +68,7 @@
 | Book completion bonus | ✓ | ❓ Unclear | Design says "based on performance" |
 | Achievement bonuses | ✓ | 🔴 Missing | Achievements don't exist |
 | Mutator bonus % | ✓ | 🔴 Missing | Mutators don't exist |
-| Scrap spending UI | ✓ | 🔴 Missing | Pit shows stats, no shop |
+| Scrap spending UI | ✓ | ✅ Done | THE FOUNDRY shop in PitScene |
 
 ---
 
@@ -111,8 +111,8 @@
 | Stores all wrong letters | ✓ | ✅ Done | SaveManager.failedLetters |
 | The Bale on loss | ✓ | ✅ Done | compressIntoBale animation |
 | Never shrinks | ✓ | ✅ Done | - |
-| Visual pile (3pt font) | ✓ | 🔴 Missing | Shows stats, not visual |
-| Scrap spending UI | ✓ | 🔴 Missing | No shop in Pit |
+| Visual pile (3pt font) | ✓ | ✅ Done | Letter pile with conveyor animation |
+| Scrap spending UI | ✓ | ✅ Done | THE FOUNDRY shop panel |
 
 ---
 
@@ -185,10 +185,12 @@
 1. Double-counting scrap on chapter failure (CampaignManager.calculateFailureScrap)
 
 ### 🟡 Core Gaps (needed for MVP feel)
-1. ~~**Helpers not functional**~~ 🟡 Partial - Theme/Tag/KeepHighlight work, 4 helpers remain
-2. **No scrap spending UI** - Pit shows stats but no shop
-3. **No visual feedback** - Can't see scrap earned
+1. ~~**Helpers not functional**~~ ✅ Done - Theme/Tag/KeepHighlight work, 4 helpers remain (can be purchased but no effect yet)
+2. ~~**No scrap spending UI**~~ ✅ Done - THE FOUNDRY shop in PitScene
+3. **No visual feedback** - Can't see scrap earned during gameplay (deferred per UI_SPEC.md)
 4. ~~**No audio** - Silent game~~ ✅ Procedural audio in place
+
+**PROGRESSION LOOP NOW CLOSED:** Players can earn scrap → visit Pit → buy helpers → use helpers in game.
 
 ### 📋 Future Features (designed but not started)
 1. Mutator system

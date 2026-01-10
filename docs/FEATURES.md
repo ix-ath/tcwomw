@@ -56,10 +56,10 @@ Status Legend:
 - [✅] FB.50: Pit scene (PitScene.ts)
 - [✅] FB.51: Letter frequency tracking (SaveManager.failedLetters)
 - [📋] FB.52: Static batching for pit letters
-- [📋] FB.53: 3pt font rendering (visual pile)
+- [✅] FB.53: Letter pile visual (conveyor belt animation, falling letters)
 - [✅] FB.54: The Bale (compressIntoBale animation on loss)
 - [✅] FB.55: Persistent pit state across sessions
-- [💭] FB.56: Simplified mobile view (overall count + highlights vs full letter list)
+- [✅] FB.56: THE FOUNDRY shop (buy/equip helpers with scrap)
 - [💭] FB.57: Yeeters - purchasable mechanisms that fling letters
 - [💭] FB.58: Treadmill upgrades - change letter distribution behavior
 - [💭] FB.59: Pit cosmetics - visual upgrades for idle enjoyment
@@ -90,22 +90,22 @@ Status Legend:
 - [✅] FB.81: Scrap earned on wrong letter (1 each)
 - [✅] FB.82: Scrap earned on chapter loss (5-10 + errors)
 - [🚧] FB.83: Chapter/Story completion bonuses (partial - see ECONOMY_ISSUES)
-- [📋] FB.84: Scrap display in HUD
-- [📋] FB.85: Scrap spending UI (in Pit)
+- [📋] FB.84: Scrap display in HUD (deferred per UI_SPEC.md)
+- [✅] FB.85: Scrap spending UI (THE FOUNDRY in PitScene)
 
 ### Helper/Upgrade System
 - [✅] FB.90: Theme helper effect (shows category if equipped)
 - [✅] FB.91: Tag helper effect (shows hint if equipped)
 - [✅] FB.92: Keep Highlight I/II/III effects (1.5x/2x/permanent duration)
-- [📋] FB.93: Heavy Letters upgrade (50 scrap)
-- [📋] FB.94: First Word Glow (75 scrap)
-- [📋] FB.95: First Letter Focus (100 scrap)
-- [📋] FB.96: Helper loadout UI (all equippable, need shop)
+- [📋] FB.93: Heavy Letters upgrade effect (50 scrap) - can purchase, effect not implemented
+- [📋] FB.94: First Word Glow effect (75 scrap) - can purchase, effect not implemented
+- [📋] FB.95: First Letter Focus effect (100 scrap) - can purchase, effect not implemented
+- [✅] FB.96: Helper loadout UI (THE FOUNDRY shop in PitScene)
 - [📋] FB.97: Score multiplier penalty for helpers
 - [💭] FB.98: Endgame auto-type assists
 - [💭] FB.99: Full automation (idle mode)
 
-*Note: Helper data exists in helpers.json, unlock/equip via SaveManager. Theme/Tag/KeepHighlight effects now work in GameScene.*
+*Note: Helper data exists in helpers.json, unlock/equip via SaveManager + THE FOUNDRY shop. Theme/Tag/KeepHighlight effects work in GameScene. Remaining 4 helpers can be purchased but have no gameplay effect yet.*
 
 ### Break Room Hub
 - [✅] FB.100: Break Room scene

@@ -1,13 +1,14 @@
 /**
  * THE PIT SCENE
  * A monument to all your failures. Every wrong letter ends up here.
+ * Now includes THE FOUNDRY - spend scrap to unlock helpers.
  *
- * Visual Design (from concept):
+ * Visual Design:
  * - Dark industrial cavern with rust and grime
  * - Left sidebar: Letter frequency breakdown (A: 113, B: 94, etc.)
+ * - Right sidebar: THE FOUNDRY - shop for helpers
  * - Top-right: Conveyor belt continuously dumping letters
  * - Bottom: Massive pile of scattered letter blocks
- * - Queue counter showing "LETTERS TO PROCESS: X"
  *
  * Aesthetic: Victorian industrial horror, grimy factory pit
  */
@@ -15,6 +16,19 @@
 import Phaser from 'phaser';
 import { COLORS, GAME_WIDTH, GAME_HEIGHT } from '../constants';
 import { SaveManager } from '../systems/SaveManager';
+import { AudioManager } from '../systems/AudioManager';
+import helpersData from '../data/helpers.json';
+
+/** Helper definition from helpers.json */
+interface HelperDef {
+  id: string;
+  name: string;
+  description: string;
+  cost: number;
+  category: string;
+  prerequisite?: string;
+  tier?: number;
+}
 
 /** Falling letter for conveyor belt animation */
 interface FallingLetter {
@@ -22,6 +36,16 @@ interface FallingLetter {
   velocityY: number;
   velocityX: number;
   rotation: number;
+}
+
+/** Shop item UI element */
+interface ShopItem {
+  helper: HelperDef;
+  container: Phaser.GameObjects.Container;
+  nameText: Phaser.GameObjects.Text;
+  costText: Phaser.GameObjects.Text;
+  statusText: Phaser.GameObjects.Text;
+  background: Phaser.GameObjects.Rectangle;
 }
 
 export class PitScene extends Phaser.Scene {
@@ -33,7 +57,7 @@ export class PitScene extends Phaser.Scene {
   private readonly CONVEYOR_SPEED = 80; // pixels per second
   private readonly CONVEYOR_Y = 85;
   private readonly CONVEYOR_START_X = GAME_WIDTH + 50;
-  private readonly CONVEYOR_END_X = GAME_WIDTH - 200;
+  private readonly CONVEYOR_END_X = GAME_WIDTH - 350; // Moved left for shop panel
   private readonly DROP_INTERVAL = 800; // ms between letter drops
   private lastDropTime = 0;
 
@@ -42,19 +66,38 @@ export class PitScene extends Phaser.Scene {
   private readonly PIT_START_X = 160;
   private readonly PIT_FLOOR_Y = GAME_HEIGHT - 80;
 
+  // Shop panel (THE FOUNDRY)
+  private readonly SHOP_WIDTH = 220;
+  private readonly SHOP_X = GAME_WIDTH - 230; // Right side
+  private readonly SHOP_Y = 60;
+  private readonly SHOP_HEIGHT = GAME_HEIGHT - 100;
+
+  // Shop state
+  private shopItems: ShopItem[] = [];
+  private selectedIndex = 0;
+  private scrapBalanceText!: Phaser.GameObjects.Text;
+  private descriptionText!: Phaser.GameObjects.Text;
+  private helpers: HelperDef[] = [];
+
   constructor() {
     super({ key: 'PitScene' });
   }
 
   create(): void {
+    // Load helpers data
+    this.helpers = helpersData.helpers as HelperDef[];
+
     this.createBackground();
     this.createCavern();
     this.createConveyorBelt();
     this.createLetterPile();
     this.createSidebar();
-    this.createQueueCounter();
+    this.createShopPanel(); // THE FOUNDRY replaces queue counter
     this.createHUD();
     this.setupInput();
+
+    // Select first item
+    this.updateSelection();
 
     // Reset timing
     this.lastDropTime = 0;
@@ -204,17 +247,22 @@ export class PitScene extends Phaser.Scene {
   private createConveyorBelt(): void {
     const graphics = this.add.graphics();
 
+    // Conveyor positioned to not overlap shop panel
+    const conveyorRight = this.SHOP_X - 20;
+    const conveyorWidth = 180;
+    const conveyorLeft = conveyorRight - conveyorWidth;
+
     // Conveyor frame (industrial metal)
     graphics.fillStyle(0x3a3a3a, 1);
-    graphics.fillRect(GAME_WIDTH - 280, 55, 290, 60);
+    graphics.fillRect(conveyorLeft - 10, 55, conveyorWidth + 20, 60);
 
     // Conveyor belt surface
     graphics.fillStyle(0x2a2018, 1);
-    graphics.fillRect(GAME_WIDTH - 270, 70, 270, 30);
+    graphics.fillRect(conveyorLeft, 70, conveyorWidth, 30);
 
     // Belt texture (ridges)
     graphics.lineStyle(1, 0x1a1008, 0.5);
-    for (let x = GAME_WIDTH - 260; x < GAME_WIDTH; x += 15) {
+    for (let x = conveyorLeft + 10; x < conveyorRight; x += 15) {
       graphics.moveTo(x, 70);
       graphics.lineTo(x, 100);
     }
@@ -222,18 +270,18 @@ export class PitScene extends Phaser.Scene {
 
     // Support structure
     graphics.fillStyle(0x4a4a4a, 1);
-    graphics.fillRect(GAME_WIDTH - 285, 50, 15, 70);
-    graphics.fillRect(GAME_WIDTH - 200, 100, 8, 150); // Support beam
+    graphics.fillRect(conveyorLeft - 15, 50, 15, 70);
+    graphics.fillRect(conveyorLeft + 60, 100, 8, 150); // Support beam
 
     // Roller at the end
     graphics.fillStyle(0x5a5a5a, 1);
-    graphics.fillCircle(GAME_WIDTH - 190, 85, 15);
+    graphics.fillCircle(conveyorLeft + 60, 85, 15);
 
     // Gear/cog decoration
-    this.createGear(GAME_WIDTH - 190, 85, 12);
+    this.createGear(conveyorLeft + 60, 85, 12);
 
     // Label
-    this.add.text(GAME_WIDTH - 250, 120, 'INTAKE', {
+    this.add.text(conveyorLeft + 30, 120, 'INTAKE', {
       fontFamily: 'VT323, monospace',
       fontSize: '12px',
       color: '#666666',
@@ -266,10 +314,11 @@ export class PitScene extends Phaser.Scene {
     const totalLetters = SaveManager.getTotalFailedLetters();
     const displayCount = Math.min(totalLetters, 200); // Cap for performance
 
-    // Create a pile of small letter blocks
+    // Create a pile of small letter blocks (avoid shop panel area)
+    const pileMaxX = this.SHOP_X - 40;
     for (let i = 0; i < displayCount; i++) {
       const letter = this.getRandomLetter();
-      const x = Phaser.Math.Between(this.PIT_START_X + 80, GAME_WIDTH - 80);
+      const x = Phaser.Math.Between(this.PIT_START_X + 80, pileMaxX);
 
       // Pile shape - more letters in the center, higher pile
       const centerDistance = Math.abs(x - (GAME_WIDTH / 2 + 80));
@@ -288,9 +337,10 @@ export class PitScene extends Phaser.Scene {
       this.pileLetters.push(letterText);
     }
 
-    // If lots of letters, add overflow indicator
+    // If lots of letters, add overflow indicator (positioned to avoid shop)
     if (totalLetters > displayCount) {
-      this.add.text(GAME_WIDTH / 2 + 80, this.PIT_FLOOR_Y - 180, `+${totalLetters - displayCount} more buried beneath...`, {
+      const overflowX = this.PIT_START_X + (pileMaxX - this.PIT_START_X) / 2;
+      this.add.text(overflowX, this.PIT_FLOOR_Y - 180, `+${totalLetters - displayCount} more buried beneath...`, {
         fontFamily: 'VT323, monospace',
         fontSize: '14px',
         color: '#666666',
@@ -409,31 +459,277 @@ export class PitScene extends Phaser.Scene {
   }
 
   // ===========================================================================
-  // QUEUE COUNTER
+  // THE FOUNDRY (Shop Panel)
   // ===========================================================================
 
-  private createQueueCounter(): void {
-    const totalLetters = SaveManager.getTotalFailedLetters();
+  private createShopPanel(): void {
+    const graphics = this.add.graphics();
 
-    // Counter panel
+    // Panel background (dark metal)
+    graphics.fillStyle(0x1a1612, 0.95);
+    graphics.fillRect(this.SHOP_X, this.SHOP_Y, this.SHOP_WIDTH, this.SHOP_HEIGHT);
+
+    // Border (rust color)
+    graphics.lineStyle(2, 0x8b4513, 0.8);
+    graphics.strokeRect(this.SHOP_X, this.SHOP_Y, this.SHOP_WIDTH, this.SHOP_HEIGHT);
+
+    // Corner rivets
+    this.addRivets(graphics, this.SHOP_X, this.SHOP_Y, this.SHOP_WIDTH, this.SHOP_HEIGHT);
+
+    // Title: THE FOUNDRY
+    this.add.text(this.SHOP_X + this.SHOP_WIDTH / 2, this.SHOP_Y + 18, 'THE FOUNDRY', {
+      fontFamily: 'VT323, monospace',
+      fontSize: '18px',
+      color: '#b87333',
+    }).setOrigin(0.5);
+
+    // Subtitle
+    this.add.text(this.SHOP_X + this.SHOP_WIDTH / 2, this.SHOP_Y + 36, 'Forge failures into tools', {
+      fontFamily: 'VT323, monospace',
+      fontSize: '11px',
+      color: '#666666',
+    }).setOrigin(0.5);
+
+    // Scrap balance display
+    this.createScrapBalance();
+
+    // Helper list
+    this.createHelperList();
+
+    // Description area at bottom
+    this.descriptionText = this.add.text(
+      this.SHOP_X + 10,
+      this.SHOP_Y + this.SHOP_HEIGHT - 50,
+      '',
+      {
+        fontFamily: 'VT323, monospace',
+        fontSize: '12px',
+        color: '#888888',
+        wordWrap: { width: this.SHOP_WIDTH - 20 },
+      }
+    );
+  }
+
+  private createScrapBalance(): void {
+    const balanceY = this.SHOP_Y + 55;
+
+    // Balance background
     const graphics = this.add.graphics();
     graphics.fillStyle(0x2a2218, 0.9);
-    graphics.fillRect(GAME_WIDTH - 280, 160, 200, 50);
-    graphics.lineStyle(2, 0x6a5a4a, 1);
-    graphics.strokeRect(GAME_WIDTH - 280, 160, 200, 50);
+    graphics.fillRect(this.SHOP_X + 10, balanceY, this.SHOP_WIDTH - 20, 32);
+    graphics.lineStyle(1, 0x5a4a3a, 1);
+    graphics.strokeRect(this.SHOP_X + 10, balanceY, this.SHOP_WIDTH - 20, 32);
 
     // Label
-    this.add.text(GAME_WIDTH - 270, 168, 'LETTERS TO PROCESS:', {
+    this.add.text(this.SHOP_X + 20, balanceY + 5, 'SCRAP:', {
       fontFamily: 'VT323, monospace',
       fontSize: '14px',
       color: '#888888',
     });
 
-    // Count (large, prominent)
-    this.add.text(GAME_WIDTH - 270, 185, totalLetters.toLocaleString(), {
+    // Balance amount (will update)
+    this.scrapBalanceText = this.add.text(
+      this.SHOP_X + this.SHOP_WIDTH - 20,
+      balanceY + 5,
+      `${SaveManager.getCubeScrap()}`,
+      {
+        fontFamily: 'VT323, monospace',
+        fontSize: '22px',
+        color: '#e0c080',
+      }
+    ).setOrigin(1, 0);
+  }
+
+  private createHelperList(): void {
+    const startY = this.SHOP_Y + 100;
+    const itemHeight = 42;
+
+    this.shopItems = [];
+
+    this.helpers.forEach((helper, index) => {
+      const y = startY + index * itemHeight;
+
+      // Skip if would overflow panel
+      if (y + itemHeight > this.SHOP_Y + this.SHOP_HEIGHT - 60) return;
+
+      const item = this.createShopItem(helper, y, index);
+      this.shopItems.push(item);
+    });
+  }
+
+  private createShopItem(helper: HelperDef, y: number, index: number): ShopItem {
+    const container = this.add.container(this.SHOP_X + 10, y);
+
+    // Background (selection highlight)
+    const background = this.add.rectangle(
+      (this.SHOP_WIDTH - 20) / 2,
+      18,
+      this.SHOP_WIDTH - 20,
+      38,
+      0x3a3a3a,
+      0
+    );
+    container.add(background);
+
+    // Helper name
+    const nameText = this.add.text(5, 5, helper.name, {
       fontFamily: 'VT323, monospace',
-      fontSize: '28px',
-      color: '#e0c080',
+      fontSize: '14px',
+      color: '#c9a86c',
+    });
+    container.add(nameText);
+
+    // Cost
+    const costText = this.add.text(this.SHOP_WIDTH - 35, 5, `${helper.cost}`, {
+      fontFamily: 'VT323, monospace',
+      fontSize: '14px',
+      color: '#888888',
+    }).setOrigin(1, 0);
+    container.add(costText);
+
+    // Status text (LOCKED / BUY / EQUIPPED / EQUIP)
+    const statusText = this.add.text(5, 22, '', {
+      fontFamily: 'VT323, monospace',
+      fontSize: '12px',
+      color: '#666666',
+    });
+    container.add(statusText);
+
+    const item: ShopItem = { helper, container, nameText, costText, statusText, background };
+
+    // Make clickable
+    background.setInteractive({ useHandCursor: true });
+    background.on('pointerdown', () => {
+      this.selectedIndex = index;
+      this.updateSelection();
+      this.handleAction();
+    });
+    background.on('pointerover', () => {
+      this.selectedIndex = index;
+      this.updateSelection();
+    });
+
+    this.updateItemDisplay(item);
+    return item;
+  }
+
+  private updateItemDisplay(item: ShopItem): void {
+    const helper = item.helper;
+    const isUnlocked = SaveManager.isHelperUnlocked(helper.id);
+    const isEquipped = SaveManager.isHelperEquipped(helper.id);
+    const canAfford = SaveManager.getCubeScrap() >= helper.cost;
+    const hasPrereq = !helper.prerequisite || SaveManager.isHelperUnlocked(helper.prerequisite);
+
+    if (isEquipped) {
+      item.nameText.setColor('#00ff41'); // Terminal green
+      item.costText.setText('');
+      item.statusText.setText('[EQUIPPED]').setColor('#00ff41');
+    } else if (isUnlocked) {
+      item.nameText.setColor('#c9a86c');
+      item.costText.setText('');
+      item.statusText.setText('[EQUIP]').setColor('#888888');
+    } else if (!hasPrereq) {
+      item.nameText.setColor('#4a4a4a');
+      item.costText.setColor('#4a4a4a');
+      const prereqHelper = this.helpers.find(h => h.id === helper.prerequisite);
+      item.statusText.setText(`Requires: ${prereqHelper?.name || helper.prerequisite}`).setColor('#4a4a4a');
+    } else if (!canAfford) {
+      item.nameText.setColor('#6a5a4a');
+      item.costText.setColor('#8b4513');
+      item.statusText.setText('[LOCKED]').setColor('#4a4a4a');
+    } else {
+      item.nameText.setColor('#c9a86c');
+      item.costText.setColor('#e0c080');
+      item.statusText.setText('[BUY]').setColor('#b87333');
+    }
+  }
+
+  private updateSelection(): void {
+    this.shopItems.forEach((item, index) => {
+      const isSelected = index === this.selectedIndex;
+      item.background.setFillStyle(isSelected ? 0x3a3a3a : 0x000000, isSelected ? 0.6 : 0);
+
+      // Update description
+      if (isSelected) {
+        this.descriptionText.setText(item.helper.description);
+      }
+    });
+  }
+
+  private handleAction(): void {
+    if (this.selectedIndex < 0 || this.selectedIndex >= this.shopItems.length) return;
+
+    const item = this.shopItems[this.selectedIndex];
+    const helper = item.helper;
+    const isUnlocked = SaveManager.isHelperUnlocked(helper.id);
+    const isEquipped = SaveManager.isHelperEquipped(helper.id);
+    const canAfford = SaveManager.getCubeScrap() >= helper.cost;
+    const hasPrereq = !helper.prerequisite || SaveManager.isHelperUnlocked(helper.prerequisite);
+
+    if (isEquipped) {
+      // Unequip
+      SaveManager.unequipHelper(helper.id);
+      AudioManager.play('correct_letter');
+      this.showToast(`${helper.name} unequipped`);
+    } else if (isUnlocked) {
+      // Equip
+      SaveManager.equipHelper(helper.id);
+      AudioManager.play('correct_letter');
+      this.showToast(`${helper.name} equipped!`);
+    } else if (hasPrereq && canAfford) {
+      // Buy
+      if (SaveManager.spendScrap(helper.cost)) {
+        SaveManager.unlockHelper(helper.id);
+        SaveManager.equipHelper(helper.id); // Auto-equip on purchase
+        AudioManager.play('victory');
+        this.showToast(`${helper.name} unlocked!`);
+        this.updateScrapDisplay();
+      }
+    } else {
+      // Cannot buy - play error
+      AudioManager.play('wrong_letter');
+      if (!hasPrereq) {
+        const prereqHelper = this.helpers.find(h => h.id === helper.prerequisite);
+        this.showToast(`Requires: ${prereqHelper?.name}`);
+      } else {
+        this.showToast('Not enough scrap!');
+      }
+    }
+
+    // Refresh all item displays
+    this.shopItems.forEach(i => this.updateItemDisplay(i));
+  }
+
+  private updateScrapDisplay(): void {
+    this.scrapBalanceText.setText(`${SaveManager.getCubeScrap()}`);
+
+    // Flash animation
+    this.tweens.add({
+      targets: this.scrapBalanceText,
+      scaleX: 1.3,
+      scaleY: 1.3,
+      duration: 100,
+      yoyo: true,
+      ease: 'Quad.easeOut',
+    });
+  }
+
+  private showToast(message: string): void {
+    const toast = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2, message, {
+      fontFamily: 'VT323, monospace',
+      fontSize: '24px',
+      color: '#ffffff',
+      stroke: '#000000',
+      strokeThickness: 4,
+    }).setOrigin(0.5).setDepth(200);
+
+    this.tweens.add({
+      targets: toast,
+      y: GAME_HEIGHT / 2 - 50,
+      alpha: 0,
+      duration: 1500,
+      ease: 'Quad.easeOut',
+      onComplete: () => toast.destroy(),
     });
   }
 
@@ -455,15 +751,15 @@ export class PitScene extends Phaser.Scene {
 
     // Stats summary at bottom
     const stats = SaveManager.getStats();
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 25,
-      `TOTAL ERRORS: ${stats.totalErrors}  |  BALES CREATED: ${stats.balesCreated}  |  LIFETIME SCRAP: ${SaveManager.getLifetimeScrap()}`, {
+    this.add.text(GAME_WIDTH / 2 - 150, GAME_HEIGHT - 25,
+      `ERRORS: ${stats.totalErrors}  |  BALES: ${stats.balesCreated}`, {
       fontFamily: 'VT323, monospace',
       fontSize: '14px',
       color: '#666666',
     }).setOrigin(0.5);
 
-    // Instructions
-    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 8, '[ESC] or [BACKSPACE] to return', {
+    // Instructions - updated for shop navigation
+    this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 8, '[ESC] Back  [W/S or ↑/↓] Navigate  [ENTER] Select', {
       fontFamily: 'VT323, monospace',
       fontSize: '12px',
       color: '#444444',
@@ -475,13 +771,34 @@ export class PitScene extends Phaser.Scene {
     this.input.keyboard?.on('keydown-ESC', () => this.returnToBreakRoom());
     this.input.keyboard?.on('keydown-BACKSPACE', () => this.returnToBreakRoom());
 
+    // Navigation keys
+    this.input.keyboard?.on('keydown-W', () => this.navigateShop(-1));
+    this.input.keyboard?.on('keydown-UP', () => this.navigateShop(-1));
+    this.input.keyboard?.on('keydown-S', () => this.navigateShop(1));
+    this.input.keyboard?.on('keydown-DOWN', () => this.navigateShop(1));
+
+    // Select / Action
+    this.input.keyboard?.on('keydown-ENTER', () => this.handleAction());
+    this.input.keyboard?.on('keydown-SPACE', () => this.handleAction());
+
     // Click anywhere (except button) to admire your failures
     this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
-      // Add a little dust puff effect where clicked
-      if (pointer.y > 100 && pointer.x > this.SIDEBAR_WIDTH + 20) {
+      // Add a little dust puff effect where clicked (but not on shop panel)
+      if (pointer.y > 100 && pointer.x > this.SIDEBAR_WIDTH + 20 && pointer.x < this.SHOP_X - 10) {
         this.createDustPuff(pointer.x, pointer.y);
       }
     });
+  }
+
+  private navigateShop(direction: number): void {
+    const newIndex = this.selectedIndex + direction;
+
+    if (newIndex >= 0 && newIndex < this.shopItems.length) {
+      this.selectedIndex = newIndex;
+      this.updateSelection();
+      // Play subtle navigation sound (reuse correct letter as soft click)
+      // AudioManager.play('correct_letter', { volume: 0.3 });
+    }
   }
 
   private createDustPuff(x: number, y: number): void {

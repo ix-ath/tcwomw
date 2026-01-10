@@ -9,9 +9,9 @@
 
 You have a **solid vertical slice** with working core loop, campaign structure, and progression systems. What's missing is primarily **presentation layer** (visuals, juice) and **platform integration** (Steam, achievements).
 
-**Estimated gap:** ~50% complete toward shippable MVP.
+**Estimated gap:** ~55% complete toward shippable MVP.
 
-*Updated 2026-01-09: Audio system + Theme/Tag/KeepHighlight helpers now working.*
+*Updated 2026-01-09: Audio system + Theme/Tag/KeepHighlight helpers + Scrap spending UI now working. Core progression loop is CLOSED.*
 
 ---
 
@@ -41,7 +41,7 @@ You have a **solid vertical slice** with working core loop, campaign structure, 
 |-----|--------|--------|-------|
 | ~~**Audio - ANY sounds**~~ | ~~Critical~~ | ~~Medium~~ | ✅ Done - Procedural audio system in place |
 | ~~**Helper effects working**~~ | ~~Critical~~ | ~~Medium~~ | ✅ Done - Theme/Tag/KeepHighlight work (4 helpers remain) |
-| **Scrap spending UI** | Critical | Low | Can earn scrap, can't spend it (loop broken) |
+| ~~**Scrap spending UI**~~ | ~~Critical~~ | ~~Low~~ | ✅ Done - THE FOUNDRY shop in PitScene |
 | **Visual identity** | High | High | Terminal green placeholder ≠ Victorian industrial |
 
 ### TIER 2: Required for Steam Release
@@ -202,7 +202,7 @@ Ship MVP to Early Access with placeholder art but REAL audio. Audio sells the ho
 
 1. ~~**Any audio**~~ ✅ Done - Procedural audio system in place
 2. ~~**Fix helper effects**~~ ✅ Done - Theme/Tag/KeepHighlight now work
-3. **Scrap spending** - Basic list in PitScene
+3. ~~**Scrap spending**~~ ✅ Done - THE FOUNDRY shop in PitScene
 4. **One achievement** - "First Crush" for dying once
 
-These close the progression loop and make the game feel complete.
+The core progression loop is now CLOSED. Players can earn scrap, spend it on helpers, and use helpers in gameplay.
