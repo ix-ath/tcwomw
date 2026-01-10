@@ -19,6 +19,7 @@ export class PauseScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Reset all state on scene entry
     this.selectedIndex = 0;
     this.buttons = [];
     this.scaledTexts = [];
@@ -29,7 +30,8 @@ export class PauseScene extends Phaser.Scene {
     this.createFooter();
     this.setupInput();
 
-    // Subscribe to font scale changes
+    // Subscribe to font scale changes (returns unsubscribe function but we don't need it
+    // as the scene will be destroyed and recreated each time)
     SettingsManager.onChange('fontScale', () => this.updateFontScales());
   }
 

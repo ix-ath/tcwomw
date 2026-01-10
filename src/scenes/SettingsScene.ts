@@ -189,6 +189,7 @@ export class SettingsScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Reset all state on scene entry
     this.selectedTabIndex = 0;
     this.selectedItemIndex = 0;
     this.currentCategory = 'visual';
@@ -196,6 +197,8 @@ export class SettingsScene extends Phaser.Scene {
     this.settingItems = [];
     this.isRebinding = false;
     this.rebindTarget = null;
+    this.toastText = null;
+    this.toastTween = null;
 
     this.createBackground();
     this.createTitle();
@@ -207,6 +210,18 @@ export class SettingsScene extends Phaser.Scene {
 
     // Initial highlight
     this.updateTabSelection(0);
+
+    // Clean up when scene shuts down
+    this.events.once('shutdown', this.cleanup, this);
+  }
+
+  private cleanup(): void {
+    // Stop any active tweens
+    if (this.toastTween) {
+      this.toastTween.stop();
+      this.toastTween = null;
+    }
+    this.toastText = null;
   }
 
   private createBackground(): void {
@@ -810,6 +825,7 @@ export class SettingsScene extends Phaser.Scene {
 
   private goBack(): void {
     // Return to the scene that launched settings
+    console.log('[SettingsScene] Going back to:', this.returnTo);
     this.scene.start(this.returnTo);
   }
 

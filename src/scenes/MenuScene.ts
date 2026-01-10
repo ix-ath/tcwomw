@@ -21,7 +21,11 @@ export class MenuScene extends Phaser.Scene {
   }
 
   create(): void {
+    // Reset state on scene entry
+    this.buttons = [];
+    this.selectedIndex = 0;
     this.scaledTexts = [];
+
     this.createTitle();
     this.createDifficultyButtons();
     this.createFooter();
